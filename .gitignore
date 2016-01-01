@@ -46,7 +46,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-
+/.vs
+*.csproj
+*.sln
 Thumbs.db.meta
 /Library
 /Temp
