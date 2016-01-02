@@ -37,16 +37,16 @@ public class Shooting : MonoBehaviour
 		switch (_playerController.DirectionMove)
 		{
 			case Direction.Top:
-				pos.y += 0.5f;
+				pos.y += 0.4f;
 				break;
 			case Direction.Right:
-				pos.x += 0.5f;
+				pos.x += 0.4f;
 				break;
 			case Direction.Bottom:
-				pos.y -= 0.5f;
+				pos.y -= 0.4f;
 				break;
 			case Direction.Left:
-				pos.x -= 0.5f;
+				pos.x -= 0.4f;
 				break;
 		}
 		obj.transform.position = pos;

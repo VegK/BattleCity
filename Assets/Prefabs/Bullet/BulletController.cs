@@ -41,6 +41,7 @@ public class BulletController : MonoBehaviour
 
 	private SpriteRenderer _spriteRenderer;
 	private Direction _directionFlight;
+	private bool _destroy = false;
 
 	private void Awake()
 	{
@@ -68,10 +69,19 @@ public class BulletController : MonoBehaviour
 		transform.Translate(move * Time.deltaTime);
 	}
 
+	private void LateUpdate()
+	{
+		if (_destroy)
+		{
+			Destroy(gameObject);
+			if (DestroyEvent != null)
+				DestroyEvent(this, EventArgs.Empty);
+			return;
+		}
+	}
+
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		Destroy(gameObject);
-		if (DestroyEvent != null)
-			DestroyEvent(this, EventArgs.Empty);
+		_destroy = true;
 	}
 }
