@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class Movement : MonoBehaviour
 {
-	public float Speed = 0.05f;
+	public float Speed = 2f;
 
+	private PlayerController _playerController;
 	private Animator _animator;
 	private bool _keyUpPress;
 	private bool _keyRightPress;
@@ -16,6 +17,14 @@ public class Movement : MonoBehaviour
 
 	private void Awake()
 	{
+		_playerController = GetComponent<PlayerController>();
+		if (_playerController == null)
+		{
+			Debug.Log("ERROR: Player GameObject not attached " + typeof(PlayerController));
+			enabled = false;
+			return;
+		}
+
 		_animator = GetComponent<Animator>();
 		_animator.enabled = false;
 		_keysPress = new HashSet<KeyCode>();
@@ -89,7 +98,24 @@ public class Movement : MonoBehaviour
 				break;
 		}
 		RoundPosition(key);
-		transform.Translate(move);
+		transform.Translate(move * Time.deltaTime);
+
+		// Set direction movement
+		switch (key)
+		{
+			case KeyCode.UpArrow:
+				_playerController.DirectionMove = Direction.Top;
+				break;
+			case KeyCode.RightArrow:
+				_playerController.DirectionMove = Direction.Right;
+				break;
+			case KeyCode.DownArrow:
+				_playerController.DirectionMove = Direction.Bottom;
+				break;
+			case KeyCode.LeftArrow:
+				_playerController.DirectionMove = Direction.Left;
+				break;
+		}
 	}
 
 	private void RoundPosition(KeyCode key)
