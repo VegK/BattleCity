@@ -126,7 +126,7 @@ public class Destruction : MonoBehaviour
 		_spriteRenderer.sprite = BrickTop;
 
 		var vec = _boxCollider2d.size;
-		vec.y = -0.25f;
+		vec.y = 0.25f;
 		_boxCollider2d.size = vec;
 
 		vec = _boxCollider2d.offset;
@@ -140,7 +140,7 @@ public class Destruction : MonoBehaviour
 		_spriteRenderer.sprite = BrickRight;
 
 		var vec = _boxCollider2d.size;
-		vec.x = -0.25f;
+		vec.x = 0.25f;
 		_boxCollider2d.size = vec;
 
 		vec = _boxCollider2d.offset;
