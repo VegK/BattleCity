@@ -32,11 +32,12 @@ public class Destruction : MonoBehaviour
 						DestructionTop();
 						break;
 					case TypeDestruction.Right:
-						SetBrickOne2();
+						SetBrickOneBottomLeft();
 						break;
 					case TypeDestruction.Left:
-						SetBrickOne1();
+						SetBrickOneBottomRight();
 						break;
+					case TypeDestruction.Full:
 					default:
 						DestructionFull();
 						break;
@@ -48,11 +49,12 @@ public class Destruction : MonoBehaviour
 						DestructionRight();
 						break;
 					case TypeDestruction.Top:
-						SetBrickOne1();
+						SetBrickOneBottomLeft();
 						break;
 					case TypeDestruction.Bottom:
-						SetBrickOne2();
+						SetBrickOneTopLeft();
 						break;
+					case TypeDestruction.Full:
 					default:
 						DestructionFull();
 						break;
@@ -64,11 +66,12 @@ public class Destruction : MonoBehaviour
 						DestructionBottom();
 						break;
 					case TypeDestruction.Right:
-						SetBrickOne1();
+						SetBrickOneTopLeft();
 						break;
 					case TypeDestruction.Left:
-						SetBrickOne2();
+						SetBrickOneTopRight();
 						break;
+					case TypeDestruction.Full:
 					default:
 						DestructionFull();
 						break;
@@ -80,11 +83,12 @@ public class Destruction : MonoBehaviour
 						DestructionLeft();
 						break;
 					case TypeDestruction.Top:
-						SetBrickOne2();
+						SetBrickOneBottomRight();
 						break;
 					case TypeDestruction.Bottom:
-						SetBrickOne1();
+						SetBrickOneTopRight();
 						break;
+					case TypeDestruction.Full:
 					default:
 						DestructionFull();
 						break;
@@ -148,16 +152,76 @@ public class Destruction : MonoBehaviour
 		_boxCollider2d.offset = vec;
 	}
 
-	private void SetBrickOne1()
+	private void SetBrickOneTopLeft()
 	{
+		_typeDestruction = TypeDestruction.Full;
 		_spriteRenderer.sprite = BrickOne1;
-		// TODO: resize box collider
+
+		var vec = _boxCollider2d.size;
+		vec.x = 0.25f;
+		vec.y = 0.25f;
+		_boxCollider2d.size = vec;
+
+		_boxCollider2d.offset = Vector2.zero;
+
+		vec = transform.position;
+		vec.x -= 0.125f;
+		vec.y += 0.125f;
+		transform.position = vec;
 	}
 
-	private void SetBrickOne2()
+	private void SetBrickOneTopRight()
 	{
+		_typeDestruction = TypeDestruction.Full;
 		_spriteRenderer.sprite = BrickOne2;
-		// TODO: resize box collider
+
+		var vec = _boxCollider2d.size;
+		vec.x = 0.25f;
+		vec.y = 0.25f;
+		_boxCollider2d.size = vec;
+
+		_boxCollider2d.offset = Vector2.zero;
+
+		vec = transform.position;
+		vec.x += 0.125f;
+		vec.y += 0.125f;
+		transform.position = vec;
+	}
+
+	private void SetBrickOneBottomRight()
+	{
+		_typeDestruction = TypeDestruction.Full;
+		_spriteRenderer.sprite = BrickOne1;
+
+		var vec = _boxCollider2d.size;
+		vec.x = 0.25f;
+		vec.y = 0.25f;
+		_boxCollider2d.size = vec;
+
+		_boxCollider2d.offset = Vector2.zero;
+
+		vec = transform.position;
+		vec.x += 0.125f;
+		vec.y -= 0.125f;
+		transform.position = vec;
+	}
+
+	private void SetBrickOneBottomLeft()
+	{
+		_typeDestruction = TypeDestruction.Full;
+		_spriteRenderer.sprite = BrickOne2;
+
+		var vec = _boxCollider2d.size;
+		vec.x = 0.25f;
+		vec.y = 0.25f;
+		_boxCollider2d.size = vec;
+
+		_boxCollider2d.offset = Vector2.zero;
+
+		vec = transform.position;
+		vec.x -= 0.125f;
+		vec.y -= 0.125f;
+		transform.position = vec;
 	}
 
 	private void DestructionFull()
@@ -171,6 +235,7 @@ public class Destruction : MonoBehaviour
 		Top,
 		Right,
 		Bottom,
-		Left
+		Left,
+		Full
 	}
 }
