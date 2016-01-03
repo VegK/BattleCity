@@ -1,12 +1,9 @@
-﻿namespace GUI
+﻿public enum Block
 {
-	public enum Block
-	{
-		Empty,
-		BrickWallFull,
-		BrickWallTop,
-		BrickWallRight,
-		BrickWallBottom,
-		BrickWallLeft
-	}
+	Empty,
+	BrickWallFull,
+	BrickWallTop,
+	BrickWallRight,
+	BrickWallBottom,
+	BrickWallLeft
 }

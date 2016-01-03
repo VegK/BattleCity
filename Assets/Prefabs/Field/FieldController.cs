@@ -10,11 +10,56 @@ public class FieldController : MonoBehaviour
 	public BoxCollider2D BorderLeft;
 	[Space(5)]
 	public GameObject Background;
+	[Header("Prefabs")]
+	public BlockController PrefabBrickWallFull;
+	public BlockController PrefabBrickWallTop;
+	public BlockController PrefabBrickWallRight;
+	public BlockController PrefabBrickWallBottom;
+	public BlockController PrefabBrickWallLeft;
 	[Header("Settings")]
 	[Range(3, 50)]
 	public int Width = 13;
 	[Range(3, 50)]
 	public int Height = 13;
+
+	public static FieldController Instance;
+
+	private BlockController[,] _field;
+
+	private void Awake()
+	{
+		Instance = this;
+		_field = new BlockController[Width, Height];
+	}
+
+	public Vector2 GetPosition()
+	{
+		var res = transform.position;
+		res.x -= 0.5f;
+		res.y -= 0.5f;
+		return res;
+	}
+
+	public Vector2 GetSize()
+	{
+		var res = new Vector2();
+		res.x = Width - 0.5f;
+		res.y = Height - 0.5f;
+		return res;
+	}
+
+	public BlockController GetCell(int x, int y)
+	{
+		return _field[x, y];
+	}
+
+	public void SetCell(int x, int y, BlockController value)
+	{
+		if (value == null && _field[x, y] != null)
+			Destroy(_field[x, y].gameObject);
+
+		_field[x, y] = value;
+	}
 
 	private void OnDrawGizmos()
 	{
