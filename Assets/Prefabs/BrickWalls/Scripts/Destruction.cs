@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Linq;
+﻿using System;
+using UnityEngine;
 
-public class Destruction : MonoBehaviour
+public class Destruction : MonoBehaviour, IDestroy
 {
 	public Sprite BrickTop;
 	public Sprite BrickRight;
@@ -9,6 +9,8 @@ public class Destruction : MonoBehaviour
 	public Sprite BrickLeft;
 	public Sprite BrickOne1;
 	public Sprite BrickOne2;
+
+	public event EventHandler DestroyEvent;
 
 	private SpriteRenderer _spriteRenderer;
 	private BoxCollider2D _boxCollider2d;
@@ -227,6 +229,12 @@ public class Destruction : MonoBehaviour
 	private void DestructionFull()
 	{
 		Destroy(gameObject);
+	}
+
+	private void OnDestroy()
+	{
+		if (DestroyEvent != null)
+			DestroyEvent(this, null);
 	}
 
 	private enum TypeDestruction
