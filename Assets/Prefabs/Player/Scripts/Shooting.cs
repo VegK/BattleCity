@@ -7,9 +7,11 @@ public class Shooting : MonoBehaviour
 	public BulletController PrefabBullet;
 	public float SpeedBullet = 4f;
 	public int MaxBullet = 1;
+	public float ShotDelay = 0.1f;
 
 	private PlayerController _playerController;
 	private int _bulletCount;
+	private float _timeLastShoot;
 
 	private void Awake()
 	{
@@ -19,17 +21,21 @@ public class Shooting : MonoBehaviour
 			Debug.Log("ERROR: Player GameObject not attached " + typeof(PlayerController));
 			enabled = false;
 		}
+
+		_timeLastShoot = -ShotDelay;
 	}
 	
 	private void FixedUpdate()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKey(KeyCode.Space))
 			RunBullet();
 	}
 
 	private void RunBullet()
 	{
 		if (_bulletCount >= MaxBullet)
+			return;
+		if (Time.time - _timeLastShoot < ShotDelay)
 			return;
 
 		var obj = Instantiate(PrefabBullet);
@@ -56,6 +62,7 @@ public class Shooting : MonoBehaviour
 		obj.DestroyEvent += DestroyBullet;
 
 		_bulletCount++;
+		_timeLastShoot = Time.time;
 	}
 
 	private void DestroyBullet(object obj, EventArgs args)
