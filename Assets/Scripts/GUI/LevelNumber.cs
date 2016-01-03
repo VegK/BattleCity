@@ -1,27 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelNumber : MonoBehaviour
+namespace GUI
 {
-	[SerializeField]
-	private Text Text;
-
-	public int Number
+	public class LevelNumber : MonoBehaviour
 	{
-		get
-		{
-			return _number;
-		}
-		set
-		{
-			if (value < 0)
-				return;
+		[SerializeField]
+		private Text Text;
 
-			Text.text = (value > 99) ? "99" : value.ToString();
-			_number = value;
+		public int Number
+		{
+			get
+			{
+				return _number;
+			}
+			set
+			{
+				if (value < 0)
+					return;
+
+				Text.text = (value > 99) ? "99" : value.ToString();
+				_number = value;
+			}
 		}
+
+		[SerializeField]
+		private int _number = 1;
 	}
-
-	[SerializeField]
-	private int _number = 1;
 }
