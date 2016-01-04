@@ -16,6 +16,17 @@ public class FieldController : MonoBehaviour
 	public BlockController PrefabBrickWallRight;
 	public BlockController PrefabBrickWallBottom;
 	public BlockController PrefabBrickWallLeft;
+	public BlockController PrefabMetalWallFull;
+	public BlockController PrefabMetalWallTop;
+	public BlockController PrefabMetalWallRight;
+	public BlockController PrefabMetalWallBottom;
+	public BlockController PrefabMetalWallLeft;
+	public BlockController PrefabForest;
+	public BlockController PrefabWater;
+	public BlockController PrefabIce;
+	public BlockController PrefabBase;
+	public BlockController PrefabPlayer1Block;
+	public PlayerController PrefabPlayer1;
 	[Header("Settings")]
 	[Range(3, 50)]
 	public int Width = 13;

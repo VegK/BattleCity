@@ -5,5 +5,15 @@
 	BrickWallTop,
 	BrickWallRight,
 	BrickWallBottom,
-	BrickWallLeft
+	BrickWallLeft,
+	MetalWallFull,
+	MetalWallTop,
+	MetalWallRight,
+	MetalWallBottom,
+	MetalWallLeft,
+	Forest,
+	Water,
+	Ice,
+	Base,
+	Player1
 }
