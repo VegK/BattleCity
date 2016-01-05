@@ -16,6 +16,14 @@ public static class BlockExtension
 				return FieldController.Instance.PrefabBrickWallBottom;
 			case Block.BrickWallLeft:
 				return FieldController.Instance.PrefabBrickWallLeft;
+			case Block.BrickWallLeftTop:
+				return FieldController.Instance.PrefabBrickWallLeftTop;
+			case Block.BrickWallRightTop:
+				return FieldController.Instance.PrefabBrickWallRightTop;
+			case Block.BrickWallRightBottom:
+				return FieldController.Instance.PrefabBrickWallRightBottom;
+			case Block.BrickWallLeftBottom:
+				return FieldController.Instance.PrefabBrickWallLeftBottom;
 			case Block.MetalWallFull:
 				return FieldController.Instance.PrefabMetalWallFull;
 			case Block.MetalWallTop:

@@ -16,6 +16,10 @@ public partial class FieldController : MonoBehaviour
 	public BlockController PrefabBrickWallRight;
 	public BlockController PrefabBrickWallBottom;
 	public BlockController PrefabBrickWallLeft;
+	public BlockController PrefabBrickWallLeftTop;
+	public BlockController PrefabBrickWallRightTop;
+	public BlockController PrefabBrickWallRightBottom;
+	public BlockController PrefabBrickWallLeftBottom;
 	public BlockController PrefabMetalWallFull;
 	public BlockController PrefabMetalWallTop;
 	public BlockController PrefabMetalWallRight;

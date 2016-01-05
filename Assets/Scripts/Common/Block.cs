@@ -15,5 +15,11 @@
 	Water = 12,
 	Ice = 13,
 	Base = 14,
-	Player1 = 15
+	Player1 = 15,
+	Player2 = 16,
+	EnemyRespawn = 17,
+	BrickWallLeftTop = 18,
+	BrickWallRightTop = 19,
+	BrickWallLeftBottom = 20,
+	BrickWallRightBottom = 21
 }
