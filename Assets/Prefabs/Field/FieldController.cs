@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FieldController : MonoBehaviour
+public partial class FieldController : MonoBehaviour
 {
 	[Header("Game objects")]
 	public BoxCollider2D BorderTop;
@@ -35,12 +35,26 @@ public class FieldController : MonoBehaviour
 
 	public static FieldController Instance;
 
-	private BlockController[,] _field;
+	private FieldManager _field;
 
 	private void Awake()
 	{
 		Instance = this;
-		_field = new BlockController[Width, Height];
+		_field = new FieldManager(Width, Height);
+	}
+
+	private void OnDrawGizmos()
+	{
+		// Draw grid
+		Gizmos.color = Color.white;
+		for (int x = 0; x < Width; x++)
+			for (int y = 0; y < Height; y++)
+			{
+				var pos = transform.position;
+				pos.x += x;
+				pos.y += y;
+				Gizmos.DrawWireCube(pos, Vector2.one);
+			}
 	}
 
 	public Vector2 GetPosition()
@@ -64,25 +78,37 @@ public class FieldController : MonoBehaviour
 		return _field[x, y];
 	}
 
-	public void SetCell(int x, int y, BlockController value)
+	public void SetCell(int x, int y, Block type)
 	{
-		if (value == null && _field[x, y] != null)
+		if (_field[x, y] != null)
+		{
 			Destroy(_field[x, y].gameObject);
+			_field[x, y] = null;
+		}
 
-		_field[x, y] = value;
+		var prefab = type.GetPrefab();
+		if (prefab == null)
+			return;
+
+		var item = Instantiate(prefab);
+		item.name = type.ToString();
+		item.transform.SetParent(transform);
+
+		var pos = prefab.transform.position;
+		pos.x = x;
+		pos.y = y;
+		item.transform.position = pos;
+
+		_field[x, y] = item;
 	}
 
-	private void OnDrawGizmos()
+	public bool Save(string name)
 	{
-		// Draw grid
-		Gizmos.color = Color.white;
-		for (int x = 0; x < Width; x++)
-			for (int y = 0; y < Height; y++)
-			{
-				var pos = transform.position;
-				pos.x += x;
-				pos.y += y;
-				Gizmos.DrawWireCube(pos, Vector2.one);
-			}
+		return _field.Save(name);
+	}
+
+	public void Load(string name)
+	{
+		_field.Load(name);
 	}
 }

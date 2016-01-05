@@ -75,24 +75,7 @@ public class FieldEditorController : MonoBehaviour
 		var x = (int)mousePosition.x;
 		var y = (int)mousePosition.y;
 
-		var prefab = block.Value.GetPrefab();
-		if (prefab == null)
-		{
-			FieldController.Instance.SetCell(x, y, null);
-			return;
-		}
-
-
-		var item = Instantiate(prefab);
-		item.name = block.ToString();
-		item.transform.SetParent(FieldController.Instance.transform);
-
-		Vector3 pos = mousePosition;
-		pos.z = 0;
-		item.transform.position = pos;
-
-		FieldController.Instance.SetCell(x, y, null);
-		FieldController.Instance.SetCell(x, y, item);
+		FieldController.Instance.SetCell(x, y, block.Value);
 	}
 
 	private void MouseRightClick()
@@ -104,6 +87,6 @@ public class FieldEditorController : MonoBehaviour
 		var x = (int)mousePosition.x;
 		var y = (int)mousePosition.y;
 
-		FieldController.Instance.SetCell(x, y, null);
+		FieldController.Instance.SetCell(x, y, Block.Empty);
 	}
 }
