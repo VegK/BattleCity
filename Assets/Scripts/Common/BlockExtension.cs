@@ -6,34 +6,34 @@ public static class BlockExtension
 	{
 		switch (block)
 		{
-			case Block.BrickWallFull:
-				return FieldController.Instance.PrefabBrickWallFull;
-			case Block.BrickWallTop:
-				return FieldController.Instance.PrefabBrickWallTop;
-			case Block.BrickWallRight:
-				return FieldController.Instance.PrefabBrickWallRight;
-			case Block.BrickWallBottom:
-				return FieldController.Instance.PrefabBrickWallBottom;
-			case Block.BrickWallLeft:
-				return FieldController.Instance.PrefabBrickWallLeft;
-			case Block.BrickWallLeftTop:
-				return FieldController.Instance.PrefabBrickWallLeftTop;
-			case Block.BrickWallRightTop:
-				return FieldController.Instance.PrefabBrickWallRightTop;
-			case Block.BrickWallRightBottom:
-				return FieldController.Instance.PrefabBrickWallRightBottom;
-			case Block.BrickWallLeftBottom:
-				return FieldController.Instance.PrefabBrickWallLeftBottom;
-			case Block.MetalWallFull:
-				return FieldController.Instance.PrefabMetalWallFull;
-			case Block.MetalWallTop:
-				return FieldController.Instance.PrefabMetalWallTop;
-			case Block.MetalWallRight:
-				return FieldController.Instance.PrefabMetalWallRight;
-			case Block.MetalWallBottom:
-				return FieldController.Instance.PrefabMetalWallBottom;
-			case Block.MetalWallLeft:
-				return FieldController.Instance.PrefabMetalWallLeft;
+			case Block.BrickFull:
+				return FieldController.Instance.PrefabBrickFull;
+			case Block.BrickTop:
+				return FieldController.Instance.PrefabBrickTop;
+			case Block.BrickRight:
+				return FieldController.Instance.PrefabBrickRight;
+			case Block.BrickBottom:
+				return FieldController.Instance.PrefabBrickBottom;
+			case Block.BrickLeft:
+				return FieldController.Instance.PrefabBrickLeft;
+			case Block.BrickLeftTop:
+				return FieldController.Instance.PrefabBrickLeftTop;
+			case Block.BrickRightTop:
+				return FieldController.Instance.PrefabBrickRightTop;
+			case Block.BrickRightBottom:
+				return FieldController.Instance.PrefabBrickRightBottom;
+			case Block.BrickLeftBottom:
+				return FieldController.Instance.PrefabBrickLeftBottom;
+			case Block.MetalFull:
+				return FieldController.Instance.PrefabMetalFull;
+			case Block.MetalTop:
+				return FieldController.Instance.PrefabMetalTop;
+			case Block.MetalRight:
+				return FieldController.Instance.PrefabMetalRight;
+			case Block.MetalBottom:
+				return FieldController.Instance.PrefabMetalBottom;
+			case Block.MetalLeft:
+				return FieldController.Instance.PrefabMetalLeft;
 			case Block.Forest:
 				return FieldController.Instance.PrefabForest;
 			case Block.Water:

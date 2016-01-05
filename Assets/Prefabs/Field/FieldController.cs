@@ -11,20 +11,20 @@ public partial class FieldController : MonoBehaviour
 	[Space(5)]
 	public GameObject Background;
 	[Header("Prefabs")]
-	public BlockController PrefabBrickWallFull;
-	public BlockController PrefabBrickWallTop;
-	public BlockController PrefabBrickWallRight;
-	public BlockController PrefabBrickWallBottom;
-	public BlockController PrefabBrickWallLeft;
-	public BlockController PrefabBrickWallLeftTop;
-	public BlockController PrefabBrickWallRightTop;
-	public BlockController PrefabBrickWallRightBottom;
-	public BlockController PrefabBrickWallLeftBottom;
-	public BlockController PrefabMetalWallFull;
-	public BlockController PrefabMetalWallTop;
-	public BlockController PrefabMetalWallRight;
-	public BlockController PrefabMetalWallBottom;
-	public BlockController PrefabMetalWallLeft;
+	public BlockController PrefabBrickFull;
+	public BlockController PrefabBrickTop;
+	public BlockController PrefabBrickRight;
+	public BlockController PrefabBrickBottom;
+	public BlockController PrefabBrickLeft;
+	public BlockController PrefabBrickLeftTop;
+	public BlockController PrefabBrickRightTop;
+	public BlockController PrefabBrickRightBottom;
+	public BlockController PrefabBrickLeftBottom;
+	public BlockController PrefabMetalFull;
+	public BlockController PrefabMetalTop;
+	public BlockController PrefabMetalRight;
+	public BlockController PrefabMetalBottom;
+	public BlockController PrefabMetalLeft;
 	public BlockController PrefabForest;
 	public BlockController PrefabWater;
 	public BlockController PrefabIce;
