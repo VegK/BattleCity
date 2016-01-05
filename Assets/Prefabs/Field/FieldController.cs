@@ -102,6 +102,11 @@ public partial class FieldController : MonoBehaviour
 		_field[x, y] = item;
 	}
 
+	public string GetName()
+	{
+		return _field.Name;
+	}
+
 	public bool Save(string name)
 	{
 		return _field.Save(name);

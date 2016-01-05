@@ -6,12 +6,23 @@ public class FieldEditorController : MonoBehaviour
 	[SerializeField]
 	private Sprite Cell;
 
+	public bool MouseLock;
+
+	public static FieldEditorController Instance;
+
 	private GameObject _selectCell;
 	private Vector2 _fieldPosition;
 	private Vector2 _fieldSize;
 
+	private void Awake()
+	{
+		Instance = this;
+	}
+
 	private void Start()
 	{
+		MouseLock = false;
+
 		_fieldPosition = FieldController.Instance.GetPosition();
 		_fieldSize = FieldController.Instance.GetSize();
 
@@ -27,7 +38,7 @@ public class FieldEditorController : MonoBehaviour
 	
 	private void Update()
 	{
-		if (IsMouseLeaveField())
+		if (IsMouseLeaveField() || MouseLock)
 		{
 			_selectCell.SetActive(false);
 			return;

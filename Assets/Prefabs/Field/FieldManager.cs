@@ -7,9 +7,6 @@ public partial class FieldController
 {
 	private class FieldManager
 	{
-		private const string EXTENSION = "lvl";
-		private readonly string PATH;
-
 		public BlockController this[int x, int y]
 		{
 			get
@@ -22,14 +19,11 @@ public partial class FieldController
 			}
 		}
 
+		public string Name { get; set; }
+
 		private BlockController[,] _blocks;
 
-		public FieldManager()
-		{
-			PATH = Application.dataPath + "/Levels/";
-		}
-
-		public FieldManager(int width, int height) : this()
+		public FieldManager(int width, int height)
 		{
 			_blocks = new BlockController[width, height];
 		}
@@ -40,8 +34,8 @@ public partial class FieldController
 		try
 		{
 #endif
-			if (!Directory.Exists(PATH))
-				Directory.CreateDirectory(PATH);
+			if (!Directory.Exists(Consts.PATH))
+				Directory.CreateDirectory(Consts.PATH);
 
 			var width = _blocks.GetLength(0);
 			var height = _blocks.GetLength(1);
@@ -56,7 +50,7 @@ public partial class FieldController
 				}
 
 			var formatter = new BinaryFormatter();
-			var path = PATH + name + "." + EXTENSION;
+			var path = Consts.PATH + name + "." + Consts.EXTENSION;
 			using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
 				formatter.Serialize(fs, data);
 #if !UNITY_EDITOR
@@ -75,14 +69,15 @@ public partial class FieldController
 		try
 		{
 #endif
-			if (!Directory.Exists(PATH))
-				Directory.CreateDirectory(PATH);
+			if (!Directory.Exists(Consts.PATH))
+				Directory.CreateDirectory(Consts.PATH);
 
 			var formatter = new BinaryFormatter();
-			var path = PATH + name + "." + EXTENSION;
+			var path = Consts.PATH + name + "." + Consts.EXTENSION;
 			var stream = new FileStream(path, FileMode.Open);
 			var data = (FieldData)formatter.Deserialize(stream);
 			stream.Dispose();
+			Name = name;
 
 			Clear();
 			var width = data.Width;
@@ -95,7 +90,6 @@ public partial class FieldController
 		}
 		catch
 		{
-			return false;
 		}
 #endif
 		}

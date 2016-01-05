@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 
-public class EditorGUIController : MonoBehaviour
+namespace GUI
 {
-	public void OnClickSave()
+	public class EditorGUIController : MonoBehaviour
 	{
-		FieldController.Instance.Save("1");
-	}
+		public SaveManagerController SaveManager;
+		public LoadManagerController LoadManager;
 
-	public void OnClickLoad()
-	{
-		FieldController.Instance.Load("1");
+		public void OnClickSave()
+		{
+			SaveManager.Show();
+		}
+
+		public void OnClickLoad()
+		{
+			LoadManager.Show();
+	    }
 	}
 }
