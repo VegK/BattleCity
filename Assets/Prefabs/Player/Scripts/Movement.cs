@@ -32,6 +32,9 @@ public class Movement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (_playerController.Lock)
+			return;
+
 		// Animation movement player
 		_keyUpPress = Input.GetKey(KeyCode.UpArrow);
 		_keyRightPress = Input.GetKey(KeyCode.RightArrow);

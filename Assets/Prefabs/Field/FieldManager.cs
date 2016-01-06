@@ -20,12 +20,14 @@ public partial class FieldController
 		}
 
 		public string Name { get; set; }
+		public bool EditorMode { get; private set; }
 
 		private BlockController[,] _blocks;
 
-		public FieldManager(int width, int height)
+		public FieldManager(int width, int height, bool editorMode)
 		{
 			_blocks = new BlockController[width, height];
+			EditorMode = editorMode;
 		}
 
 		public bool Save(string name)

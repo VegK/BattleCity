@@ -27,6 +27,8 @@ public class Shooting : MonoBehaviour
 	
 	private void FixedUpdate()
 	{
+		if (_playerController.Lock)
+			return;
 		if (Input.GetKey(KeyCode.Space))
 			RunBullet();
 	}

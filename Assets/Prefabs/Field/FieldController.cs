@@ -29,7 +29,6 @@ public partial class FieldController : MonoBehaviour
 	public BlockController PrefabWater;
 	public BlockController PrefabIce;
 	public BlockController PrefabBase;
-	public BlockController PrefabPlayer1Block;
 	public PlayerController PrefabPlayer1;
 	[Header("Settings")]
 	[Range(3, 50)]
@@ -44,7 +43,11 @@ public partial class FieldController : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
-		_field = new FieldManager(Width, Height);
+	}
+
+	private void Start()
+	{
+		_field = new FieldManager(Width, Height, FieldEditorController.Instance != null);
 	}
 
 	private void OnDrawGizmos()
@@ -93,6 +96,12 @@ public partial class FieldController : MonoBehaviour
 		var prefab = type.GetPrefab();
 		if (prefab == null)
 			return;
+		if (type == Block.Player1 || type == Block.Player2)
+		{
+			var player = prefab as PlayerController;
+			if (player != null)
+				player.Lock = _field.EditorMode;
+		}
 
 		var item = Instantiate(prefab);
 		item.name = type.ToString();

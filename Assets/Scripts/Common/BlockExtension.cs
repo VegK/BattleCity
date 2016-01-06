@@ -43,7 +43,7 @@ public static class BlockExtension
 			case Block.Base:
 				return FieldController.Instance.PrefabBase;
 			case Block.Player1:
-				return FieldController.Instance.PrefabPlayer1Block;
+				return FieldController.Instance.PrefabPlayer1;
 			default:
 			case Block.Empty:
 				return null;
