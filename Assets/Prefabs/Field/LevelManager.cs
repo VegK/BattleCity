@@ -22,5 +22,6 @@ public class LevelManager : MonoBehaviour
 	{
 		_index++;
 		FieldController.Instance.Load(CurrentLevel);
+		GUI.GameGUIController.Instance.LevelNumber = _index + 1;
 	}
 }
