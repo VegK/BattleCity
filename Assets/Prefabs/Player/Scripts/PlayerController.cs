@@ -1,12 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-public class PlayerController : BlockController
+public class PlayerController : BlockController, ISpawn
 {
 	public Direction DirectionMove { get; set; }
+	public Vector3 SpawnPoint { get; set; }
 
 	public SpawnController PrefabSpawn;
 	public ShieldController PrefabShield;
+
+	public int Life = 3;
 
 	private ShieldController _shield;
 
@@ -35,16 +38,29 @@ public class PlayerController : BlockController
 		}
 	}
 
+	public void Spawn()
+	{
+		if (EditorMode)
+			return;
+		if (Life <= 0)
+			return;
+		Life--;
+		if (TypeItem == Block.Player1)
+			GUI.GameGUIController.Instance.Player1LifeCount = Life;
+		else if (TypeItem == Block.Player2)
+			GUI.GameGUIController.Instance.Player2LifeCount = Life;
+
+		gameObject.SetActive(false);
+		transform.position = SpawnPoint;
+
+		var obj = Instantiate(PrefabSpawn);
+		obj.transform.position = transform.position;
+		obj.DestroyEvent += DestroySpawn;
+	}
+
 	private void Start()
 	{
-		if (!EditorMode)
-		{
-			gameObject.SetActive(false);
-
-			var obj = Instantiate(PrefabSpawn);
-			obj.transform.position = transform.position;
-			obj.DestroyEvent += DestroySpawn;
-		}
+		Spawn();
 	}
 
 	private void DestroySpawn(object sender, EventArgs e)
