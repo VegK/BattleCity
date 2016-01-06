@@ -96,12 +96,6 @@ public partial class FieldController : MonoBehaviour
 		var prefab = type.GetPrefab();
 		if (prefab == null)
 			return;
-		if (type == Block.Player1 || type == Block.Player2)
-		{
-			var player = prefab as PlayerController;
-			if (player != null)
-				player.Lock = _field.EditorMode;
-		}
 
 		var item = Instantiate(prefab);
 		item.name = type.ToString();

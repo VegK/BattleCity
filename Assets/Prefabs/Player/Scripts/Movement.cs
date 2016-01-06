@@ -32,7 +32,7 @@ public class Movement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (_playerController.Lock)
+		if (_playerController.EditorMode)
 			return;
 
 		// Animation movement player

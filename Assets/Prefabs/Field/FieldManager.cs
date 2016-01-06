@@ -15,6 +15,8 @@ public partial class FieldController
 			}
 			set
 			{
+				if (value != null)
+					value.EditorMode = EditorMode;
 				_blocks[x, y] = value;
 			}
 		}
