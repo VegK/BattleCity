@@ -4,10 +4,10 @@ using System.Collections;
 public partial class FieldController : MonoBehaviour
 {
 	[Header("Game objects")]
-	public BoxCollider2D BorderTop;
-	public BoxCollider2D BorderRight;
-	public BoxCollider2D BorderBottom;
-	public BoxCollider2D BorderLeft;
+	public Transform BorderTop;
+	public Transform BorderRight;
+	public Transform BorderBottom;
+	public Transform BorderLeft;
 	[Space(5)]
 	public GameObject Background;
 	[Header("Prefabs")]

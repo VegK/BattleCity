@@ -29,9 +29,9 @@ public class FieldControllerEditor : Editor
 
 		if (_field.BorderTop != null)
 		{
-			size = _field.BorderTop.size;
+			size = _field.BorderTop.localScale;
 			size.x = _field.Width;
-			_field.BorderTop.size = size;
+			_field.BorderTop.localScale = size;
 
 			pos = _field.BorderTop.transform.position;
 			pos.x = _field.Width / 2f - 0.5f;
@@ -41,9 +41,9 @@ public class FieldControllerEditor : Editor
 
 		if (_field.BorderRight != null)
 		{
-			size = _field.BorderRight.size;
+			size = _field.BorderRight.localScale;
 			size.y = _field.Height;
-			_field.BorderRight.size = size;
+			_field.BorderRight.localScale = size;
 
 			pos = _field.BorderRight.transform.position;
 			pos.x = _field.Width;
@@ -53,9 +53,9 @@ public class FieldControllerEditor : Editor
 
 		if (_field.BorderBottom != null)
 		{
-			size = _field.BorderBottom.size;
+			size = _field.BorderBottom.localScale;
 			size.x = _field.Width;
-			_field.BorderBottom.size = size;
+			_field.BorderBottom.localScale = size;
 
 			pos = _field.BorderBottom.transform.position;
 			pos.x = _field.Width / 2f - 0.5f;
@@ -65,9 +65,9 @@ public class FieldControllerEditor : Editor
 
 		if (_field.BorderLeft != null)
 		{
-			size = _field.BorderLeft.size;
+			size = _field.BorderLeft.localScale;
 			size.y = _field.Height;
-			_field.BorderLeft.size = size;
+			_field.BorderLeft.localScale = size;
 
 			pos = _field.BorderLeft.transform.position;
 			pos.x = -1;
