@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class Shooting : MonoBehaviour
+public class ShootingPlayer : MonoBehaviour
 {
 	public BulletController PrefabBullet;
 	public float SpeedBullet = 4f;

@@ -7,11 +7,11 @@ public class PlayerController : BlockController, ISpawn
 	public Vector3 SpawnPoint { get; set; }
 
 	public SpawnController PrefabSpawn;
-	public ShieldController PrefabShield;
+	public ShieldPlayer PrefabShield;
 
 	public int Life = 3;
 
-	private ShieldController _shield;
+	private ShieldPlayer _shield;
 
 	public void ActiveShield(float time)
 	{

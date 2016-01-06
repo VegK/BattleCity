@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class ShieldController : MonoBehaviour
+public class ShieldPlayer : MonoBehaviour
 {
 	public float TimeLife = 3.5f;
 

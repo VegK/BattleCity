@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-public class Movement : MonoBehaviour
+public class MovementPlayer : MonoBehaviour
 {
 	public float Speed = 2f;
 
