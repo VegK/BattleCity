@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
 	public Sprite BulletRight;
 	public Sprite BulletBottom;
 	public Sprite BulletLeft;
+	public ExplosionController PrefabExplosion;
 
 	public Direction DirectionFlight
 	{
@@ -42,6 +43,7 @@ public class BulletController : MonoBehaviour
 	private SpriteRenderer _spriteRenderer;
 	private Direction _directionFlight;
 	private bool _destroy = false;
+	private bool _explosion = false;
 
 	private void Awake()
 	{
@@ -76,6 +78,13 @@ public class BulletController : MonoBehaviour
 			Destroy(gameObject);
 			if (DestroyEvent != null)
 				DestroyEvent(this, EventArgs.Empty);
+
+			if (_explosion)
+			{
+				var obj = Instantiate(PrefabExplosion);
+				obj.transform.position = transform.position;
+				obj.Show(ExplosionController.ExplosionType.Bullet);
+			}
 			return;
 		}
 	}
@@ -83,5 +92,11 @@ public class BulletController : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D other)
 	{
 		_destroy = true;
+
+		var tag = other.gameObject.tag;
+		_explosion =  (tag != "Player");
+		_explosion &= (tag != "Enemy");
+		_explosion &= (tag != "Shield");
+		_explosion &= (tag != "Base");
 	}
 }
