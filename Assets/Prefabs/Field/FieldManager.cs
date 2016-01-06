@@ -84,6 +84,8 @@ public partial class FieldController
 			Clear();
 			var width = data.Width;
 			var height = data.Height;
+			FieldController.Instance.Width = width;
+			FieldController.Instance.Height = height;
 			_blocks = new BlockController[width, height];
 			for (int x = 0; x < width; x++)
 				for (int y = 0; y < height; y++)
