@@ -42,6 +42,7 @@ namespace GUI
 			}
 			set
 			{
+				Player1LifeGUI.gameObject.SetActive(true);
 				Player1LifeGUI.Count = value;
 			}
 		}
@@ -54,6 +55,7 @@ namespace GUI
 			}
 			set
 			{
+				Player2LifeGUI.gameObject.SetActive(true);
 				Player2LifeGUI.Count = value;
 			}
 		}
@@ -75,6 +77,8 @@ namespace GUI
 		private void Awake()
 		{
 			_instance = this;
+			Player1LifeGUI.gameObject.SetActive(false);
+			Player2LifeGUI.gameObject.SetActive(false);
 		}
 	}
 }
