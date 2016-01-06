@@ -16,5 +16,10 @@ namespace GUI
 		{
 			LoadManager.Show();
 	    }
+
+		public void OnClickClearField()
+		{
+			FieldEditorController.Instance.ClearField();
+		}
 	}
 }

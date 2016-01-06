@@ -14,6 +14,13 @@ public class FieldEditorController : MonoBehaviour
 	private Vector2 _fieldPosition;
 	private Vector2 _fieldSize;
 
+	public void ClearField()
+	{
+		for (int x = 0; x < FieldController.Instance.Width; x++)
+			for (int y = 0; y < FieldController.Instance.Height; y++)
+				FieldController.Instance.SetCell(x, y, Block.Empty);
+	}
+
 	private void Awake()
 	{
 		Instance = this;
