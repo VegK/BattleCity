@@ -14,13 +14,7 @@ namespace GUI
 		[SerializeField]
 		private LevelNumber LevelNumberGUI;
 
-		public static GameGUIController Instance
-		{
-			get
-			{
-				return _instance;
-			}
-		}
+		public static GameGUIController Instance;
 
 		public int EnemiesCount
 		{
@@ -72,11 +66,19 @@ namespace GUI
 			}
 		}
 
-		private static GameGUIController _instance;
+		public int GetPlayerCount()
+		{
+			var res = 0;
+			if (Player1LifeGUI.gameObject.activeInHierarchy)
+				res++;
+			if (Player2LifeGUI.gameObject.activeInHierarchy)
+				res++;
+			return res;
+		}
 
 		private void Awake()
 		{
-			_instance = this;
+			Instance = this;
 			Player1LifeGUI.gameObject.SetActive(false);
 			Player2LifeGUI.gameObject.SetActive(false);
 		}
