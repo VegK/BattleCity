@@ -126,4 +126,16 @@ public partial class FieldController : MonoBehaviour
 	{
 		_field.Load(name);
 	}
+
+	public BlockController FindBlock(Block type)
+	{
+		for (int x = 0; x < Width; x++)
+			for (int y = 0; y < Height; y++)
+			{
+				var block = _field[x, y];
+				if (block != null && block.TypeItem == type)
+					return block;
+			}
+		return null;
+	}
 }
