@@ -3,12 +3,13 @@
 public class AIEnemy : MonoBehaviour
 {
 	private EnemyController _enemyController;
+	private Collider2D _collider;
 	private float _timeBirth;
-	private bool _collision;
 
 	private void Awake()
 	{
 		_enemyController = GetComponent<EnemyController>();
+		_collider = GetComponent<Collider2D>();
 	}
 
 	private void Start()
@@ -19,54 +20,41 @@ public class AIEnemy : MonoBehaviour
 	private void FixedUpdate()
 	{
 		var roundedPos = transform.position;
+		roundedPos.x = (float)System.Math.Round(roundedPos.x, 2);
+		roundedPos.y = (float)System.Math.Round(roundedPos.y, 2);
 		roundedPos.x = Mathf.Floor(Mathf.Abs(roundedPos.x) * 10);
 		roundedPos.y = Mathf.Floor(Mathf.Abs(roundedPos.y) * 10);
 
-		var posX = roundedPos.x % 10;
-		var posY = roundedPos.y % 10;
+		var posX = roundedPos.x / 10 % Consts.SHARE;
+		var posY = roundedPos.y / 10 % Consts.SHARE;
 
-		if (posX == 0 && posY == 0)
+		if (posX == 0 && posY == 0 && Random.Range(0, 16) == 0)
 		{
-			posX = roundedPos.x / 10 % Consts.SHARE;
-			posY = roundedPos.y / 10 % Consts.SHARE;
-
-			if (posX == 0 && posY == 0 && Random.Range(0, 16) == 0)
-			{
-				if (BehaviourMove())
-					return;
-			}
+			if (BehaviourMove())
+				return;
 		}
 
-		if (!_collision)
+		if (!_collider.CheckColliderBeside(_enemyController.DirectionMove))
 			return;
 		if ((posX == 0 || posY == 0) && Random.Range(0, 4) == 0)
 			Turning();
 		else
 			if (Random.Range(0, 2) == 0)
 				Rotate();
-		_collision = false;
-	}
-
-	private void OnCollisionStay2D(Collision2D other)
-	{
-		_collision = true;
 	}
 
 	private bool BehaviourMove()
 	{
 		if (Time.time <= _timeBirth + SpawnPointEnemies.TimeRespawn * 8)
-			return MoveRandom();
+		{
+			Rotate();
+			return true;
+		}
 
 		if (Time.time <= _timeBirth + SpawnPointEnemies.TimeRespawn * 16)
 			return MovePlayer();
 
 		return MoveBase();
-	}
-
-	private bool MoveRandom()
-	{
-		_enemyController.SetDirection((Direction)Random.Range(0, 4));
-		return true;
 	}
 
 	private bool MovePlayer()
