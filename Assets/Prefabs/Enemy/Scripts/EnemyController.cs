@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IDirection
 {
@@ -10,6 +11,7 @@ public class EnemyController : MonoBehaviour, IDirection
 		}
 	}
 	public int Index { get; set; }
+	public event EventHandler DestroyEvent;
 
 	private MovementEnemy _movement;
 
@@ -21,5 +23,11 @@ public class EnemyController : MonoBehaviour, IDirection
 	private void Awake()
 	{
 		_movement = GetComponent<MovementEnemy>();
+	}
+
+	private void OnDestroy()
+	{
+		if (DestroyEvent != null)
+			DestroyEvent(this, EventArgs.Empty);
 	}
 }

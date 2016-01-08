@@ -30,6 +30,7 @@ public partial class FieldController : MonoBehaviour
 	public BlockController PrefabIce;
 	public BlockController PrefabBase;
 	public PlayerController PrefabPlayer1;
+	public SpawnPointEnemies PrefabSpawnEnemies;
 	[Header("Settings")]
 	[Range(3, 50)]
 	public int Width = 13;

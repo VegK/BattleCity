@@ -19,7 +19,7 @@ namespace GUI
 					if (value < _count)
 					{
 						for (int i = value + 1; i <= _count; i++)
-							Destroy(transform.GetChild(i).gameObject);
+							Destroy(transform.GetChild(i - 1).gameObject);
 					}
 					else if (value > _count)
 					{

@@ -23,5 +23,6 @@ public class LevelManager : MonoBehaviour
 		_index++;
 		FieldController.Instance.Load(CurrentLevel);
 		GUI.GameGUIController.Instance.LevelNumber = _index + 1;
+		GUI.GameGUIController.Instance.EnemiesCount = SpawnPointEnemiesManager.GetEnemiesCount();
 	}
 }

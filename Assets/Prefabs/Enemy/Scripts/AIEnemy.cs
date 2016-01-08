@@ -45,13 +45,13 @@ public class AIEnemy : MonoBehaviour
 
 	private bool BehaviourMove()
 	{
-		if (Time.time <= _timeBirth + SpawnPointEnemies.TimeRespawn * 8)
+		if (Time.time <= _timeBirth + SpawnPointEnemiesManager.TimeRespawn * 8)
 		{
 			Rotate();
 			return true;
 		}
 
-		if (Time.time <= _timeBirth + SpawnPointEnemies.TimeRespawn * 16)
+		if (Time.time <= _timeBirth + SpawnPointEnemiesManager.TimeRespawn * 16)
 			return MovePlayer();
 
 		return MoveBase();
