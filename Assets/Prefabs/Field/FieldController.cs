@@ -117,7 +117,7 @@ public partial class FieldController : MonoBehaviour
 
 	public string GetName()
 	{
-		return _field.Name;
+		return _field.Name ?? string.Empty;
 	}
 
 	public bool Save(string name)
