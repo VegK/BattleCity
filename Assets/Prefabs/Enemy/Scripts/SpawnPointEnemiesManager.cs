@@ -49,6 +49,8 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 
 	public static int GetEnemiesCount()
 	{
+		if (_instance == null)
+			return 0;
 		return _instance.EnemiesCount;
 	}
 
