@@ -6,13 +6,17 @@ namespace GUI
 	public class GameGUIController : MonoBehaviour
 	{
 		[SerializeField]
-		private Enemies EnemiesGUI;
+		private Enemies UIEnemies;
 		[SerializeField]
-		private PlayerLife Player1LifeGUI;
+		private PlayerLife UIPlayer1Life;
 		[SerializeField]
-		private PlayerLife Player2LifeGUI;
+		private PlayerLife UIPlayer2Life;
 		[SerializeField]
-		private LevelNumber LevelNumberGUI;
+		private LevelNumber UILevelNumber;
+		[SerializeField]
+		private Gameover UIGameover;
+		[SerializeField]
+		private Pause UIPause;
 
 		public static GameGUIController Instance;
 
@@ -20,11 +24,11 @@ namespace GUI
 		{
 			get
 			{
-				return EnemiesGUI.Count;
+				return UIEnemies.Count;
 			}
 			set
 			{
-				EnemiesGUI.Count = value;
+				UIEnemies.Count = value;
 			}
 		}
 
@@ -32,12 +36,12 @@ namespace GUI
 		{
 			get
 			{
-				return Player1LifeGUI.Count;
+				return UIPlayer1Life.Count;
 			}
 			set
 			{
-				Player1LifeGUI.gameObject.SetActive(true);
-				Player1LifeGUI.Count = value;
+				UIPlayer1Life.gameObject.SetActive(true);
+				UIPlayer1Life.Count = value;
 			}
 		}
 
@@ -45,12 +49,12 @@ namespace GUI
 		{
 			get
 			{
-				return Player2LifeGUI.Count;
+				return UIPlayer2Life.Count;
 			}
 			set
 			{
-				Player2LifeGUI.gameObject.SetActive(true);
-				Player2LifeGUI.Count = value;
+				UIPlayer2Life.gameObject.SetActive(true);
+				UIPlayer2Life.Count = value;
 			}
 		}
 
@@ -58,29 +62,47 @@ namespace GUI
 		{
 			get
 			{
-				return LevelNumberGUI.Number;
+				return UILevelNumber.Number;
 			}
 			set
 			{
-				LevelNumberGUI.Number = value;
+				UILevelNumber.Number = value;
 			}
 		}
 
 		public int GetPlayerCount()
 		{
 			var res = 0;
-			if (Player1LifeGUI.gameObject.activeInHierarchy)
+			if (UIPlayer1Life.gameObject.activeInHierarchy)
 				res++;
-			if (Player2LifeGUI.gameObject.activeInHierarchy)
+			if (UIPlayer2Life.gameObject.activeInHierarchy)
 				res++;
 			return res;
+		}
+
+		public void ShowGameover()
+		{
+			UIGameover.Show();
+		}
+
+		public void ShowPause()
+		{
+			UIPause.Show();
+		}
+
+		public void HidePause()
+		{
+			UIPause.Hide();
 		}
 
 		private void Awake()
 		{
 			Instance = this;
-			Player1LifeGUI.gameObject.SetActive(false);
-			Player2LifeGUI.gameObject.SetActive(false);
+			UIPlayer1Life.gameObject.SetActive(false);
+			UIPlayer2Life.gameObject.SetActive(false);
+
+			UIGameover.Hide();
+			UIPause.Hide();
 		}
 	}
 }
