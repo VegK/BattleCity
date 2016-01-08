@@ -27,6 +27,7 @@ public class SpawnPointEnemies : BlockController, ISpawn
 
 			enemy.Index = indexEnemy;
 			enemy.DestroyEvent += destroyEnemy;
+			enemy.Show();
 		};
 	}
 

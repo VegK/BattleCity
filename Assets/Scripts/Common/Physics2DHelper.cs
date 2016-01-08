@@ -1,7 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class Physics2DHelper
 {
+	public static bool Overlap(this Collider2D collider, Vector2 point1, Vector2 point2,
+		out Collider2D[] listOverlap)
+	{
+		var res = new List<Collider2D>();
+		var layer = collider.gameObject.layer;
+		var colliders = Physics2D.OverlapAreaAll(point1, point2);
+
+		foreach (Collider2D item in colliders)
+			if (!Physics2D.GetIgnoreLayerCollision(layer, item.gameObject.layer))
+				res.Add(item);
+
+		listOverlap = res.ToArray();
+		return (listOverlap.Length > 0);
+	}
+
 	public static bool CheckColliderBeside(this Collider2D collider, Direction direction)
 	{
 		var position = collider.transform.position;

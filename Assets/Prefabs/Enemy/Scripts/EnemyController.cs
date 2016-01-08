@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// Class enemy, at create new GameObject he default unactive.
+/// </summary>
 public class EnemyController : MonoBehaviour, IDirection
 {
 	public ExplosionController PrefabExplosion;
@@ -15,7 +18,13 @@ public class EnemyController : MonoBehaviour, IDirection
 	public int Index { get; set; }
 	public event EventHandler DestroyEvent;
 
+	private BoxCollider2D _boxCollider;
 	private MovementEnemy _movement;
+
+	public void Show()
+	{
+		gameObject.SetActive(true);
+	}
 
 	public void SetDirection(Direction value)
 	{
@@ -24,7 +33,21 @@ public class EnemyController : MonoBehaviour, IDirection
 
 	private void Awake()
 	{
+		gameObject.SetActive(false);
+		_boxCollider = GetComponent<BoxCollider2D>();
 		_movement = GetComponent<MovementEnemy>();
+	}
+
+	private void OnEnable()
+	{
+		Vector2 pos = transform.position;
+		var size = new Vector2(_boxCollider.size.x, _boxCollider.size.y);
+		pos = pos - size / 2;
+
+		Collider2D[] list;
+		_boxCollider.Overlap(pos, pos + size, out list);
+		foreach (Collider2D item in list)
+			Physics2D.IgnoreCollision(_boxCollider, item, true);
 	}
 
 	private void OnDestroy()
