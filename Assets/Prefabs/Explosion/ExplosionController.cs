@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 
 public class ExplosionController : MonoBehaviour
 {
 	public AnimationClip AnimBullet;
 	public AnimationClip AnimObject;
+
+	public event EventHandler DestroyEvent;
 
 	private Animator _animator;
 
@@ -32,9 +34,18 @@ public class ExplosionController : MonoBehaviour
 			_animator.enabled = false;
 	}
 
+	/// <summary>
+	/// Method for animation Event.
+	/// </summary>
 	private void DestoyObject()
 	{
 		Destroy(gameObject);
+	}
+
+	private void OnDestroy()
+	{
+		if (DestroyEvent != null)
+			DestroyEvent(this, EventArgs.Empty);
 	}
 
 	public enum ExplosionType
