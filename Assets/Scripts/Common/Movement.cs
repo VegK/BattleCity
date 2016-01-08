@@ -15,64 +15,44 @@ public class Movement : MonoBehaviour
 
 	protected bool AnimationEnabled;
 	protected Animator Animator;
+	private Collider2D _collider;
 	private Direction _prevDirection;
 
 	protected virtual void Awake()
 	{
 		Animator = GetComponent<Animator>();
+		_collider = GetComponent<Collider2D>();
 	}
 
 	protected virtual void FixedUpdate()
 	{
-		var checkPoint = transform.position;
+		var beside = _collider.CheckColliderBeside(CurrentDirection);
 		var move = Vector2.zero;
+
 		switch (CurrentDirection)
 		{
 			case Direction.Top:
 				Animator.Play(AnimTop.name);
-				checkPoint.x += 0.1f;
-				checkPoint.y += 0.6f;
-				if (Physics2D.OverlapPoint(checkPoint) == null)
-				{
-					checkPoint.x -= 0.2f;
-					if (Physics2D.OverlapPoint(checkPoint) == null)
-						move.y = SpeedMove;
-				}
+				if (!beside)
+					move.y = SpeedMove;
 				break;
 			case Direction.Right:
 				Animator.Play(AnimRight.name);
-				checkPoint.x += 0.6f;
-				checkPoint.y += 0.1f;
-				if (Physics2D.OverlapPoint(checkPoint) == null)
-				{
-					checkPoint.y -= 0.2f;
-					if (Physics2D.OverlapPoint(checkPoint) == null)
-						move.x = SpeedMove;
-				}
+				if (!beside)
+					move.x = SpeedMove;
 				break;
 			case Direction.Bottom:
 				Animator.Play(AnimBottom.name);
-				checkPoint.x += 0.1f;
-				checkPoint.y -= 0.6f;
-				if (Physics2D.OverlapPoint(checkPoint) == null)
-				{
-					checkPoint.x -= 0.2f;
-					if (Physics2D.OverlapPoint(checkPoint) == null)
-						move.y = -SpeedMove;
-				}
+				if (!beside)
+					move.y = -SpeedMove;
 				break;
 			case Direction.Left:
 				Animator.Play(AnimLeft.name);
-				checkPoint.x -= 0.6f;
-				checkPoint.y += 0.1f;
-				if (Physics2D.OverlapPoint(checkPoint) == null)
-				{
-					checkPoint.y -= 0.2f;
-					if (Physics2D.OverlapPoint(checkPoint) == null)
-						move.x = -SpeedMove;
-				}
+				if (!beside)
+					move.x = -SpeedMove;
 				break;
 		}
+
 		RoundPosition(CurrentDirection);
 		transform.Translate(move * Time.deltaTime);
 	}
