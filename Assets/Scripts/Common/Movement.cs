@@ -24,24 +24,53 @@ public class Movement : MonoBehaviour
 
 	protected virtual void FixedUpdate()
 	{
+		var checkPoint = transform.position;
 		var move = Vector2.zero;
 		switch (CurrentDirection)
 		{
 			case Direction.Top:
 				Animator.Play(AnimTop.name);
-				move.y = SpeedMove;
+				checkPoint.x += 0.1f;
+				checkPoint.y += 0.6f;
+				if (Physics2D.OverlapPoint(checkPoint) == null)
+				{
+					checkPoint.x -= 0.2f;
+					if (Physics2D.OverlapPoint(checkPoint) == null)
+						move.y = SpeedMove;
+				}
 				break;
 			case Direction.Right:
 				Animator.Play(AnimRight.name);
-				move.x = SpeedMove;
+				checkPoint.x += 0.6f;
+				checkPoint.y += 0.1f;
+				if (Physics2D.OverlapPoint(checkPoint) == null)
+				{
+					checkPoint.y -= 0.2f;
+					if (Physics2D.OverlapPoint(checkPoint) == null)
+						move.x = SpeedMove;
+				}
 				break;
 			case Direction.Bottom:
 				Animator.Play(AnimBottom.name);
-				move.y = -SpeedMove;
+				checkPoint.x += 0.1f;
+				checkPoint.y -= 0.6f;
+				if (Physics2D.OverlapPoint(checkPoint) == null)
+				{
+					checkPoint.x -= 0.2f;
+					if (Physics2D.OverlapPoint(checkPoint) == null)
+						move.y = -SpeedMove;
+				}
 				break;
 			case Direction.Left:
 				Animator.Play(AnimLeft.name);
-				move.x = -SpeedMove;
+				checkPoint.x -= 0.6f;
+				checkPoint.y += 0.1f;
+				if (Physics2D.OverlapPoint(checkPoint) == null)
+				{
+					checkPoint.y -= 0.2f;
+					if (Physics2D.OverlapPoint(checkPoint) == null)
+						move.x = -SpeedMove;
+				}
 				break;
 		}
 		RoundPosition(CurrentDirection);
