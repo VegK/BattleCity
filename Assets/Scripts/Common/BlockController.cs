@@ -5,6 +5,8 @@ public class BlockController : MonoBehaviour
 {
 	public Block TypeItem;
 
+	public int X { get; set; }
+	public int Y { get; set; }
 	public virtual bool EditorMode
 	{
 		get

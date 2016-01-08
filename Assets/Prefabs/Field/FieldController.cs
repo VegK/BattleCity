@@ -109,6 +109,8 @@ public partial class FieldController : MonoBehaviour
 
 		if (item is ISpawn)
 			(item as ISpawn).SpawnPoint = pos;
+		item.X = x;
+		item.Y = y;
 
 		_field[x, y] = item;
 	}
