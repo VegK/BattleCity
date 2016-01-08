@@ -89,12 +89,12 @@ public class BulletController : MonoBehaviour
 		}
 	}
 
-	private void OnCollisionEnter2D(Collision2D other)
+	private void OnTriggerEnter2D(Collider2D other)
 	{
 		_destroy = true;
 
-		var tag = other.gameObject.tag;
-		_explosion =  (tag != "Player");
+		var tag = other.tag;
+		_explosion  = (tag != "Player");
 		_explosion &= (tag != "Enemy");
 		_explosion &= (tag != "Shield");
 		_explosion &= (tag != "Base");

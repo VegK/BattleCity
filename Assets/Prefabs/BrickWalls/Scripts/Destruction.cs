@@ -22,12 +22,16 @@ public class Destruction : MonoBehaviour, IDestroy
 		_boxCollider2d = GetComponent<BoxCollider2D>();
 	}
 
-	private void OnCollisionEnter2D(Collision2D other)
+	private void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "Bullet")
+		if (other.tag == "Bullet")
 		{
-			var normal = other.contacts[0].normal;
-			if (normal.y < 0)
+			var bullet = other.GetComponent<BulletController>();
+			if (bullet == null)
+				return;
+
+			var direction = bullet.DirectionFlight;
+			if (direction == Direction.Bottom)
 				switch (_typeDestruction)
 				{
 					case TypeDestruction.None:
@@ -44,7 +48,7 @@ public class Destruction : MonoBehaviour, IDestroy
 						DestructionFull();
 						break;
 				}
-			else if (normal.x < 0)
+			else if (direction == Direction.Left)
 				switch (_typeDestruction)
 				{
 					case TypeDestruction.None:
@@ -61,7 +65,7 @@ public class Destruction : MonoBehaviour, IDestroy
 						DestructionFull();
 						break;
 				}
-			else if (normal.y > 0)
+			else if (direction == Direction.Top)
 				switch (_typeDestruction)
 				{
 					case TypeDestruction.None:
@@ -78,7 +82,7 @@ public class Destruction : MonoBehaviour, IDestroy
 						DestructionFull();
 						break;
 				}
-			else if (normal.x > 0)
+			else if (direction == Direction.Right)
 				switch (_typeDestruction)
 				{
 					case TypeDestruction.None:
