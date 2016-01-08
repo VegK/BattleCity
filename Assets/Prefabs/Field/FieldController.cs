@@ -88,6 +88,16 @@ public partial class FieldController : MonoBehaviour
 
 	public void SetCell(int x, int y, Block type)
 	{
+		if (type == Block.Player1 || type == Block.Player2 || type == Block.Base)
+		{
+			var block = FindBlock(type);
+			if (block != null)
+			{
+				Destroy(_field[block.X, block.Y].gameObject);
+				_field[block.X, block.Y] = null;
+			}
+		}
+
 		if (_field[x, y] != null)
 		{
 			Destroy(_field[x, y].gameObject);
