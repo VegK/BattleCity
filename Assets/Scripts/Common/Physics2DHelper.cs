@@ -25,41 +25,41 @@ public static class Physics2DHelper
 		switch (direction)
 		{
 			case Direction.Top:
-				position.x += 0.1f;
+				position.x += 0.45f;
 				position.y += 0.55f;
 				if (IgnoreAllCollisionsInPoint(position, collider))
 				{
-					position.x -= 0.2f;
+					position.x -= 0.9f;
 					if (IgnoreAllCollisionsInPoint(position, collider))
 						return false;
 				}
 				break;
 			case Direction.Right:
 				position.x += 0.55f;
-				position.y += 0.1f;
+				position.y += 0.45f;
 				if (IgnoreAllCollisionsInPoint(position, collider))
 				{
-					position.y -= 0.2f;
+					position.y -= 0.9f;
 					if (IgnoreAllCollisionsInPoint(position, collider))
 						return false;
 				}
 				break;
 			case Direction.Bottom:
-				position.x += 0.1f;
+				position.x += 0.45f;
 				position.y -= 0.55f;
 				if (IgnoreAllCollisionsInPoint(position, collider))
 				{
-					position.x -= 0.2f;
+					position.x -= 0.9f;
 					if (IgnoreAllCollisionsInPoint(position, collider))
 						return false;
 				}
 				break;
 			case Direction.Left:
 				position.x -= 0.55f;
-				position.y += 0.1f;
+				position.y += 0.45f;
 				if (IgnoreAllCollisionsInPoint(position, collider))
 				{
-					position.y -= 0.2f;
+					position.y -= 0.9f;
 					if (IgnoreAllCollisionsInPoint(position, collider))
 						return false;
 				}
