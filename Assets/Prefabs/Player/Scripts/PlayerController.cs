@@ -5,6 +5,7 @@ public class PlayerController : BlockController, ISpawn, IDirection
 {
 	public SpawnController PrefabSpawn;
 	public ShieldPlayer PrefabShield;
+	public ExplosionController PrefabExplosion;
 
 	public int Life = 3;
 
@@ -55,6 +56,22 @@ public class PlayerController : BlockController, ISpawn, IDirection
 		Spawn();
 	}
 
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Bullet" && tag != "Shield")
+		{
+			gameObject.SetActive(false);
+
+			var obj = Instantiate(PrefabExplosion);
+			var pos = transform.position;
+			pos.z = PrefabExplosion.transform.position.z;
+			obj.transform.position = transform.position;
+
+			obj.DestroyEvent += (s, e) => { Spawn(); };
+			obj.Show(ExplosionController.ExplosionType.Object);
+		}
+	}
+
 	private void Spawn()
 	{
 		if (EditorMode)
@@ -81,7 +98,7 @@ public class PlayerController : BlockController, ISpawn, IDirection
 	private void DestroySpawn(object sender, EventArgs e)
 	{
 		gameObject.SetActive(true);
-		ActiveShield(1.5f);
+		ActiveShield(3);
 	}
 
 	private void DestroyShield(object sender, EventArgs e)
