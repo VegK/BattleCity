@@ -27,9 +27,7 @@ public class PlayerController : BlockController, ISpawn, IDirection
 		tag = "Shield";
 
 		_shield = Instantiate(PrefabShield);
-		var pos = Vector3.zero;
-		pos.z = _shield.transform.position.z;
-		_shield.transform.position = pos;
+		_shield.transform.position = Vector3.zero;
 		_shield.transform.SetParent(transform, false);
 
 		_shield.TimeLife = time;
