@@ -67,7 +67,12 @@ public class PlayerController : BlockController, ISpawn, IDirection
 		Collider2D[] list;
 		_boxCollider.Overlap(pos, pos + size, out list);
 		foreach (Collider2D item in list)
-			Physics2D.IgnoreCollision(_boxCollider, item, true);
+		{
+			var layer = LayerMask.LayerToName(item.gameObject.layer);
+			if (layer != "BulletPlayer1" && layer != "BulletPlayer2" &&
+				layer != "BulletEnemy")
+				Physics2D.IgnoreCollision(_boxCollider, item, true);
+		}
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)
