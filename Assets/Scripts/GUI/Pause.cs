@@ -9,6 +9,7 @@ namespace GUI
 
 		private Image _image;
 		private float _time;
+		private float _timeDelta;
 		private float _alfaStart = 1;
 		private float _alfaFinish = 0;
 
@@ -29,7 +30,9 @@ namespace GUI
 
 		private void OnEnable()
 		{
-			_time = Time.time;
+			_timeDelta = Time.deltaTime;
+
+			_time = 0;
 			_alfaStart = 1;
 			_alfaFinish = 0;
 
@@ -44,14 +47,14 @@ namespace GUI
 
 			if (color.a == _alfaFinish)
 			{
-				_time = Time.time;
+				_time = 0;
 				_alfaFinish = _alfaStart + _alfaFinish;
 				_alfaStart = _alfaFinish - _alfaStart;
 				_alfaFinish = _alfaFinish - _alfaStart;
 			}
 
-			var time = (Time.time - _time) * SpeedFlash;
-			color.a = Mathf.Lerp(_alfaStart, _alfaFinish, time);
+			_time += _timeDelta;
+			color.a = Mathf.Lerp(_alfaStart, _alfaFinish, _time * SpeedFlash);
 			_image.color = color;
 		}
 	}
