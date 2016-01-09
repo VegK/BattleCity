@@ -60,7 +60,11 @@ public class EnemyController : MonoBehaviour, IDirection
 		Collider2D[] list;
 		_boxCollider.Overlap(pos, pos + size, out list);
 		foreach (Collider2D item in list)
-			Physics2D.IgnoreCollision(_boxCollider, item, true);
+		{
+			var layer = LayerMask.LayerToName(item.gameObject.layer);
+			if (layer != "BulletPlayer1" && layer != "BulletPlayer2")
+				Physics2D.IgnoreCollision(_boxCollider, item, true);
+		}
 	}
 
 	private void OnDestroy()
