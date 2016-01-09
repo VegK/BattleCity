@@ -4,4 +4,10 @@
 	{
 		CurrentDirection = value;
 	}
+
+	protected override void OnEnable()
+	{
+		CurrentDirection = Direction.Bottom;
+		base.OnEnable();
+	}
 }

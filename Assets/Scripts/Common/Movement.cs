@@ -24,6 +24,25 @@ public class Movement : MonoBehaviour
 		_collider = GetComponent<Collider2D>();
 	}
 
+	protected virtual void OnEnable()
+	{
+		switch (CurrentDirection)
+		{
+			case Direction.Top:
+				AnimTop.SampleAnimation(gameObject, 0);
+				break;
+			case Direction.Right:
+				AnimRight.SampleAnimation(gameObject, 0);
+				break;
+			case Direction.Bottom:
+				AnimBottom.SampleAnimation(gameObject, 0);
+				break;
+			case Direction.Left:
+				AnimLeft.SampleAnimation(gameObject, 0);
+				break;
+		}
+	}
+
 	protected virtual void FixedUpdate()
 	{
 		var beside = _collider.CheckColliderBeside(CurrentDirection);

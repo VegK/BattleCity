@@ -25,6 +25,13 @@ public class MovementPlayer : Movement
 		_keysPress = new HashSet<KeyCode>();
 	}
 
+	protected override void OnEnable()
+	{
+		CurrentDirection = Direction.Top;
+		_keysPress.Clear();
+		base.OnEnable();
+	}
+
 	protected override void FixedUpdate()
 	{
 		if (_playerController.EditorMode)
