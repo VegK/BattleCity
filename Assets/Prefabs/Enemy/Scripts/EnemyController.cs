@@ -6,7 +6,9 @@ using UnityEngine;
 /// </summary>
 public class EnemyController : MonoBehaviour, IDirection
 {
-	public ExplosionController PrefabExplosion;
+	[SerializeField]
+	private ExplosionController PrefabExplosion;
+	public Animator BonusAnimation;
 
 	public Direction DirectionMove
 	{
@@ -16,6 +18,17 @@ public class EnemyController : MonoBehaviour, IDirection
 		}
 	}
 	public int Index { get; set; }
+	public bool Bonus
+	{
+		get
+		{
+			return BonusAnimation.gameObject.activeSelf;
+		}
+		set
+		{
+			BonusAnimation.gameObject.SetActive(value);
+		}
+	}
 	public event EventHandler DestroyEvent;
 
 	private BoxCollider2D _boxCollider;

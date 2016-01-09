@@ -6,10 +6,14 @@ public class Movement : MonoBehaviour
 	public float SpeedMove = 2f;
 
 	[Header("Animations")]
-	public AnimationClip AnimTop;
-	public AnimationClip AnimRight;
-	public AnimationClip AnimBottom;
-	public AnimationClip AnimLeft;
+	[SerializeField]
+	private AnimationClip AnimTop;
+	[SerializeField]
+	private AnimationClip AnimRight;
+	[SerializeField]
+	private AnimationClip AnimBottom;
+	[SerializeField]
+	private AnimationClip AnimLeft;
 
 	public Direction CurrentDirection { get; protected set; }
 
