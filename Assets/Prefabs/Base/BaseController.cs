@@ -9,8 +9,9 @@ public class BaseController : BlockController
 	private SpriteRenderer _spriteRenderer;
 	private BoxCollider2D _boxCollider;
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_boxCollider = GetComponent<BoxCollider2D>();
 	}
@@ -28,6 +29,8 @@ public class BaseController : BlockController
 			pos.z = PrefabExplosion.transform.position.z;
 			obj.transform.position = transform.position;
 			obj.Show(ExplosionController.ExplosionType.Object);
+
+			GameManager.GameOver();
 		}
 	}
 }

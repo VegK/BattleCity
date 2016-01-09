@@ -7,22 +7,29 @@ public class LevelManager : MonoBehaviour
 	{
 		get
 		{
-			if (_index >= Levels.Count)
-				_index = 0;
-			return Levels[_index];
+			var i = _index;
+			if (i >= Levels.Count)
+				i = _index % Levels.Count;
+			return Levels[i];
 		}
 	}
 
 	[HideInInspector]
 	public List<string> Levels;
 
+	private static LevelManager _instance;
 	private int _index = -1;
 
-	public void NextLevel()
+	public static void NextLevel()
 	{
-		_index++;
-		FieldController.Instance.Load(CurrentLevel);
-		GUI.GameGUIController.Instance.LevelNumber = _index + 1;
+		_instance._index++;
+		FieldController.Instance.Load(_instance.CurrentLevel);
+		GUI.GameGUIController.Instance.LevelNumber = _instance._index + 1;
 		GUI.GameGUIController.Instance.EnemiesCount = SpawnPointEnemiesManager.GetEnemiesCount();
+	}
+
+	private void Awake()
+	{
+		_instance = this;
 	}
 }

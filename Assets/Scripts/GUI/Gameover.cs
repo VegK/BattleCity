@@ -2,7 +2,7 @@
 
 namespace GUI
 {
-	public class Gameover : MonoBehaviour
+	public class GameOver : MonoBehaviour
 	{
 		public Canvas UICanvas;
 		public float Speed = 1f;
@@ -26,11 +26,6 @@ namespace GUI
 		}
 
 		public void Hide()
-		{
-			gameObject.SetActive(false);
-		}
-
-		private void Awake()
 		{
 			gameObject.SetActive(false);
 		}

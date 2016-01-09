@@ -14,7 +14,7 @@ namespace GUI
 		[SerializeField]
 		private LevelNumber UILevelNumber;
 		[SerializeField]
-		private Gameover UIGameover;
+		private GameOver UIGameOver;
 		[SerializeField]
 		private Pause UIPause;
 
@@ -31,7 +31,6 @@ namespace GUI
 				UIEnemies.Count = value;
 			}
 		}
-
 		public int Player1LifeCount
 		{
 			get
@@ -44,7 +43,6 @@ namespace GUI
 				UIPlayer1Life.Count = value;
 			}
 		}
-
 		public int Player2LifeCount
 		{
 			get
@@ -57,7 +55,6 @@ namespace GUI
 				UIPlayer2Life.Count = value;
 			}
 		}
-
 		public int LevelNumber
 		{
 			get
@@ -69,7 +66,6 @@ namespace GUI
 				UILevelNumber.Number = value;
 			}
 		}
-
 		public int GetPlayerCount()
 		{
 			var res = 0;
@@ -80,9 +76,14 @@ namespace GUI
 			return res;
 		}
 
-		public void ShowGameover()
+		public void ShowGameOver()
 		{
-			UIGameover.Show();
+			UIGameOver.Show();
+		}
+
+		public void HideGameOver()
+		{
+			UIGameOver.Hide();
 		}
 
 		public void ShowPause()
@@ -101,7 +102,7 @@ namespace GUI
 			UIPlayer1Life.gameObject.SetActive(false);
 			UIPlayer2Life.gameObject.SetActive(false);
 
-			UIGameover.Hide();
+			UIGameOver.Hide();
 			UIPause.Hide();
 		}
 	}

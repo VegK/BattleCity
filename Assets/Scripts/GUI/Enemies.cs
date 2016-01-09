@@ -15,7 +15,7 @@ namespace GUI
 			}
 			set
 			{
-				if (value > 0)
+				if (value >= 0)
 					if (value < _count)
 					{
 						for (int i = value + 1; i <= _count; i++)

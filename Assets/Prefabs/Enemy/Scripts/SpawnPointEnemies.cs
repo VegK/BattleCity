@@ -31,8 +31,9 @@ public class SpawnPointEnemies : BlockController, ISpawn
 		};
 	}
 
-	private void Start()
+	protected override void Start()
 	{
+		base.Start();
 		if (EditorMode)
 		{
 			enabled = false;

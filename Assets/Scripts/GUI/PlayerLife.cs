@@ -25,6 +25,6 @@ namespace GUI
 		}
 
 		[SerializeField]
-		private int _count = 3;
+		private int _count = 0;
 	}
 }

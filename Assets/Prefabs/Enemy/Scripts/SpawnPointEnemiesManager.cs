@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,18 +41,25 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 	private static int _enemiesOnField = 0;
 	private static int _indexCurrentSpawnPoint = 0;
 	private static bool _runCoroutine;
+	private static int _enemiesCount;
 
 	static SpawnPointEnemiesManager()
 	{
 		_spawnPoints = new List<SpawnPointEnemies>();
 	}
 
+	public static void Reset()
+	{
+		_enemiesCount = _instance.EnemiesCount;
+		_runCoroutine = false;
+		_spawnPoints.Clear();
+	}
 
 	public static int GetEnemiesCount()
 	{
 		if (_instance == null)
 			return 0;
-		return _instance.EnemiesCount;
+		return _enemiesCount;
 	}
 
 	public static void AddSpawn(SpawnPointEnemies spawnPoint)
@@ -67,6 +75,7 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 	private void Awake()
 	{
 		_instance = this;
+		_enemiesCount = EnemiesCount;
 	}
 
 	private IEnumerator SpawnEnemies()
@@ -75,19 +84,19 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 		var waitSeconds = TimeRespawn;
 		while (true)
 		{
-			if (EnemiesCount == 0)
+			if (GUI.GameGUIController.Instance != null)
+				GUI.GameGUIController.Instance.EnemiesCount = _enemiesCount;
+
+			if (_enemiesCount == 0)
 				yield break;
 			yield return new WaitForSeconds(waitSeconds);
 
 			if (_enemiesOnField >= MaxCountEnemies)
 				continue;
 
-			EnemiesCount--;
+			_enemiesCount--;
 			_enemiesOnField++;
-			GetCurrentSpawnPoint().Spawn(IndexEnemy, (s, e) => _enemiesOnField--);
-
-			if (GUI.GameGUIController.Instance != null)
-				GUI.GameGUIController.Instance.EnemiesCount = EnemiesCount;
+			GetCurrentSpawnPoint().Spawn(IndexEnemy, new EventHandler(EnemyDestroy));
 		}
 	}
 
@@ -98,5 +107,21 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 		if (_indexCurrentSpawnPoint >= _spawnPoints.Count)
 			_indexCurrentSpawnPoint = 0;
 		return res;
+	}
+
+	private void EnemyDestroy(object sender, EventArgs e)
+	{
+		_enemiesOnField--;
+		if (_enemiesOnField == 0 && _enemiesCount == 0)
+		{
+			StopCoroutine(CheckEnemiesAndLoadNextLevel());
+			StartCoroutine(CheckEnemiesAndLoadNextLevel());
+		}
+	}
+
+	private IEnumerator CheckEnemiesAndLoadNextLevel()
+	{
+		yield return new WaitForSeconds(TimeRespawn);
+		GameManager.NextLevel();
 	}
 }

@@ -25,7 +25,6 @@ namespace GUI
 		private void Awake()
 		{
 			_image = GetComponent<Image>();
-			gameObject.SetActive(false);
 		}
 
 		private void OnEnable()

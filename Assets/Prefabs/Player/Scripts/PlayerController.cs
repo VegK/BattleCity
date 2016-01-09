@@ -47,14 +47,16 @@ public class PlayerController : BlockController, ISpawn, IDirection
 		}
 	}
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		_boxCollider = GetComponent<BoxCollider2D>();
 		_movement = GetComponent<MovementPlayer>();
 	}
 
-	private void Start()
+	protected override void Start()
 	{
+		base.Start();
 		Spawn();
 	}
 
@@ -91,7 +93,12 @@ public class PlayerController : BlockController, ISpawn, IDirection
 		if (EditorMode)
 			return;
 		if (Life <= 0)
+		{
+			if (GUI.GameGUIController.Instance.Player1LifeCount == 0 &&
+				GUI.GameGUIController.Instance.Player2LifeCount == 0)
+				GameManager.GameOver();
 			return;
+		}
 		Life--;
 		if (GUI.GameGUIController.Instance != null)
 		{

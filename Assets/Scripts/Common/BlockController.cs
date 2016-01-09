@@ -25,12 +25,12 @@ public class BlockController : MonoBehaviour
 	private bool _editorMode;
 	private int _childsCount;
 
-	private void Awake()
+	protected virtual void Awake()
 	{
 		_animator = GetComponent<Animator>();
 	}
 
-	private void Start()
+	protected virtual void Start()
 	{
 		var childs = GetComponentsInChildren<IDestroy>();
 		_childsCount = childs.Length;
