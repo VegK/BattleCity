@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class AdditiveScene : MonoBehaviour
 {
-	public string SceneName = "GameGUI";
+	public string[] SceneName = { "GameGUI" };
 
 	public LoadEvent BeforeLoad = new LoadEvent();
 	public LoadEvent AfterLoad = new LoadEvent();
@@ -14,7 +14,8 @@ public class AdditiveScene : MonoBehaviour
 	private IEnumerator Start()
 	{
 		BeforeLoad.Invoke();
-		yield return SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+		foreach (string name in SceneName)
+			yield return SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
 		AfterLoad.Invoke();
 	}
 }

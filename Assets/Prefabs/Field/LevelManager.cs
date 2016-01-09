@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+	[HideInInspector]
+	public List<string> Levels;
+
 	public string CurrentLevel
 	{
 		get
@@ -13,9 +16,13 @@ public class LevelManager : MonoBehaviour
 			return Levels[i];
 		}
 	}
-
-	[HideInInspector]
-	public List<string> Levels;
+	public static int LevelNumber
+	{
+		get
+		{
+			return _instance._index + 1;
+		}
+	}
 
 	private static LevelManager _instance;
 	private int _index = -1;

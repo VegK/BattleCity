@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,8 +39,9 @@ public class GameManager : MonoBehaviour
 
 	public static void NextLevel()
 	{
+		_instance.Reset();
 		SpawnPointEnemiesManager.Reset();
-		LevelManager.NextLevel();
+		_instance.StartCoroutine(_instance.NextLevelLoadScreen());
 	}
 
 	public static void GameOver()
@@ -55,6 +57,31 @@ public class GameManager : MonoBehaviour
 		if (!_instance._gameOver)
 			GUI.GameGUIController.Instance.ShowGameOver();
 		_instance._gameOver = true;
+	}
+
+	private IEnumerator NextLevelLoadScreen()
+	{
+		var defaultScale = Time.timeScale;
+		Time.timeScale = 0;
+
+		var loop = true;
+		var waitAnyKey = true;
+		var level = LevelManager.LevelNumber + 1;
+		GUI.LoadLevelSceneController.Show(level, (s, e) => { loop = false; },
+			(s, e) => { waitAnyKey = false; });
+		while (loop)
+			yield return null;
+
+		LevelManager.NextLevel();
+		while (waitAnyKey)
+			yield return null;
+
+		loop = true;
+		GUI.LoadLevelSceneController.Hide((s, e) => { loop = false; });
+		while (loop)
+			yield return null;
+
+		Time.timeScale = defaultScale;
 	}
 
 	private void Reset()
