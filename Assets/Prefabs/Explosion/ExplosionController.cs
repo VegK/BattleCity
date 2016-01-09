@@ -48,6 +48,11 @@ public class ExplosionController : MonoBehaviour
 			DestroyEvent(this, EventArgs.Empty);
 	}
 
+	private void OnApplicationQuit()
+	{
+		DestroyEvent = null;
+	}
+
 	public enum ExplosionType
 	{
 		Bullet,

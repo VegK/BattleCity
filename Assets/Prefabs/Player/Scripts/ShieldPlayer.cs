@@ -17,4 +17,9 @@ public class ShieldPlayer : MonoBehaviour
 		if (DestroyEvent != null)
 			DestroyEvent(this, EventArgs.Empty);
 	}
+
+	private void OnApplicationQuit()
+	{
+		DestroyEvent = null;
+	}
 }

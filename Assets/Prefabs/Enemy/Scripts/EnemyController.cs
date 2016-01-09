@@ -71,4 +71,9 @@ public class EnemyController : MonoBehaviour, IDirection
 			obj.Show(ExplosionController.ExplosionType.Object);
 		}
 	}
+
+	private void OnApplicationQuit()
+	{
+		DestroyEvent = null;
+	}
 }

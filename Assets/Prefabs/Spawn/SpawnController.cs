@@ -26,4 +26,9 @@ public class SpawnController : MonoBehaviour
 		if (DestroyEvent != null)
 			DestroyEvent(this, EventArgs.Empty);
 	}
+
+	private void OnApplicationQuit()
+	{
+		DestroyEvent = null;
+	}
 }

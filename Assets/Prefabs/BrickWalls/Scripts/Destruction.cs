@@ -241,6 +241,11 @@ public class Destruction : MonoBehaviour, IDestroy
 			DestroyEvent(this, null);
 	}
 
+	private void OnApplicationQuit()
+	{
+		DestroyEvent = null;
+	}
+
 	private enum TypeDestruction
 	{
 		None,

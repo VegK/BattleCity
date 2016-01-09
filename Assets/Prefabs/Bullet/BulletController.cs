@@ -99,4 +99,9 @@ public class BulletController : MonoBehaviour
 		_explosion &= (tag != "Shield");
 		_explosion &= (tag != "Base");
 	}
+
+	private void OnApplicationQuit()
+	{
+		DestroyEvent = null;
+	}
 }
