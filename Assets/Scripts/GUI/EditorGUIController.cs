@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GUI
 {
@@ -6,6 +7,11 @@ namespace GUI
 	{
 		public SaveManagerController SaveManager;
 		public LoadManagerController LoadManager;
+
+		public void OnClickBack()
+		{
+			SceneManager.LoadScene("MainScreenGUI");
+		}
 
 		public void OnClickSave()
 		{
