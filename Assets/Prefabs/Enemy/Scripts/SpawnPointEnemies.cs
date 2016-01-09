@@ -22,10 +22,13 @@ public class SpawnPointEnemies : BlockController, ISpawn
 		obj.DestroyEvent += (s, e) =>
 		{
 			var enemy = Instantiate(GetEnemy());
+			enemy.name = "Enemy" + indexEnemy;
 			enemy.transform.position = SpawnPoint;
 			enemy.transform.SetParent(transform.parent, false);
 
 			enemy.Index = indexEnemy;
+			if (indexEnemy % 7 == 4)
+				enemy.Bonus = true;
 			enemy.DestroyEvent += destroyEnemy;
 			enemy.Show();
 		};

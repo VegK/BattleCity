@@ -96,7 +96,7 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 
 			_enemiesCount--;
 			_enemiesOnField++;
-			GetCurrentSpawnPoint().Spawn(IndexEnemy, new EventHandler(EnemyDestroy));
+			GetCurrentSpawnPoint().Spawn(++IndexEnemy, new EventHandler(EnemyDestroy));
 		}
 	}
 
