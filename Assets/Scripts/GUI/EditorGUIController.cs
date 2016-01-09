@@ -10,7 +10,7 @@ namespace GUI
 
 		public void OnClickBack()
 		{
-			SceneManager.LoadScene("MainScreenGUI");
+			SceneManager.LoadScene("Standard");
 		}
 
 		public void OnClickSave()

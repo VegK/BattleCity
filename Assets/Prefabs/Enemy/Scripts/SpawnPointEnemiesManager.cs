@@ -123,6 +123,6 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 	private IEnumerator CheckEnemiesAndLoadNextLevel()
 	{
 		yield return new WaitForSeconds(TimeRespawn);
-		GameManager.NextLevel();
+		GameManager.NextLevel(null);
 	}
 }

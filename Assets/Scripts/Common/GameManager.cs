@@ -1,8 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	[SerializeField]
+	private Canvas Black;
+
 	public static bool Pause
 	{
 		get
@@ -32,16 +36,21 @@ public class GameManager : MonoBehaviour
 	private bool _pause;
 	private bool _gameOver;
 
-	public void NonStaticNextLevel()
+	public void LoadApplication()
 	{
-		NextLevel();
+		Black.gameObject.SetActive(false);
 	}
 
-	public static void NextLevel()
+	public static void StartGame(int countPlayers, EventHandler overlapScreen)
+	{
+		NextLevel(overlapScreen);
+	}
+
+	public static void NextLevel(EventHandler overlapScreen)
 	{
 		_instance.Reset();
 		SpawnPointEnemiesManager.Reset();
-		_instance.StartCoroutine(_instance.NextLevelLoadScreen());
+		_instance.StartCoroutine(_instance.NextLevelLoadScreen(overlapScreen));
 	}
 
 	public static void GameOver()
@@ -59,7 +68,7 @@ public class GameManager : MonoBehaviour
 		_instance._gameOver = true;
 	}
 
-	private IEnumerator NextLevelLoadScreen()
+	private IEnumerator NextLevelLoadScreen(EventHandler overlapScreen)
 	{
 		var defaultScale = Time.timeScale;
 		Time.timeScale = 0;
@@ -67,10 +76,14 @@ public class GameManager : MonoBehaviour
 		var loop = true;
 		var waitAnyKey = true;
 		var level = LevelManager.LevelNumber + 1;
+
 		GUI.LoadLevelSceneController.Show(level, (s, e) => { loop = false; },
 			(s, e) => { waitAnyKey = false; });
 		while (loop)
 			yield return null;
+
+		if (overlapScreen != null)
+			overlapScreen(this, EventArgs.Empty);
 
 		LevelManager.NextLevel();
 		while (waitAnyKey)
@@ -97,6 +110,6 @@ public class GameManager : MonoBehaviour
 	{
 		_instance = this;
 		_defaultTimeScale = Time.timeScale;
-		DontDestroyOnLoad(gameObject);
+		Black.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
 	}
 }
