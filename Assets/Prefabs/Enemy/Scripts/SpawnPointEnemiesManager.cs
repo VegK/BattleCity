@@ -53,6 +53,7 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 		_enemiesCount = _instance.EnemiesCount;
 		_runCoroutine = false;
 		_spawnPoints.Clear();
+		_indexCurrentSpawnPoint = 0;
 	}
 
 	public static int GetEnemiesCount()
