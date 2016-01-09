@@ -98,6 +98,7 @@ public class BulletController : MonoBehaviour
 		_explosion &= (tag != "Enemy");
 		_explosion &= (tag != "Shield");
 		_explosion &= (tag != "Base");
+		_explosion &= (tag != "Bullet");
 	}
 
 	private void OnApplicationQuit()
