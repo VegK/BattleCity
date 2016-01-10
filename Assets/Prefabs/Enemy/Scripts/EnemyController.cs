@@ -9,8 +9,11 @@ public class EnemyController : MonoBehaviour, IDirection
 	[SerializeField]
 	private ExplosionController PrefabExplosion;
 	[SerializeField]
+	private Sprite SpritePoints;
+	public int Points = 100;
+	[Space(5)]
+	[SerializeField]
 	private BonusController PrefabBonus;
-
 	public Animator BonusAnimation;
 
 	public Direction DirectionMove
@@ -34,6 +37,7 @@ public class EnemyController : MonoBehaviour, IDirection
 	}
 	public event EventHandler DestroyEvent;
 
+	private bool _isShuttingApplication;
 	private BoxCollider2D _boxCollider;
 	private MovementEnemy _movement;
 
@@ -75,6 +79,14 @@ public class EnemyController : MonoBehaviour, IDirection
 
 	private void OnDestroy()
 	{
+		if (_isShuttingApplication)
+			return;
+
+		var obj = new GameObject(SpritePoints.name);
+		obj.transform.position = transform.position;
+		obj.AddComponent<SpriteRenderer>().sprite = SpritePoints;
+		Destroy(obj, 0.5f);
+
 		if (DestroyEvent != null)
 			DestroyEvent(this, EventArgs.Empty);
 	}
@@ -105,6 +117,6 @@ public class EnemyController : MonoBehaviour, IDirection
 
 	private void OnApplicationQuit()
 	{
-		DestroyEvent = null;
+		_isShuttingApplication = true;
 	}
 }
