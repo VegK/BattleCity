@@ -51,7 +51,7 @@ public class MovementEnemy : Movement
 	{
 		base.FixedUpdate();
 
-		if (_enemyController.Bonus)
+		if (_enemyController.IsBonus)
 			switch (CurrentDirection)
 			{
 				case Direction.Top:

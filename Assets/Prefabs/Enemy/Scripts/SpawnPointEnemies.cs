@@ -28,7 +28,7 @@ public class SpawnPointEnemies : BlockController, ISpawn
 
 			enemy.Index = indexEnemy;
 			if (indexEnemy % 7 == 4)
-				enemy.Bonus = true;
+				enemy.IsBonus = true;
 			enemy.DestroyEvent += destroyEnemy;
 			enemy.Show();
 		};

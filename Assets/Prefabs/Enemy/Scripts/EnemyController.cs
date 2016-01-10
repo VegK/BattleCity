@@ -8,6 +8,9 @@ public class EnemyController : MonoBehaviour, IDirection
 {
 	[SerializeField]
 	private ExplosionController PrefabExplosion;
+	[SerializeField]
+	private BonusController PrefabBonus;
+
 	public Animator BonusAnimation;
 
 	public Direction DirectionMove
@@ -18,7 +21,7 @@ public class EnemyController : MonoBehaviour, IDirection
 		}
 	}
 	public int Index { get; set; }
-	public bool Bonus
+	public bool IsBonus
 	{
 		get
 		{
@@ -65,6 +68,9 @@ public class EnemyController : MonoBehaviour, IDirection
 			if (layer != "BulletPlayer1" && layer != "BulletPlayer2")
 				Physics2D.IgnoreCollision(_boxCollider, item, true);
 		}
+
+		if (IsBonus)
+			FieldController.Instance.Bonus = null;
 	}
 
 	private void OnDestroy()
@@ -83,6 +89,14 @@ public class EnemyController : MonoBehaviour, IDirection
 			var pos = transform.position;
 			pos.z = PrefabExplosion.transform.position.z;
 			obj.transform.position = transform.position;
+
+			if (IsBonus)
+			{
+				var bns = Instantiate(PrefabBonus);
+				pos = FieldController.Instance.GetBonusRandomPosition();
+				bns.transform.position = pos;
+				FieldController.Instance.Bonus = bns;
+			}
 
 			obj.DestroyEvent += (s, e) => { Destroy(gameObject); };
 			obj.Show(ExplosionController.ExplosionType.Object);

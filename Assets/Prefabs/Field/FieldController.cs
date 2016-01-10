@@ -37,9 +37,24 @@ public partial class FieldController : MonoBehaviour
 	[Range(3, 50)]
 	public int Height = 13;
 
+	public BonusController Bonus
+	{
+		get
+		{
+			return _bonus;
+		}
+		set
+		{
+			if (_bonus != null && (value == null || value != _bonus))
+				Destroy(_bonus.gameObject);
+			_bonus = value;
+		}
+	}
+
 	public static FieldController Instance;
 
 	private FieldManager _field;
+	private BonusController _bonus;
 
 	private void Awake()
 	{
@@ -79,6 +94,48 @@ public partial class FieldController : MonoBehaviour
 		res.x = Width - 0.5f;
 		res.y = Height - 0.5f;
 		return res;
+	}
+
+	public Vector2 GetBonusRandomPosition()
+	{
+		int resX, resY;
+		bool loop;
+
+		do
+		{
+			resX = Random.Range(0, Width - 1);
+			resY = Random.Range(0, Height - 1);
+
+			var next = false;
+			for (int x = resX; x <= resX + 1; x++)
+			{
+				if (x == Width - 2)
+					break;
+
+				for (int y = resY; y <= resY + 1; y++)
+				{
+					if (y == Height - 2)
+						break;
+
+					var block = _field[x, y];
+					if (block == null)
+						continue;
+
+					if (block.TypeItem == Block.Player1 ||
+						block.TypeItem == Block.Player2 ||
+						block.TypeItem == Block.Base)
+					{
+						next = true;
+						break;
+					}
+				}
+				if (next)
+					break;
+			}
+			loop = next;
+		} while (loop);
+
+		return new Vector2(resX + 0.5f, resY + 0.5f);
 	}
 
 	public BlockController GetCell(int x, int y)
