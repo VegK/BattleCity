@@ -23,7 +23,7 @@ namespace GUI
 
 		public void OnClickLoad()
 		{
-			FieldController.Instance.Load(_selectFileInfo.Text);
+			FieldController.Instance.Load(_selectFileInfo.Text, false);
 			gameObject.SetActive(false);
 			FieldEditorController.Instance.MouseLock = false;
 		}

@@ -27,10 +27,10 @@ public class LevelManager : MonoBehaviour
 	private static LevelManager _instance;
 	private int _index = -1;
 
-	public static void NextLevel()
+	public static void NextLevel(bool singlePlayer)
 	{
 		_instance._index++;
-		FieldController.Instance.Load(_instance.CurrentLevel);
+		FieldController.Instance.Load(_instance.CurrentLevel, singlePlayer);
 		GUI.GameGUIController.Instance.LevelNumber = _instance._index + 1;
 		GUI.GameGUIController.Instance.EnemiesCount = SpawnPointEnemiesManager.GetEnemiesCount();
 	}

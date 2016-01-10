@@ -30,6 +30,7 @@ public partial class FieldController : MonoBehaviour
 	public BlockController PrefabIce;
 	public BlockController PrefabBase;
 	public PlayerController PrefabPlayer1;
+	public PlayerController PrefabPlayer2;
 	public SpawnPointEnemies PrefabSpawnEnemies;
 	[Header("Settings")]
 	[Range(3, 50)]
@@ -192,9 +193,15 @@ public partial class FieldController : MonoBehaviour
 		return _field.Save(name);
 	}
 
-	public void Load(string name)
+	public void Load(string name, bool singlePlayer)
 	{
 		_field.Load(name);
+		if (singlePlayer)
+		{
+			var player2 = FindBlock(Block.Player2);
+			if (player2 != null)
+				Destroy(player2.gameObject);
+		}
 	}
 
 	public BlockController FindBlock(Block type)

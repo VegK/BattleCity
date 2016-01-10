@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	public static bool SinglePlayer { get; private set; }
+
 	private static GameManager _instance;
 	private float _defaultTimeScale;
 	private bool _pause;
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
 
 	public static void StartGame(int countPlayers, EventHandler overlapScreen)
 	{
+		SinglePlayer = (countPlayers == 1);
 		NextLevel(overlapScreen);
 	}
 
@@ -85,7 +88,7 @@ public class GameManager : MonoBehaviour
 		if (overlapScreen != null)
 			overlapScreen(this, EventArgs.Empty);
 
-		LevelManager.NextLevel();
+		LevelManager.NextLevel(SinglePlayer);
 		while (waitAnyKey)
 			yield return null;
 

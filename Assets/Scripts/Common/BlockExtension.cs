@@ -44,6 +44,8 @@ public static class BlockExtension
 				return FieldController.Instance.PrefabBase;
 			case Block.Player1:
 				return FieldController.Instance.PrefabPlayer1;
+			case Block.Player2:
+				return FieldController.Instance.PrefabPlayer2;
 			case Block.EnemyRespawn:
 				return FieldController.Instance.PrefabSpawnEnemies;
 			default:
