@@ -9,9 +9,10 @@ public static class Physics2DHelper
 		var res = new List<Collider2D>();
 		var layer = collider.gameObject.layer;
 		var colliders = Physics2D.OverlapAreaAll(point1, point2);
-
+		
 		foreach (Collider2D item in colliders)
-			if (!Physics2D.GetIgnoreLayerCollision(layer, item.gameObject.layer))
+			if (!item.isTrigger &&
+				!Physics2D.GetIgnoreLayerCollision(layer, item.gameObject.layer))
 				res.Add(item);
 
 		listOverlap = res.ToArray();
@@ -73,7 +74,8 @@ public static class Physics2DHelper
 		var layer = collider.gameObject.layer;
 		var colliders = Physics2D.OverlapPointAll(point);
 		foreach (Collider2D item in colliders)
-			if (!Physics2D.GetIgnoreLayerCollision(layer, item.gameObject.layer))
+			if (!item.isTrigger &&
+				!Physics2D.GetIgnoreLayerCollision(layer, item.gameObject.layer))
 				return false;
 		return true;
 	}
