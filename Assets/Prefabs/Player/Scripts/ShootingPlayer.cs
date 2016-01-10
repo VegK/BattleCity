@@ -3,24 +3,20 @@
 public class ShootingPlayer : Shooting
 {
 	private PlayerController _playerController;
+	private string _buttonNameFire;
 
 	protected override void Awake()
 	{
-		base.Awake();
-
 		_playerController = GetComponent<PlayerController>();
-		if (_playerController == null)
-		{
-			Debug.LogError("Player GameObject not attached " + typeof(PlayerController));
-			enabled = false;
-		}
+		_buttonNameFire = _playerController.TypeItem + "_Fire";
+		base.Awake();
 	}
-	
+
 	private void FixedUpdate()
 	{
 		if (_playerController.EditorMode)
 			return;
-		if (Input.GetKey(KeyCode.Space))
+		if (Input.GetButton(_buttonNameFire))
 			RunBullet();
 	}
 }

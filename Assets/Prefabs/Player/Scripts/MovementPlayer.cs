@@ -5,30 +5,22 @@ using System.Collections.Generic;
 public class MovementPlayer : Movement
 {
 	private PlayerController _playerController;
-	private bool _keyUpPress;
-	private bool _keyRightPress;
-	private bool _keyDownPress;
-	private bool _keyLeftPress;
-	private HashSet<KeyCode> _keysPress;
+	private Axis? _calcFirstAxis;
+	private bool _holdHorizontal, _holdVertical;
+	private string _buttonNameHorizontal, _buttonNameVertical;
 
 	protected override void Awake()
 	{
 		base.Awake();
 
 		_playerController = GetComponent<PlayerController>();
-		if (_playerController == null)
-		{
-			enabled = false;
-			return;
-		}
-
-		_keysPress = new HashSet<KeyCode>();
+		_buttonNameHorizontal = _playerController.TypeItem + "_Horizontal";
+		_buttonNameVertical = _playerController.TypeItem + "_Vertical";
 	}
 
 	protected override void OnEnable()
 	{
 		CurrentDirection = Direction.Top;
-		_keysPress.Clear();
 		base.OnEnable();
 	}
 
@@ -37,51 +29,65 @@ public class MovementPlayer : Movement
 		if (_playerController.EditorMode)
 			return;
 
-		_keyUpPress = Input.GetKey(KeyCode.UpArrow);
-		_keyRightPress = Input.GetKey(KeyCode.RightArrow);
-		_keyDownPress = Input.GetKey(KeyCode.DownArrow);
-		_keyLeftPress = Input.GetKey(KeyCode.LeftArrow);
+		var horizontal = Input.GetAxis(_buttonNameHorizontal);
+		var vertical = Input.GetAxis(_buttonNameVertical);
 
-		if (_keyUpPress && !_keysPress.Contains(KeyCode.UpArrow))
-			_keysPress.Add(KeyCode.UpArrow);
-		if (_keyRightPress && !_keysPress.Contains(KeyCode.RightArrow))
-			_keysPress.Add(KeyCode.RightArrow);
-		if (_keyDownPress && !_keysPress.Contains(KeyCode.DownArrow))
-			_keysPress.Add(KeyCode.DownArrow);
-		if (_keyLeftPress && !_keysPress.Contains(KeyCode.LeftArrow))
-			_keysPress.Add(KeyCode.LeftArrow);
-
-		if (_keysPress.Contains(KeyCode.UpArrow) && !_keyUpPress)
-			_keysPress.Remove(KeyCode.UpArrow);
-		if (_keysPress.Contains(KeyCode.RightArrow) && !_keyRightPress)
-			_keysPress.Remove(KeyCode.RightArrow);
-		if (_keysPress.Contains(KeyCode.DownArrow) && !_keyDownPress)
-			_keysPress.Remove(KeyCode.DownArrow);
-		if (_keysPress.Contains(KeyCode.LeftArrow) && !_keyLeftPress)
-			_keysPress.Remove(KeyCode.LeftArrow);
-
-		Animator.enabled = _keyUpPress || _keyRightPress || _keyDownPress || _keyLeftPress;
+		Animator.enabled = (horizontal != 0 || vertical != 0);
 		if (!Animator.enabled)
-			return;
-
-		var key = _keysPress.LastOrDefault();
-		switch (key)
 		{
-			default:
-			case KeyCode.UpArrow:
-				CurrentDirection = Direction.Top;
-				break;
-			case KeyCode.RightArrow:
-				CurrentDirection = Direction.Right;
-				break;
-			case KeyCode.DownArrow:
-				CurrentDirection = Direction.Bottom;
-				break;
-			case KeyCode.LeftArrow:
-				CurrentDirection = Direction.Left;
-				break;
+			_calcFirstAxis = null;
+			_holdHorizontal = false;
+			_holdVertical = false;
+			return;
 		}
 
+		if (!_calcFirstAxis.HasValue)
+		{
+			if (horizontal != 0)
+				_calcFirstAxis = Axis.Vertical;
+			else if (vertical != 0)
+				_calcFirstAxis = Axis.Horizontal;
+		}
+		else
+		{
+			if (!_holdHorizontal)
+				_calcFirstAxis = Axis.Horizontal;
+			else if (!_holdVertical)
+				_calcFirstAxis = Axis.Vertical;
+		}
+
+		if (_calcFirstAxis == Axis.Horizontal)
+		{
+			if (horizontal > 0)
+				CurrentDirection = Direction.Right;
+			else if (horizontal < 0)
+				CurrentDirection = Direction.Left;
+			else if (vertical > 0)
+				CurrentDirection = Direction.Top;
+			else if (vertical < 0)
+				CurrentDirection = Direction.Bottom;
+		}
+		else if (_calcFirstAxis == Axis.Vertical)
+		{
+			if (vertical > 0)
+				CurrentDirection = Direction.Top;
+			else if (vertical < 0)
+				CurrentDirection = Direction.Bottom;
+			else if (horizontal > 0)
+				CurrentDirection = Direction.Right;
+			else if (horizontal < 0)
+				CurrentDirection = Direction.Left;
+		}
+
+		_holdHorizontal = (horizontal != 0);
+		_holdVertical = (vertical != 0);
+
 		base.FixedUpdate();
+	}
+
+	private enum Axis
+	{
+		Horizontal,
+		Vertical
 	}
 }
