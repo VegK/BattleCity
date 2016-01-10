@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class BulletController : MonoBehaviour
+public class BulletController : MonoBehaviour, IDestroy
 {
 	public Sprite BulletTop;
 	public Sprite BulletRight;
@@ -45,6 +45,11 @@ public class BulletController : MonoBehaviour
 	private bool _destroy = false;
 	private bool _explosion = false;
 
+	public void ClearEvent()
+	{
+		DestroyEvent = null;
+	}
+
 	private void Awake()
 	{
 		_spriteRenderer = GetComponent<SpriteRenderer>();
@@ -84,6 +89,8 @@ public class BulletController : MonoBehaviour
 				var obj = Instantiate(PrefabExplosion);
 				obj.transform.position = transform.position;
 				obj.Show(ExplosionController.ExplosionType.Bullet);
+
+				FieldController.Instance.AddAdditionObject(obj.gameObject);
 			}
 			return;
 		}

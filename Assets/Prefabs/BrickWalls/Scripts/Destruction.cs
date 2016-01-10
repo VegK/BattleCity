@@ -16,6 +16,11 @@ public class Destruction : MonoBehaviour, IDestroy
 	private BoxCollider2D _boxCollider2d;
 	private TypeDestruction _typeDestruction = TypeDestruction.None;
 
+	public void ClearEvent()
+	{
+		DestroyEvent = null;
+	}
+
 	private void Awake()
 	{
 		_spriteRenderer = GetComponent<SpriteRenderer>();

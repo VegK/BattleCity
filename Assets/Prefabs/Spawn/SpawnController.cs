@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class SpawnController : MonoBehaviour
+public class SpawnController : MonoBehaviour, IDestroy
 {
 	public float SpeedAnimation= 1.5f;
 	public float TimeLife = 1f;
@@ -9,6 +9,11 @@ public class SpawnController : MonoBehaviour
 	public event EventHandler DestroyEvent;
 
 	private Animator _animator;
+
+	public void ClearEvent()
+	{
+		DestroyEvent = null;
+	}
 
 	private void Awake()
 	{

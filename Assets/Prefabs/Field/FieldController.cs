@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public partial class FieldController : MonoBehaviour
 {
@@ -56,10 +57,12 @@ public partial class FieldController : MonoBehaviour
 
 	private FieldManager _field;
 	private BonusController _bonus;
+	private HashSet<GameObject> _additionalObjects;
 
 	private void Awake()
 	{
 		Instance = this;
+		_additionalObjects = new HashSet<GameObject>();
 	}
 
 	private void Start()
@@ -79,6 +82,29 @@ public partial class FieldController : MonoBehaviour
 				pos.y += y;
 				Gizmos.DrawWireCube(pos, Vector2.one);
 			}
+	}
+
+	private void DestroyAdditionalObjects()
+	{
+		Bonus = null;
+		foreach (GameObject obj in _additionalObjects)
+		{
+			if (obj == null)
+				continue;
+
+			var destroy = obj.GetComponent<IDestroy>();
+			if (destroy != null)
+				destroy.ClearEvent();
+			Destroy(obj);
+		}
+		_additionalObjects.Clear();
+	}
+
+	public void AddAdditionObject(GameObject obj)
+	{
+		_additionalObjects.RemoveWhere(o => o == null);
+		if (obj != null)
+			_additionalObjects.Add(obj);
 	}
 
 	public Vector2 GetPosition()
@@ -195,6 +221,7 @@ public partial class FieldController : MonoBehaviour
 
 	public void Load(string name, bool singlePlayer)
 	{
+		DestroyAdditionalObjects();
 		_field.Load(name);
 		if (singlePlayer)
 		{

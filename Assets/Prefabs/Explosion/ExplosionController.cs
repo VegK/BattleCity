@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class ExplosionController : MonoBehaviour
+public class ExplosionController : MonoBehaviour, IDestroy
 {
 	public AnimationClip AnimBullet;
 	public AnimationClip AnimObject;
@@ -25,6 +25,11 @@ public class ExplosionController : MonoBehaviour
 			}
 			_animator.enabled = true;
 		}
+	}
+
+	public void ClearEvent()
+	{
+		DestroyEvent = null;
 	}
 
 	private void Awake()

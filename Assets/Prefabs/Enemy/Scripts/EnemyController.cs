@@ -51,6 +51,11 @@ public class EnemyController : MonoBehaviour, IDirection
 		_movement.SetDirection(value);
 	}
 
+	public void ClearEvent()
+	{
+		DestroyEvent = null;
+	}
+
 	private void Awake()
 	{
 		gameObject.SetActive(false);
@@ -86,6 +91,7 @@ public class EnemyController : MonoBehaviour, IDirection
 		obj.transform.position = transform.position;
 		obj.AddComponent<SpriteRenderer>().sprite = SpritePoints;
 		Destroy(obj, 0.5f);
+		FieldController.Instance.AddAdditionObject(obj);
 
 		if (DestroyEvent != null)
 			DestroyEvent(this, EventArgs.Empty);
