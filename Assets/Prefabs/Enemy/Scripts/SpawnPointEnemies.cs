@@ -50,6 +50,7 @@ public class SpawnPointEnemies : BlockController, ISpawn
 
 	private EnemyController GetEnemy()
 	{
-		return Enemy1;
+		var enemies = new EnemyController[] { Enemy1, Enemy2, Enemy3 };
+		return enemies[UnityEngine.Random.Range(0, 3)];
 	}
 }
