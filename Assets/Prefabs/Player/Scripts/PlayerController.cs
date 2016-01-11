@@ -116,6 +116,9 @@ public class PlayerController : BlockController, ISpawn, IDirection
 					case Bonus.Bomb:
 						FieldController.Instance.ExplosionEnemies();
 						break;
+					case Bonus.Helmet:
+						ActiveShield(10);
+						break;
 					case Bonus.Life:
 						Life++;
 						break;
