@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
 		if (overlapScreen != null)
 			overlapScreen(this, EventArgs.Empty);
 
-		LevelManager.NextLevel(SinglePlayer);
+		LevelManager.NextLevel();
 		while (waitAnyKey)
 			yield return null;
 

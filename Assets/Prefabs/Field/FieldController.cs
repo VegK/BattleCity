@@ -39,6 +39,14 @@ public partial class FieldController : MonoBehaviour
 	[Range(3, 50)]
 	public int Height = 13;
 
+	public string Name { get; private set; }
+	public bool EditorMode
+	{
+		get
+		{
+			return (FieldEditorController.Instance != null);
+		}
+	}
 	public BonusController Bonus
 	{
 		get
@@ -55,7 +63,7 @@ public partial class FieldController : MonoBehaviour
 
 	public static FieldController Instance;
 
-	private FieldManager _field;
+	private BlockController[,] _blocks;
 	private BonusController _bonus;
 	private HashSet<GameObject> _additionalObjects;
 
@@ -67,7 +75,7 @@ public partial class FieldController : MonoBehaviour
 
 	private void Start()
 	{
-		_field = new FieldManager(Width, Height, FieldEditorController.Instance != null);
+		_blocks = new BlockController[Width, Height];
 	}
 
 	private void OnDrawGizmos()
@@ -144,7 +152,7 @@ public partial class FieldController : MonoBehaviour
 					if (y == Height - 2)
 						break;
 
-					var block = _field[x, y];
+					var block = _blocks[x, y];
 					if (block == null)
 						continue;
 
@@ -167,7 +175,7 @@ public partial class FieldController : MonoBehaviour
 
 	public BlockController GetCell(int x, int y)
 	{
-		return _field[x, y];
+		return _blocks[x, y];
 	}
 
 	public void SetCell(int x, int y, Block type)
@@ -177,15 +185,15 @@ public partial class FieldController : MonoBehaviour
 			var block = FindBlock(type);
 			if (block != null)
 			{
-				Destroy(_field[block.X, block.Y].gameObject);
-				_field[block.X, block.Y] = null;
+				Destroy(_blocks[block.X, block.Y].gameObject);
+				_blocks[block.X, block.Y] = null;
 			}
 		}
 
-		if (_field[x, y] != null)
+		if (_blocks[x, y] != null)
 		{
-			Destroy(_field[x, y].gameObject);
-			_field[x, y] = null;
+			Destroy(_blocks[x, y].gameObject);
+			_blocks[x, y] = null;
 		}
 
 		var prefab = type.GetPrefab();
@@ -203,26 +211,33 @@ public partial class FieldController : MonoBehaviour
 
 		if (item is ISpawn)
 			(item as ISpawn).SpawnPoint = pos;
+		item.EditorMode = EditorMode;
 		item.X = x;
 		item.Y = y;
 
-		_field[x, y] = item;
-	}
-
-	public string GetName()
-	{
-		return _field.Name ?? string.Empty;
+		_blocks[x, y] = item;
 	}
 
 	public bool Save(string name)
 	{
-		return _field.Save(name);
+		Name = name;
+		return LevelManager.Save(name, _blocks);
 	}
 
-	public void Load(string name, bool singlePlayer)
+	public void Load(string name, bool singlePlayer, int width, int height, int[,] blocks)
 	{
+		Clear();
 		DestroyAdditionalObjects();
-		_field.Load(name);
+
+		Name = name;
+		Width = width;
+		Height = height;
+
+		_blocks = new BlockController[Width, Height];
+		for (int x = 0; x < Width; x++)
+			for (int y = 0; y < Height; y++)
+				SetCell(x, y, (Block)blocks[x, y]);
+
 		if (singlePlayer)
 		{
 			var player2 = FindBlock(Block.Player2);
@@ -231,12 +246,21 @@ public partial class FieldController : MonoBehaviour
 		}
 	}
 
+	private void Clear()
+	{
+		var width = _blocks.GetLength(0);
+		var height = _blocks.GetLength(1);
+		for (int x = 0; x < width; x++)
+			for (int y = 0; y < height; y++)
+				FieldController.Instance.SetCell(x, y, Block.Empty);
+	}
+
 	public BlockController FindBlock(Block type)
 	{
 		for (int x = 0; x < Width; x++)
 			for (int y = 0; y < Height; y++)
 			{
-				var block = _field[x, y];
+				var block = _blocks[x, y];
 				if (block != null && block.TypeItem == type)
 					return block;
 			}

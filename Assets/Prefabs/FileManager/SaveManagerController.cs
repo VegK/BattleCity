@@ -10,7 +10,7 @@ namespace GUI
 
 		public void Show()
 		{
-			FileName.text = FieldController.Instance.GetName();
+			FileName.text = FieldController.Instance.Name ?? string.Empty;
 			gameObject.SetActive(true);
 			FieldEditorController.Instance.MouseLock = true;
 		}

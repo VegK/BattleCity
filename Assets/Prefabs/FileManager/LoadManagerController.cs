@@ -17,20 +17,29 @@ namespace GUI
 
 		public void Show()
 		{
+			FileName.text = string.Empty;
+			Preview.sprite = null;
 			gameObject.SetActive(true);
 			FieldEditorController.Instance.MouseLock = true;
 		}
 
+		public void Hide()
+		{
+			gameObject.SetActive(false);
+			if (Preview.sprite != null)
+				Destroy(Preview.sprite);
+		}
+
 		public void OnClickLoad()
 		{
-			FieldController.Instance.Load(_selectFileInfo.Text, false);
-			gameObject.SetActive(false);
+			LevelManager.Load(_selectFileInfo.Text);
+			Hide();
 			FieldEditorController.Instance.MouseLock = false;
 		}
 
 		public void OnClickCancel()
 		{
-			gameObject.SetActive(false);
+			Hide();
 			FieldEditorController.Instance.MouseLock = false;
 		}
 
@@ -69,8 +78,21 @@ namespace GUI
 
 		private void FileInfo_ClickEvent(FileInfoController fileInfo)
 		{
+			if (Preview.sprite != null)
+				Destroy(Preview.sprite);
+			Preview.sprite = null;
+
 			_selectFileInfo = fileInfo;
 			FileName.text = fileInfo.Text;
+
+			var texture = LevelManager.GetPreview(fileInfo.Text);
+			if (texture == null)
+				return;
+
+			var size = new Vector2(texture.width, texture.height);
+			var rect = new Rect(Vector2.zero, size);
+			var pivot = texture.texelSize / 2;
+			Preview.sprite = Sprite.Create(texture, rect, pivot);
 		}
 	}
 
