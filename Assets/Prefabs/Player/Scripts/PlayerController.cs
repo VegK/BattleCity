@@ -6,9 +6,27 @@ public class PlayerController : BlockController, ISpawn, IDirection
 	public SpawnController PrefabSpawn;
 	public ShieldPlayer PrefabShield;
 	public ExplosionController PrefabExplosion;
+	[SerializeField]
+	private int _life = 3;
 
-	public int Life = 3;
-
+	public int Life
+	{
+		get
+		{
+			return _life;
+		}
+		set
+		{
+			if (GUI.GameGUIController.Instance != null)
+			{
+				if (TypeItem == Block.Player1)
+					GUI.GameGUIController.Instance.Player1LifeCount = value;
+				else if (TypeItem == Block.Player2)
+					GUI.GameGUIController.Instance.Player2LifeCount = value;
+			}
+			_life = value;
+		}
+	}
 	public Direction DirectionMove
 	{
 		get
@@ -98,6 +116,9 @@ public class PlayerController : BlockController, ISpawn, IDirection
 					case Bonus.Bomb:
 						FieldController.Instance.ExplosionEnemies();
 						break;
+					case Bonus.Life:
+						Life++;
+						break;
 				}
 		}
 	}
@@ -114,13 +135,6 @@ public class PlayerController : BlockController, ISpawn, IDirection
 			return;
 		}
 		Life--;
-		if (GUI.GameGUIController.Instance != null)
-		{
-			if (TypeItem == Block.Player1)
-				GUI.GameGUIController.Instance.Player1LifeCount = Life;
-			else if (TypeItem == Block.Player2)
-				GUI.GameGUIController.Instance.Player2LifeCount = Life;
-		}
 
 		gameObject.SetActive(false);
 		transform.position = SpawnPoint;
