@@ -90,7 +90,7 @@ public class BulletController : MonoBehaviour, IDestroy
 				obj.transform.position = transform.position;
 				obj.Show(ExplosionController.ExplosionType.Bullet);
 
-				FieldController.Instance.AddAdditionObject(obj.gameObject);
+				FieldController.Instance.AddOtherObject(obj.gameObject);
 			}
 			return;
 		}

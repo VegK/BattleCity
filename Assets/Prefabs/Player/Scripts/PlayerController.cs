@@ -89,6 +89,17 @@ public class PlayerController : BlockController, ISpawn, IDirection
 			obj.DestroyEvent += (s, e) => { Spawn(); };
 			obj.Show(ExplosionController.ExplosionType.Object);
 		}
+		else if (other.tag == "Bonus")
+		{
+			var bonus = other.GetComponent<BonusController>();
+			if (bonus != null)
+				switch (bonus.Type)
+				{
+					case Bonus.Bomb:
+						FieldController.Instance.ExplosionEnemies();
+						break;
+				}
+		}
 	}
 
 	private void Spawn()

@@ -54,7 +54,7 @@ public class Shooting : MonoBehaviour
 		obj.DirectionFlight = _direction.DirectionMove;
 		obj.DestroyEvent += DestroyBullet;
 
-		FieldController.Instance.AddAdditionObject(obj.gameObject);
+		FieldController.Instance.AddOtherObject(obj.gameObject);
 
 		_bulletCount++;
 		_timeLastShoot = Time.time;

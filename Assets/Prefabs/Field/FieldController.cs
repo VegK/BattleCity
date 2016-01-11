@@ -65,12 +65,14 @@ public partial class FieldController : MonoBehaviour
 
 	private BlockController[,] _blocks;
 	private BonusController _bonus;
-	private HashSet<GameObject> _additionalObjects;
+	private HashSet<GameObject> _otherObjects;
+	private HashSet<EnemyController> _enemiesObjects;
 
 	private void Awake()
 	{
 		Instance = this;
-		_additionalObjects = new HashSet<GameObject>();
+		_otherObjects = new HashSet<GameObject>();
+		_enemiesObjects = new HashSet<EnemyController>();
 	}
 
 	private void Start()
@@ -95,7 +97,8 @@ public partial class FieldController : MonoBehaviour
 	private void DestroyAdditionalObjects()
 	{
 		Bonus = null;
-		foreach (GameObject obj in _additionalObjects)
+
+		foreach (GameObject obj in _otherObjects)
 		{
 			if (obj == null)
 				continue;
@@ -105,14 +108,37 @@ public partial class FieldController : MonoBehaviour
 				destroy.ClearEvent();
 			Destroy(obj);
 		}
-		_additionalObjects.Clear();
+		_otherObjects.Clear();
+
+		foreach (EnemyController obj in _enemiesObjects)
+		{
+			if (obj == null)
+				continue;
+
+			obj.ClearEvent();
+			Destroy(obj);
+		}
+		_enemiesObjects.Clear();
 	}
 
-	public void AddAdditionObject(GameObject obj)
+	public void AddOtherObject(GameObject obj)
 	{
-		_additionalObjects.RemoveWhere(o => o == null);
+		_otherObjects.RemoveWhere(o => o == null);
 		if (obj != null)
-			_additionalObjects.Add(obj);
+			_otherObjects.Add(obj);
+	}
+
+	public void AddEnemy(EnemyController obj)
+	{
+		_enemiesObjects.RemoveWhere(o => o == null);
+		if (obj != null)
+			_enemiesObjects.Add(obj);
+	}
+
+	public void ExplosionEnemies()
+	{
+		foreach (EnemyController enemy in _enemiesObjects)
+			enemy.Explosion();
 	}
 
 	public Vector2 GetPosition()
