@@ -132,7 +132,7 @@ public partial class FieldController : MonoBehaviour
 
 	public void AddEnemy(EnemyController obj)
 	{
-		_enemiesObjects.RemoveWhere(o => o == null);
+		_enemiesObjects.RemoveWhere(o => o == null || o.gameObject == null);
 		if (obj != null)
 			_enemiesObjects.Add(obj);
 	}
