@@ -117,7 +117,7 @@ public class PlayerController : BlockController, ISpawn, IDirection
 						FieldController.Instance.ExplosionEnemies();
 						break;
 					case Bonus.Helmet:
-						ActiveShield(10);
+						ActiveShield(Consts.TimeShield);
 						break;
 					case Bonus.Life:
 						Life++;
@@ -153,7 +153,7 @@ public class PlayerController : BlockController, ISpawn, IDirection
 	private void DestroySpawn(object sender, EventArgs e)
 	{
 		gameObject.SetActive(true);
-		ActiveShield(3);
+		ActiveShield(Consts.TimeShieldAfterSpawn);
 	}
 
 	private void DestroyShield(object sender, EventArgs e)
