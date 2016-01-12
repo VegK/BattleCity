@@ -35,6 +35,13 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 			BonusAnimation.gameObject.SetActive(value);
 		}
 	}
+	public bool IsFreezed
+	{
+		get
+		{
+			return (Time.time <= FieldController.Instance.TimeFreezed);
+		}
+	}
 	public event EventHandler DestroyEvent;
 
 	private bool _isShuttingApplication;

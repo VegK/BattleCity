@@ -19,6 +19,9 @@ public class AIEnemy : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (_enemyController.IsFreezed)
+			return;
+
 		var roundedPos = transform.position;
 		roundedPos.x = (float)System.Math.Round(roundedPos.x, 2);
 		roundedPos.y = (float)System.Math.Round(roundedPos.y, 2);

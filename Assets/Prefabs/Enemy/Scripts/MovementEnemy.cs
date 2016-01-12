@@ -49,6 +49,14 @@ public class MovementEnemy : Movement
 
 	protected override void FixedUpdate()
 	{
+		var isFreezed = _enemyController.IsFreezed;
+
+		Animator.enabled = !isFreezed;
+		_enemyController.BonusAnimation.enabled = !isFreezed;
+
+		if (isFreezed)
+			return;
+
 		base.FixedUpdate();
 
 		if (_enemyController.IsBonus)

@@ -122,6 +122,9 @@ public class PlayerController : BlockController, ISpawn, IDirection
 					case Bonus.Life:
 						Life++;
 						break;
+					case Bonus.Time:
+						FieldController.Instance.FreezedEnemies();
+						break;
 				}
 		}
 	}

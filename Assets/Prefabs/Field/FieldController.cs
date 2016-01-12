@@ -60,6 +60,7 @@ public partial class FieldController : MonoBehaviour
 			_bonus = value;
 		}
 	}
+	public float TimeFreezed { get; private set; }
 
 	public static FieldController Instance;
 
@@ -78,6 +79,7 @@ public partial class FieldController : MonoBehaviour
 	private void Start()
 	{
 		_blocks = new BlockController[Width, Height];
+		TimeFreezed = -(Consts.TimeFreeze + 1);
 	}
 
 	private void OnDrawGizmos()
@@ -139,6 +141,11 @@ public partial class FieldController : MonoBehaviour
 	{
 		foreach (EnemyController enemy in _enemiesObjects)
 			enemy.Explosion();
+	}
+
+	public void FreezedEnemies()
+	{
+		TimeFreezed = Time.time + Consts.TimeFreeze;
 	}
 
 	public Vector2 GetPosition()
