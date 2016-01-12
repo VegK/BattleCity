@@ -63,6 +63,9 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 
 	public void Explosion()
 	{
+		if (!gameObject.activeSelf)
+			return;
+
 		gameObject.SetActive(false);
 
 		var obj = Instantiate(PrefabExplosion);
