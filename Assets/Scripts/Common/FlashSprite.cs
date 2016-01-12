@@ -29,6 +29,9 @@ public class FlashSprite : MonoBehaviour
 
 	private void Update()
 	{
+		if (Tagret == null || !Tagret.gameObject.activeSelf)
+			return;
+
 		var color = Tagret.color;
 
 		if (color.a == _alfaFinish)
