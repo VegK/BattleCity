@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -70,6 +71,11 @@ public class LevelManager : MonoBehaviour
 		var res = new Texture2D(level.Preview.Width, level.Preview.Height);
 		res.LoadImage(level.Preview.Image);
 		return res;
+	}
+
+	public static List<string> GetNameLevels()
+	{
+		return _instance._levels.Select(l => l.Name).ToList();
 	}
 
 	private bool SaveLevel(string name, BlockController[,] blocks)

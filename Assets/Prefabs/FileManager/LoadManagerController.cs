@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.IO;
-using UnityEngine.EventSystems;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace GUI
@@ -11,20 +10,25 @@ namespace GUI
 		public Transform Content;
 		public Text FileName;
 		public Image Preview;
+		public Button ButtonLoad;
 
 		private ToggleGroup _toggleGroup;
 		private FileInfoController _selectFileInfo;
+		private List<FileInfoController> _listFileInfo;
 
 		public void Show()
 		{
 			FileName.text = string.Empty;
 			Preview.sprite = null;
+			ButtonLoad.interactable = false;
+
 			gameObject.SetActive(true);
 			FieldEditorController.Instance.MouseLock = true;
 		}
 
 		public void Hide()
 		{
+			_selectFileInfo = null;
 			gameObject.SetActive(false);
 			if (Preview.sprite != null)
 				Destroy(Preview.sprite);
@@ -46,6 +50,7 @@ namespace GUI
 		private void Awake()
 		{
 			_toggleGroup = Content.GetComponent<ToggleGroup>();
+			_listFileInfo = new List<FileInfoController>();
 		}
 
 		private void OnEnable()
@@ -55,35 +60,39 @@ namespace GUI
 
 		private void LoadListFiles()
 		{
-			for (int i = 0; i < Content.childCount; i++)
-				Destroy(Content.GetChild(i).gameObject);
+			foreach (FileInfoController info in _listFileInfo)
+				Destroy(info.gameObject);
+			_listFileInfo.Clear();
 
-			var ext = "." + Consts.EXTENSION;
-			var dir = new DirectoryInfo(Consts.PATH);
-			foreach (FileInfo file in dir.GetFiles("*" + ext))
-				if (file.Extension == ext)
-				{
-					var obj = Instantiate(PrefabFile);
-					obj.name = file.Name;
-					obj.transform.SetParent(Content, false);
+			var listName = LevelManager.GetNameLevels();
+			foreach (string name in listName)
+			{
+				var info = Instantiate(PrefabFile);
+				info.name = name;
+				info.transform.SetParent(Content, false);
 
-					var toggle = obj.GetComponent<Toggle>();
-					if (toggle != null)
-						toggle.group = _toggleGroup;
+				var toggle = info.GetComponent<Toggle>();
+				if (toggle != null)
+					toggle.group = _toggleGroup;
 
-					obj.Text = Path.GetFileNameWithoutExtension(file.Name);
-					obj.ClickEvent += FileInfo_ClickEvent;
-				}
+				info.Text = name;
+				info.ClickEvent += FileInfo_ClickEvent;
+
+				_listFileInfo.Add(info);
+			}
 		}
 
 		private void FileInfo_ClickEvent(FileInfoController fileInfo)
 		{
 			if (Preview.sprite != null)
+			{
 				Destroy(Preview.sprite);
-			Preview.sprite = null;
+				Preview.sprite = null;
+			}
 
 			_selectFileInfo = fileInfo;
 			FileName.text = fileInfo.Text;
+			ButtonLoad.interactable = true;
 
 			var texture = LevelManager.GetPreview(fileInfo.Text);
 			if (texture == null)
