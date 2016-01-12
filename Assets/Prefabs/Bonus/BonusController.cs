@@ -15,8 +15,6 @@ public class BonusController : MonoBehaviour
 	[SerializeField]
 	private Sprite SpriteTime;
 
-	public float SpeedFlash = 6f;
-
 	public Bonus Type
 	{
 		get
@@ -52,34 +50,10 @@ public class BonusController : MonoBehaviour
 
 	private SpriteRenderer _spriteRenderer;
 	private Bonus _type;
-	private float _time;
-	private float _deltaTime;
-	private float _alfaStart = 1;
-	private float _alfaFinish = 0;
 
 	private void Awake()
 	{
 		_spriteRenderer = GetComponent<SpriteRenderer>();
-		_deltaTime = Time.deltaTime;
-		if (_deltaTime == 0)
-			_deltaTime = 0.02f;
-	}
-
-	private void Update()
-	{
-		var color = _spriteRenderer.color;
-
-		if (color.a == _alfaFinish)
-		{
-			_time = 0;
-			_alfaFinish = _alfaStart + _alfaFinish;
-			_alfaStart = _alfaFinish - _alfaStart;
-			_alfaFinish = _alfaFinish - _alfaStart;
-		}
-
-		_time += _deltaTime;
-		color.a = Mathf.Lerp(_alfaStart, _alfaFinish, _time * SpeedFlash);
-		_spriteRenderer.color = color;
 	}
 
 	private void OnEnable()
