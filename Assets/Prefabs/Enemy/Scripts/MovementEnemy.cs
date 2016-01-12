@@ -1,7 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MovementEnemy : Movement
 {
+	[Header("Animation level")]
+	[SerializeField]
+	private AnimationMove[] AnimLevel;
+
 	[Header("Animations bonus")]
 	[SerializeField]
 	private AnimationClip AnimBonusTop;
@@ -23,6 +28,7 @@ public class MovementEnemy : Movement
 	{
 		base.Awake();
 		_enemyController = GetComponent<EnemyController>();
+		_enemyController.ChangedArmorEvent += SetAnimationsLevel;
 	}
 
 	protected override void OnEnable()
@@ -75,5 +81,28 @@ public class MovementEnemy : Movement
 					_enemyController.BonusAnimation.Play(AnimBonusLeft.name);
 					break;
 			}
+	}
+
+	private void SetAnimationsLevel(int value)
+	{
+		if (value <= 0)
+			return;
+		if (AnimLevel.Length == 0)
+			return;
+
+		var index = value % AnimLevel.Length - 1;
+		AnimTop = AnimLevel[index].AnimTop;
+		AnimRight = AnimLevel[index].AnimRight;
+		AnimBottom = AnimLevel[index].AnimBottom;
+		AnimLeft = AnimLevel[index].AnimLeft;
+	}
+
+	[Serializable]
+	public class AnimationMove
+	{
+		public AnimationClip AnimTop;
+		public AnimationClip AnimRight;
+		public AnimationClip AnimBottom;
+		public AnimationClip AnimLeft;
 	}
 }

@@ -7,6 +7,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour, IDirection, IDestroy
 {
 	[SerializeField]
+	private int Armor = 1;
+	[SerializeField]
 	private ExplosionController PrefabExplosion;
 	[SerializeField]
 	private Sprite SpritePoints;
@@ -42,6 +44,7 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 			return (Time.time <= FieldController.Instance.TimeFreezed);
 		}
 	}
+	public event ChangedArmorHandler ChangedArmorEvent;
 	public event EventHandler DestroyEvent;
 
 	private bool _isShuttingApplication;
@@ -63,17 +66,7 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 		gameObject.SetActive(false);
 
 		var obj = Instantiate(PrefabExplosion);
-		var pos = transform.position;
-		pos.z = PrefabExplosion.transform.position.z;
 		obj.transform.position = transform.position;
-
-		if (IsBonus)
-		{
-			var bns = Instantiate(PrefabBonus);
-			pos = FieldController.Instance.GetBonusRandomPosition();
-			bns.transform.position = pos;
-			FieldController.Instance.Bonus = bns;
-		}
 
 		obj.DestroyEvent += (s, e) => { Destroy(gameObject); };
 		obj.Show(ExplosionController.ExplosionType.Object);
@@ -129,11 +122,28 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "Bullet")
-			Explosion();
+		{
+			if (IsBonus)
+			{
+				IsBonus = false;
+				var bns = Instantiate(PrefabBonus);
+				var pos = FieldController.Instance.GetBonusRandomPosition();
+				bns.transform.position = pos;
+				FieldController.Instance.Bonus = bns;
+			}
+
+			Armor--;
+			if (ChangedArmorEvent != null)
+				ChangedArmorEvent(Armor);
+			if (Armor == 0)
+				Explosion();
+		}
 	}
 
 	private void OnApplicationQuit()
 	{
 		_isShuttingApplication = true;
 	}
+
+	public delegate void ChangedArmorHandler(int armor);
 }

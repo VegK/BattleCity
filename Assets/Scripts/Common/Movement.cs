@@ -7,13 +7,13 @@ public class Movement : MonoBehaviour
 
 	[Header("Animations")]
 	[SerializeField]
-	private AnimationClip AnimTop;
+	protected AnimationClip AnimTop;
 	[SerializeField]
-	private AnimationClip AnimRight;
+	protected AnimationClip AnimRight;
 	[SerializeField]
-	private AnimationClip AnimBottom;
+	protected AnimationClip AnimBottom;
 	[SerializeField]
-	private AnimationClip AnimLeft;
+	protected AnimationClip AnimLeft;
 
 	public Direction CurrentDirection { get; protected set; }
 
