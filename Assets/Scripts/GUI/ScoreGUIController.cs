@@ -1,0 +1,302 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using System;
+
+namespace GUI
+{
+	public class ScoreGUIController : MonoBehaviour
+	{
+		[SerializeField]
+		private string LevelName = "STAGE";
+		[SerializeField]
+		private int Enemy1Points = 100;
+		[SerializeField]
+		private int Enemy2Points = 200;
+		[SerializeField]
+		private int Enemy3Points = 300;
+		[SerializeField]
+		private int Enemy4Points = 400;
+		[SerializeField]
+		private Text UIStage;
+		[SerializeField]
+		private Score UIPlayer1;
+		[SerializeField]
+		private Score UIPlayer2;
+
+		private static ScoreGUIController _instance;
+		private EventHandler _finishEvent;
+		private int _player1enemy1, _player1enemy2, _player1enemy3, _player1enemy4,
+			_player2enemy1, _player2enemy2, _player2enemy3, _player2enemy4;
+
+		public static void Show(EventHandler finishEvent, int levelNumber, int player1Score,
+			int player1Enemy1, int player1Enemy2, int player1Enemy3, int player1Enemy4,
+			int player2Score, int player2Enemy1, int player2Enemy2, int player2Enemy3,
+			int player2Enemy4)
+		{
+			_instance._finishEvent = finishEvent;
+			_instance.FillParams(levelNumber, player1Score, player2Score,
+				player1Enemy1, player1Enemy2, player1Enemy3, player1Enemy4,
+				player2Enemy1, player2Enemy2, player2Enemy3, player2Enemy4);
+			_instance.gameObject.SetActive(true);
+		}
+
+		public static void Hide()
+		{
+			_instance.gameObject.SetActive(false);
+			_instance._finishEvent = null;
+
+			_instance.UIStage.text = _instance.LevelName;
+			_instance.UIPlayer1.UIScore.text = "0";
+			_instance.UIPlayer2.UIScore.text = "0";
+
+			_instance.UIPlayer1.UIEnemy1PTS.text = "0";
+			_instance.UIPlayer1.UIEnemy1Tanks.text = "0";
+			_instance.UIPlayer1.UIEnemy2PTS.text = "0";
+			_instance.UIPlayer1.UIEnemy2Tanks.text = "0";
+			_instance.UIPlayer1.UIEnemy3PTS.text = "0";
+			_instance.UIPlayer1.UIEnemy3Tanks.text = "0";
+			_instance.UIPlayer1.UIEnemy4PTS.text = "0";
+			_instance.UIPlayer1.UIEnemy4Tanks.text = "0";
+
+			_instance.UIPlayer2.UIEnemy1PTS.text = "0";
+			_instance.UIPlayer2.UIEnemy1Tanks.text = "0";
+			_instance.UIPlayer2.UIEnemy2PTS.text = "0";
+			_instance.UIPlayer2.UIEnemy2Tanks.text = "0";
+			_instance.UIPlayer2.UIEnemy3PTS.text = "0";
+			_instance.UIPlayer2.UIEnemy3Tanks.text = "0";
+			_instance.UIPlayer2.UIEnemy4PTS.text = "0";
+			_instance.UIPlayer2.UIEnemy4Tanks.text = "0";
+
+			_instance.UIPlayer1.UITotalTanks.text = "0";
+			_instance.UIPlayer2.UITotalTanks.text = "0";
+
+			_instance.UIPlayer1.UIBonus.SetActive(false);
+			_instance.UIPlayer2.UIBonus.SetActive(false);
+		}
+
+		private void Awake()
+		{
+			_instance = this;
+			Hide();
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				StopAllCoroutines();
+
+				UIPlayer1.UIEnemy1PTS.text = (_player1enemy1 * Enemy1Points).ToString();
+				UIPlayer1.UIEnemy1Tanks.text = _player1enemy1.ToString();
+				UIPlayer1.UIEnemy2PTS.text = (_player1enemy2 * Enemy2Points).ToString();
+				UIPlayer1.UIEnemy2Tanks.text = _player1enemy2.ToString();
+				UIPlayer1.UIEnemy3PTS.text = (_player1enemy3 * Enemy3Points).ToString();
+				UIPlayer1.UIEnemy3Tanks.text = _player1enemy3.ToString();
+				UIPlayer1.UIEnemy4PTS.text = (_player1enemy4 * Enemy4Points).ToString();
+				UIPlayer1.UIEnemy4Tanks.text = _player1enemy4.ToString();
+
+				UIPlayer2.UIEnemy1PTS.text = (_player2enemy1 * Enemy1Points).ToString();
+				UIPlayer2.UIEnemy1Tanks.text = _player2enemy1.ToString();
+				UIPlayer2.UIEnemy2PTS.text = (_player2enemy2 * Enemy2Points).ToString();
+				UIPlayer2.UIEnemy2Tanks.text = _player2enemy2.ToString();
+				UIPlayer2.UIEnemy3PTS.text = (_player2enemy3 * Enemy3Points).ToString();
+				UIPlayer2.UIEnemy3Tanks.text = _player2enemy3.ToString();
+				UIPlayer2.UIEnemy4PTS.text = (_player2enemy4 * Enemy4Points).ToString();
+				UIPlayer2.UIEnemy4Tanks.text = _player2enemy4.ToString();
+
+				var total1 = _player1enemy1 + _player1enemy2 + _player1enemy3 + _player1enemy4;
+				UIPlayer1.UITotalTanks.text = total1.ToString();
+
+				var total2 = _player2enemy1 + _player2enemy2 + _player2enemy3 + _player2enemy4;
+				UIPlayer2.UITotalTanks.text = total2.ToString();
+
+				if (!GameManager.SinglePlayer)
+				{
+					if (total1 > total2)
+						UIPlayer1.UIBonus.SetActive(true);
+					else
+						UIPlayer2.UIBonus.SetActive(true);
+				}
+
+				if (_finishEvent != null)
+					_finishEvent(this, EventArgs.Empty);
+			}
+		}
+
+		private void FillParams(int levelNumber, int player1Score, int player1Enemy1,
+			int player1Enemy2, int player1Enemy3, int player1Enemy4, int player2Score,
+			int player2Enemy1, int player2Enemy2, int player2Enemy3, int player2Enemy4)
+		{
+			UIStage.text = LevelName + " " + levelNumber;
+			UIPlayer1.UIScore.text = player1Score.ToString();
+			UIPlayer2.UIScore.text = player2Score.ToString();
+
+			_player1enemy1 = player1Enemy1;
+			_player1enemy2 = player1Enemy2;
+			_player1enemy3 = player1Enemy3;
+			_player1enemy4 = player1Enemy4;
+
+			_player2enemy1 = player2Enemy1;
+			_player2enemy2 = player2Enemy2;
+			_player2enemy3 = player2Enemy3;
+			_player2enemy4 = player2Enemy4;
+
+			StartCoroutine(CalcScore());
+		}
+
+		private IEnumerator CalcScore()
+		{
+			var wait = 0.2f;
+
+			// Enemy #1
+			int max = Mathf.Max(_player1enemy1, _player2enemy1);
+			for (int i = 0; i <= max; i++)
+			{
+				if (Input.anyKey)
+				{
+					UIPlayer1.UIEnemy1PTS.text = (_player1enemy1 * Enemy1Points).ToString();
+					UIPlayer1.UIEnemy1Tanks.text = _player1enemy1.ToString();
+
+					UIPlayer2.UIEnemy1PTS.text = (_player2enemy1 * Enemy1Points).ToString();
+					UIPlayer2.UIEnemy1Tanks.text = _player2enemy1.ToString();
+
+					yield return null;
+					break;
+				}
+				if (i <= _player1enemy1)
+				{
+					UIPlayer1.UIEnemy1PTS.text = (i * Enemy1Points).ToString();
+					UIPlayer1.UIEnemy1Tanks.text = i.ToString();
+				}
+				if (i <= _player2enemy1)
+				{
+					UIPlayer2.UIEnemy1PTS.text = (i * Enemy1Points).ToString();
+					UIPlayer2.UIEnemy1Tanks.text = i.ToString();
+				}
+				yield return new WaitForSeconds(wait);
+			}
+
+			// Enemy #2
+			max = Mathf.Max(_player1enemy2, _player2enemy2);
+			for (int i = 0; i <= max; i++)
+			{
+				if (Input.anyKey)
+				{
+					UIPlayer1.UIEnemy2PTS.text = (_player1enemy2 * Enemy2Points).ToString();
+					UIPlayer1.UIEnemy2Tanks.text = _player1enemy2.ToString();
+
+					UIPlayer2.UIEnemy2PTS.text = (_player2enemy2 * Enemy2Points).ToString();
+					UIPlayer2.UIEnemy2Tanks.text = _player2enemy2.ToString();
+
+					yield return null;
+					break;
+				}
+				if (i <= _player1enemy2)
+				{
+					UIPlayer1.UIEnemy2PTS.text = (i * Enemy2Points).ToString();
+					UIPlayer1.UIEnemy2Tanks.text = i.ToString();
+				}
+				if (i <= _player2enemy2)
+				{
+					UIPlayer2.UIEnemy2PTS.text = (i * Enemy2Points).ToString();
+					UIPlayer2.UIEnemy2Tanks.text = i.ToString();
+				}
+				yield return new WaitForSeconds(wait);
+			}
+
+			// Enemy #3
+			max = Mathf.Max(_player1enemy3, _player2enemy3);
+			for (int i = 0; i <= max; i++)
+			{
+				if (Input.anyKey)
+				{
+					UIPlayer1.UIEnemy3PTS.text = (_player1enemy3 * Enemy3Points).ToString();
+					UIPlayer1.UIEnemy3Tanks.text = _player1enemy3.ToString();
+
+					UIPlayer2.UIEnemy3PTS.text = (_player2enemy3 * Enemy3Points).ToString();
+					UIPlayer2.UIEnemy3Tanks.text = _player2enemy3.ToString();
+
+					yield return null;
+					break;
+				}
+				if (i <= _player1enemy3)
+				{
+					UIPlayer1.UIEnemy3PTS.text = (i * Enemy3Points).ToString();
+					UIPlayer1.UIEnemy3Tanks.text = i.ToString();
+				}
+				if (i <= _player2enemy3)
+				{
+					UIPlayer2.UIEnemy3PTS.text = (i * Enemy3Points).ToString();
+					UIPlayer2.UIEnemy3Tanks.text = i.ToString();
+				}
+				yield return new WaitForSeconds(wait);
+			}
+
+			// Enemy #4
+			max = Mathf.Max(_player1enemy4, _player2enemy4);
+			for (int i = 0; i <= max; i++)
+			{
+				if (Input.anyKey)
+				{
+					UIPlayer1.UIEnemy4PTS.text = (_player1enemy4 * Enemy4Points).ToString();
+					UIPlayer1.UIEnemy4Tanks.text = _player1enemy4.ToString();
+
+					UIPlayer2.UIEnemy4PTS.text = (_player2enemy4 * Enemy4Points).ToString();
+					UIPlayer2.UIEnemy4Tanks.text = _player2enemy4.ToString();
+
+					yield return null;
+					break;
+				}
+				if (i <= _player1enemy4)
+				{
+					UIPlayer1.UIEnemy4PTS.text = (i * Enemy4Points).ToString();
+					UIPlayer1.UIEnemy4Tanks.text = i.ToString();
+				}
+				if (i <= _player2enemy4)
+				{
+					UIPlayer2.UIEnemy4PTS.text = (i * Enemy4Points).ToString();
+					UIPlayer2.UIEnemy4Tanks.text = i.ToString();
+				}
+				yield return new WaitForSeconds(wait);
+			}
+
+			// Total
+			var total1 = _player1enemy1 + _player1enemy2 + _player1enemy3 + _player1enemy4;
+			UIPlayer1.UITotalTanks.text = total1.ToString();
+
+			var total2 = _player2enemy1 + _player2enemy2 + _player2enemy3 + _player2enemy4;
+			UIPlayer2.UITotalTanks.text = total2.ToString();
+
+			yield return new WaitForSeconds(wait);
+
+			// Bonus
+			if (!GameManager.SinglePlayer)
+			{
+				if (total1 > total2)
+					UIPlayer1.UIBonus.SetActive(true);
+				else
+					UIPlayer2.UIBonus.SetActive(true);
+			}
+
+			if (_finishEvent != null)
+				_finishEvent(this, EventArgs.Empty);
+		}
+
+		[Serializable]
+		public class Score
+		{
+			public Text UIScore;
+			public Text UIEnemy1PTS;
+			public Text UIEnemy1Tanks;
+			public Text UIEnemy2PTS;
+			public Text UIEnemy2Tanks;
+			public Text UIEnemy3PTS;
+			public Text UIEnemy3Tanks;
+			public Text UIEnemy4PTS;
+			public Text UIEnemy4Tanks;
+			public Text UITotalTanks;
+			public GameObject UIBonus;
+		}
+	}
+}
