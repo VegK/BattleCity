@@ -7,6 +7,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour, IDirection, IDestroy
 {
 	[SerializeField]
+	private EnemyType Type;
+	[SerializeField]
 	private int Armor = 1;
 	[SerializeField]
 	private ExplosionController PrefabExplosion;
@@ -139,7 +141,15 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 			if (ChangedArmorEvent != null)
 				ChangedArmorEvent(Armor);
 			if (Armor == 0)
+			{
 				Explosion();
+
+				var layer = LayerMask.LayerToName(other.gameObject.layer);
+				if (layer == "BulletPlayer1")
+					GameManager.Player1.AddPoint(Type, Points);
+				else if (layer == "BulletPlayer2")
+					GameManager.Player2.AddPoint(Type, Points);
+			}
 		}
 	}
 

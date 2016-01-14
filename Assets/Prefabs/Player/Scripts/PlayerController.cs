@@ -6,27 +6,7 @@ public class PlayerController : BlockController, ISpawn, IDirection
 	public SpawnController PrefabSpawn;
 	public ShieldPlayer PrefabShield;
 	public ExplosionController PrefabExplosion;
-	[SerializeField]
-	private int _life = 3;
 
-	public int Life
-	{
-		get
-		{
-			return _life;
-		}
-		set
-		{
-			if (GUI.GameGUIController.Instance != null)
-			{
-				if (TypeItem == Block.Player1)
-					GUI.GameGUIController.Instance.Player1LifeCount = value;
-				else if (TypeItem == Block.Player2)
-					GUI.GameGUIController.Instance.Player2LifeCount = value;
-			}
-			_life = value;
-		}
-	}
 	public Direction DirectionMove
 	{
 		get
@@ -120,7 +100,10 @@ public class PlayerController : BlockController, ISpawn, IDirection
 						ActiveShield(Consts.TimeShield);
 						break;
 					case Bonus.Life:
-						Life++;
+						if (TypeItem == Block.Player1)
+							GameManager.Player1Life++;
+						else if (TypeItem == Block.Player2)
+							GameManager.Player2Life++;
 						break;
 					case Bonus.Time:
 						FieldController.Instance.FreezedEnemies();
@@ -133,14 +116,21 @@ public class PlayerController : BlockController, ISpawn, IDirection
 	{
 		if (EditorMode)
 			return;
-		if (Life <= 0)
+
+		if (TypeItem == Block.Player1)
 		{
-			if (GUI.GameGUIController.Instance.Player1LifeCount == 0 &&
-				GUI.GameGUIController.Instance.Player2LifeCount == 0)
-				GameManager.GameOver();
-			return;
+			GameManager.Player1Life--;
+			if (GameManager.Player1Life < 0)
+				return;
 		}
-		Life--;
+		else if (TypeItem == Block.Player2)
+		{
+			GameManager.Player2Life--;
+			if (GameManager.Player2Life < 0)
+				return;
+		}
+		else
+			return;
 
 		gameObject.SetActive(false);
 		transform.position = SpawnPoint;
