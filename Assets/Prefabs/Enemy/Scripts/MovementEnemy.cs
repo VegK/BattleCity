@@ -34,7 +34,10 @@ public class MovementEnemy : Movement
 	protected override void OnEnable()
 	{
 		CurrentDirection = Direction.Bottom;
-		var obj = _enemyController.BonusAnimation.gameObject;
+
+		var animator = _enemyController.BonusAnimation;
+		var obj = animator.gameObject;
+
 		switch (CurrentDirection)
 		{
 			case Direction.Top:
@@ -50,6 +53,8 @@ public class MovementEnemy : Movement
 				AnimBonusLeft.SampleAnimation(obj, 0);
 				break;
 		}
+		animator.enabled = false;
+
 		base.OnEnable();
 	}
 

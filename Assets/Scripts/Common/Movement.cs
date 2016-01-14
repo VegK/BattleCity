@@ -45,6 +45,7 @@ public class Movement : MonoBehaviour
 				AnimLeft.SampleAnimation(gameObject, 0);
 				break;
 		}
+		Animator.enabled = false;
 	}
 
 	protected virtual void FixedUpdate()
