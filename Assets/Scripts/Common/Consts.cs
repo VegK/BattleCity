@@ -10,6 +10,9 @@ public class Consts
 	public const int TimeShield = 10;
 	public const int TimeFreeze = 10;
 
+	public const float TimeDestroyObjectPoints = 0.5f;
+	public const int PointsBonusBomb = 500;
+
 	static Consts()
 	{
 		PATH = Application.dataPath + "/Levels/";

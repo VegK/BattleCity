@@ -14,6 +14,8 @@ public class BonusController : MonoBehaviour
 	private Sprite SpriteShovel;
 	[SerializeField]
 	private Sprite SpriteTime;
+	[SerializeField]
+	private Sprite Sprite500Points;
 
 	public Bonus Type
 	{
@@ -67,6 +69,22 @@ public class BonusController : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "Player" || other.tag == "Shield")
+		{
+			if (Type == Bonus.Bomb)
+			{
+				var obj = new GameObject(Sprite500Points.name);
+				obj.transform.position = transform.position;
+				obj.AddComponent<SpriteRenderer>().sprite = Sprite500Points;
+				Destroy(obj, Consts.TimeDestroyObjectPoints);
+				FieldController.Instance.AddOtherObject(obj);
+
+				if (other.tag == "Player1")
+					GameManager.Player1.Score += Consts.PointsBonusBomb;
+				else if (other.tag == "Player2")
+					GameManager.Player2.Score += Consts.PointsBonusBomb;
+			}
+
 			Destroy(gameObject);
+		}
 	}
 }
