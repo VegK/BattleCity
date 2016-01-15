@@ -37,12 +37,28 @@ namespace GUI
 				return;
 
 			var data = eventData as PointerEventData;
-			if (data == null)
+			if (data != null)
+			{
+				EventSystem.current.SetSelectedGameObject(data.pointerEnter);
+			}
+			else if (eventData.selectedObject != null)
+			{
+				var pos = Cursor.transform.localPosition;
+				pos.y = eventData.selectedObject.transform.localPosition.y - 0.6f;
+				Cursor.transform.localPosition = pos;
+			}
+		}
+
+		public void OnPointerDeselect(BaseEventData eventData)
+		{
+			if (Lock)
 				return;
 
-			var pos = Cursor.transform.localPosition;
-			pos.y = data.pointerEnter.transform.localPosition.y - 0.6f;
-			Cursor.transform.localPosition = pos;
+			if (EventSystem.current.currentSelectedGameObject == null)
+			{
+				var first = EventSystem.current.firstSelectedGameObject;
+				EventSystem.current.SetSelectedGameObject(first);
+			}
 		}
 
 		private void OnEnable()
