@@ -76,6 +76,11 @@ namespace GUI
 			return res;
 		}
 
+		public void HidePlayer2Life()
+		{
+			UIPlayer2Life.gameObject.SetActive(false);
+		}
+
 		public void ShowGameOver()
 		{
 			UIGameOver.Show();

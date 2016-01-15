@@ -89,14 +89,18 @@ public class GameManager : MonoBehaviour
 
 	public static void StartGame(int countPlayers, EventHandler overlapScreen)
 	{
-		Player1.Score = 0;
-		Player2.Score = 0;
-		Player1.ResetEnemy();
-		Player2.ResetEnemy();
-		_instance._player1Life = _instance._startLifePlayer1;
-		_instance._player2Life = _instance._startLifePlayer2;
-
 		SinglePlayer = (countPlayers == 1);
+
+		Player1.Score = 0;
+		Player1.ResetEnemy();
+		Player1Life = _instance._startLifePlayer1;
+
+		Player2.Score = 0;
+		Player2.ResetEnemy();
+		Player2Life = _instance._startLifePlayer2;
+		if (SinglePlayer)
+			GUI.GameGUIController.Instance.HidePlayer2Life();
+
 		_instance.StartCoroutine(_instance.NextLevel(overlapScreen, true));
 	}
 

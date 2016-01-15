@@ -84,8 +84,23 @@ public class PlayerController : BlockController, ISpawn, IDirection
 			pos.z = PrefabExplosion.transform.position.z;
 			obj.transform.position = transform.position;
 
-			obj.DestroyEvent += (s, e) => { Spawn(); };
 			obj.Show(ExplosionController.ExplosionType.Object);
+
+			if (TypeItem == Block.Player1)
+			{
+				GameManager.Player1Life--;
+				if (GameManager.Player1Life < 0)
+					return;
+			}
+			else if (TypeItem == Block.Player2)
+			{
+				GameManager.Player2Life--;
+				if (GameManager.Player2Life < 0)
+					return;
+			}
+			else
+				return;
+			obj.DestroyEvent += (s, e) => { Spawn(); };
 		}
 		else if (other.tag == "Bonus")
 		{
@@ -115,21 +130,6 @@ public class PlayerController : BlockController, ISpawn, IDirection
 	private void Spawn()
 	{
 		if (EditorMode)
-			return;
-
-		if (TypeItem == Block.Player1)
-		{
-			GameManager.Player1Life--;
-			if (GameManager.Player1Life < 0)
-				return;
-		}
-		else if (TypeItem == Block.Player2)
-		{
-			GameManager.Player2Life--;
-			if (GameManager.Player2Life < 0)
-				return;
-		}
-		else
 			return;
 
 		gameObject.SetActive(false);
