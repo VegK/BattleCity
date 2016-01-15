@@ -140,7 +140,7 @@ public partial class FieldController : MonoBehaviour
 	public void ExplosionEnemies()
 	{
 		foreach (EnemyController enemy in _enemiesObjects)
-			enemy.Explosion();
+			enemy.Explosion(false);
 	}
 
 	public void FreezedEnemies()

@@ -52,6 +52,7 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 	private bool _isShuttingApplication;
 	private BoxCollider2D _boxCollider;
 	private MovementEnemy _movement;
+	private bool _visiblePoint;
 
 	public void Show()
 	{
@@ -63,11 +64,12 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 		_movement.SetDirection(value);
 	}
 
-	public void Explosion()
+	public void Explosion(bool visiblePoint)
 	{
 		if (!gameObject.activeSelf)
 			return;
 
+		_visiblePoint = visiblePoint;
 		gameObject.SetActive(false);
 
 		var obj = Instantiate(PrefabExplosion);
@@ -114,11 +116,14 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 		if (_isShuttingApplication)
 			return;
 
-		var obj = new GameObject(SpritePoints.name);
-		obj.transform.position = transform.position;
-		obj.AddComponent<SpriteRenderer>().sprite = SpritePoints;
-		Destroy(obj, 0.5f);
-		FieldController.Instance.AddOtherObject(obj);
+		if (_visiblePoint)
+		{
+			var obj = new GameObject(SpritePoints.name);
+			obj.transform.position = transform.position;
+			obj.AddComponent<SpriteRenderer>().sprite = SpritePoints;
+			Destroy(obj, Consts.TimeDestroyObjectPoints);
+			FieldController.Instance.AddOtherObject(obj);
+		}
 
 		if (DestroyEvent != null)
 			DestroyEvent(this, EventArgs.Empty);
@@ -142,7 +147,7 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 				ChangedArmorEvent(Armor);
 			if (Armor == 0)
 			{
-				Explosion();
+				Explosion(true);
 
 				var layer = LayerMask.LayerToName(other.gameObject.layer);
 				if (layer == "BulletPlayer1")
