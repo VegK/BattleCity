@@ -66,6 +66,8 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 
 	public void Explosion(bool visiblePoint)
 	{
+		if (gameObject == null)
+			return;
 		if (!gameObject.activeSelf)
 			return;
 
