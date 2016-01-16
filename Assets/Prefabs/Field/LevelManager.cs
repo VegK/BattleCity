@@ -46,9 +46,10 @@ public class LevelManager : MonoBehaviour
 		}
 	}
 
-	public static bool Save(string name, BlockController[,] blocks)
+	public static bool Save(string name, BlockController[,] blocks,
+		EnemyType[] orderSpawnEnemies)
 	{
-		return _instance.SaveLevel(name, blocks);
+		return _instance.SaveLevel(name, blocks, orderSpawnEnemies);
 	}
 
 	public static bool Load(string name)
@@ -58,7 +59,7 @@ public class LevelManager : MonoBehaviour
 			return false;
 
 		FieldController.Instance.Load(name, GameManager.SinglePlayer,
-			data.Width, data.Height, data.Blocks);
+			data.Width, data.Height, data.Blocks, data.OrderSpawnEnemies);
 		return true;
 	}
 
@@ -78,7 +79,8 @@ public class LevelManager : MonoBehaviour
 		return _instance._levels.Select(l => l.Name).ToList();
 	}
 
-	private bool SaveLevel(string name, BlockController[,] blocks)
+	private bool SaveLevel(string name, BlockController[,] blocks,
+		EnemyType[] orderSpawnEnemies)
 	{
 #if !UNITY_EDITOR
 		try
@@ -94,6 +96,8 @@ public class LevelManager : MonoBehaviour
 		data.Preview.Image = GUI.Screenshot.GetScreenshot(out imageWidth, out imageHeight);
 		data.Preview.Width = imageWidth;
 		data.Preview.Height = imageHeight;
+
+		data.OrderSpawnEnemies = orderSpawnEnemies;
 
 		var width = blocks.GetLength(0);
 		var height = blocks.GetLength(1);
@@ -177,6 +181,8 @@ public class LevelManager : MonoBehaviour
 		public string Name;
 
 		public Screenshot Preview { get; set; }
+
+		public EnemyType[] OrderSpawnEnemies { get; set; }
 
 		public int Width
 		{

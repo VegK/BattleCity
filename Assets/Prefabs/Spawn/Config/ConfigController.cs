@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace GUI.Editor.ConfigSpawn
@@ -24,7 +23,10 @@ namespace GUI.Editor.ConfigSpawn
 
 		public void Show()
 		{
-			
+			var list = FieldEditorController.Instance.OrderSpawnEnemies;
+			if (list != null)
+				foreach (EnemyType item in list)
+					AddItem(item);
 
 			gameObject.SetActive(true);
 			FieldEditorController.Instance.MouseLock = true;
@@ -50,7 +52,8 @@ namespace GUI.Editor.ConfigSpawn
 
 		public void OnClickSave()
 		{
-			
+			var list = _enemies.Select(e => e.Type).ToArray();
+			FieldEditorController.Instance.OrderSpawnEnemies = list;
 			Hide();
 		}
 
@@ -68,7 +71,7 @@ namespace GUI.Editor.ConfigSpawn
 		{
 			var obj = Instantiate(PrefabItem);
 			obj.Index = _enemies.Count + 1;
-			obj.SetType(type);
+			obj.Type = type;
 			obj.ClickEvent += RemoveItem;
 			obj.transform.SetParent(ListTanks, false);
 

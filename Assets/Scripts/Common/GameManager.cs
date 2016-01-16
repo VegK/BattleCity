@@ -174,6 +174,7 @@ public class GameManager : MonoBehaviour
 			yield return null;
 
 		Time.timeScale = defaultScale;
+		SpawnPointEnemiesManager.StartSpawn();
 		Player1.ResetEnemy();
 		Player2.ResetEnemy();
 	}

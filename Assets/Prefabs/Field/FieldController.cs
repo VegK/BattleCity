@@ -254,10 +254,12 @@ public partial class FieldController : MonoBehaviour
 	public bool Save(string name)
 	{
 		Name = name;
-		return LevelManager.Save(name, _blocks);
+		var list = FieldEditorController.Instance.OrderSpawnEnemies;
+		return LevelManager.Save(name, _blocks, list);
 	}
 
-	public void Load(string name, bool singlePlayer, int width, int height, int[,] blocks)
+	public void Load(string name, bool singlePlayer, int width, int height,
+		int[,] blocks, EnemyType[] spawnEnemies)
 	{
 		Clear();
 		DestroyAdditionalObjects();
@@ -265,6 +267,10 @@ public partial class FieldController : MonoBehaviour
 		Name = name;
 		Width = width;
 		Height = height;
+
+		if (FieldEditorController.Instance != null)
+			FieldEditorController.Instance.OrderSpawnEnemies = spawnEnemies;
+		SpawnPointEnemiesManager.SetOrderSpawnEnemies(spawnEnemies);
 
 		_blocks = new BlockController[Width, Height];
 		for (int x = 0; x < Width; x++)

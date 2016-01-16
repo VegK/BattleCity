@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class SpawnPointEnemiesManager : MonoBehaviour
 {
-	[SerializeField]
-	private int EnemiesCount = 20;
-
 	public static int IndexEnemy { get; private set; }
 	public static int TimeRespawn
 	{
@@ -38,9 +35,9 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 
 	private static SpawnPointEnemiesManager _instance;
 	private static List<SpawnPointEnemies> _spawnPoints;
+	private static EnemyType[] _orderEnemiesSpawn;
 	private static int _enemiesOnField = 0;
 	private static int _indexCurrentSpawnPoint = 0;
-	private static bool _runCoroutine;
 	private static int _enemiesCount;
 
 	static SpawnPointEnemiesManager()
@@ -50,8 +47,7 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 
 	public static void Reset()
 	{
-		_enemiesCount = _instance.EnemiesCount;
-		_runCoroutine = false;
+		IndexEnemy = 0;
 		_spawnPoints.Clear();
 		_indexCurrentSpawnPoint = 0;
 	}
@@ -69,19 +65,30 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 			return;
 
 		_spawnPoints.Add(spawnPoint);
-		if (!_runCoroutine)
-			_instance.StartCoroutine(_instance.SpawnEnemies());
+	}
+
+	public static void SetOrderSpawnEnemies(EnemyType[] orderSpawnEnemies)
+	{
+		_orderEnemiesSpawn = orderSpawnEnemies;
+	}
+
+	public static void StartSpawn()
+	{
+		if (_instance == null)
+			return;
+
+		_enemiesCount = _orderEnemiesSpawn.Length;
+		_instance.StartCoroutine(_instance.SpawnEnemies());
 	}
 
 	private void Awake()
 	{
 		_instance = this;
-		_enemiesCount = EnemiesCount;
+		_orderEnemiesSpawn = new EnemyType[0];
 	}
 
 	private IEnumerator SpawnEnemies()
 	{
-		_runCoroutine = true;
 		var waitSeconds = TimeRespawn;
 		while (true)
 		{
@@ -97,7 +104,9 @@ public class SpawnPointEnemiesManager : MonoBehaviour
 
 			_enemiesCount--;
 			_enemiesOnField++;
-			GetCurrentSpawnPoint().Spawn(++IndexEnemy, new EventHandler(EnemyDestroy));
+			IndexEnemy++;
+			GetCurrentSpawnPoint().Spawn(IndexEnemy, _orderEnemiesSpawn[IndexEnemy - 1],
+				new EventHandler(EnemyDestroy));
 		}
 	}
 

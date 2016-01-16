@@ -13,7 +13,7 @@ public class SpawnPointEnemies : BlockController, ISpawn
 
 	public Vector3 SpawnPoint { get; set; }
 
-	public void Spawn(int indexEnemy, EventHandler destroyEnemy)
+	public void Spawn(int indexEnemy, EnemyType enemyType, EventHandler destroyEnemy)
 	{
 		transform.position = SpawnPoint;
 
@@ -21,7 +21,7 @@ public class SpawnPointEnemies : BlockController, ISpawn
 		obj.transform.position = transform.position;
 		obj.DestroyEvent += (s, e) =>
 		{
-			var enemy = Instantiate(GetEnemy());
+			var enemy = Instantiate(GetEnemy(enemyType));
 			enemy.name = "Enemy" + indexEnemy;
 			enemy.transform.position = SpawnPoint;
 			enemy.transform.SetParent(transform.parent, false);
@@ -48,9 +48,19 @@ public class SpawnPointEnemies : BlockController, ISpawn
 		}
 	}
 
-	private EnemyController GetEnemy()
+	private EnemyController GetEnemy(EnemyType type)
 	{
-		var enemies = new EnemyController[] { Enemy1, Enemy2, Enemy3, Enemy4 };
-		return enemies[UnityEngine.Random.Range(0, 4)];
+		switch (type)
+		{
+			default:
+			case EnemyType.Enemy1:
+				return Enemy1;
+			case EnemyType.Enemy2:
+				return Enemy2;
+			case EnemyType.Enemy3:
+				return Enemy3;
+			case EnemyType.Enemy4:
+				return Enemy4;
+		}
 	}
 }

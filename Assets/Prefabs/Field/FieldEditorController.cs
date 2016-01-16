@@ -9,6 +9,7 @@ public class FieldEditorController : MonoBehaviour
 	public bool MouseLock;
 
 	public static FieldEditorController Instance;
+	public EnemyType[] OrderSpawnEnemies { get; set; }
 
 	private GameObject _selectCell;
 	private Vector2 _fieldPosition;
@@ -30,6 +31,7 @@ public class FieldEditorController : MonoBehaviour
 	{
 		MouseLock = false;
 
+		OrderSpawnEnemies = new EnemyType[0];
 		_fieldPosition = FieldController.Instance.GetPosition();
 		_fieldSize = FieldController.Instance.GetSize();
 

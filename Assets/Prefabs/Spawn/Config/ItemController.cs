@@ -23,7 +23,32 @@ namespace GUI.Editor.ConfigSpawn
 		[SerializeField]
 		private Text Number;
 
-		public EnemyType Type { get; set; }
+		public EnemyType Type
+		{
+			get
+			{
+				return _type;
+			}
+			set
+			{
+				_type = value;
+				switch (value)
+				{
+					case EnemyType.Enemy1:
+						Graphic.sprite = SpriteEnemy1;
+						break;
+					case EnemyType.Enemy2:
+						Graphic.sprite = SpriteEnemy2;
+						break;
+					case EnemyType.Enemy3:
+						Graphic.sprite = SpriteEnemy3;
+						break;
+					case EnemyType.Enemy4:
+						Graphic.sprite = SpriteEnemy4;
+						break;
+				}
+			}
+		}
 		public int Index
 		{
 			get
@@ -42,24 +67,7 @@ namespace GUI.Editor.ConfigSpawn
 		}
 		public event ClickHandler ClickEvent;
 
-		public void SetType(EnemyType type)
-		{
-			switch (type)
-			{
-				case EnemyType.Enemy1:
-					Graphic.sprite = SpriteEnemy1;
-					break;
-				case EnemyType.Enemy2:
-					Graphic.sprite = SpriteEnemy2;
-					break;
-				case EnemyType.Enemy3:
-					Graphic.sprite = SpriteEnemy3;
-					break;
-				case EnemyType.Enemy4:
-					Graphic.sprite = SpriteEnemy4;
-					break;
-			}
-		}
+		private EnemyType _type;
 
 		public void OnPointerClick(BaseEventData eventData)
 		{
