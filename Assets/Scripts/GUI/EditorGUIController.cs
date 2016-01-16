@@ -7,6 +7,7 @@ namespace GUI
 	{
 		public SaveManagerController SaveManager;
 		public LoadManagerController LoadManager;
+		public Editor.ConfigSpawn.ConfigController ConfigSpawn;
 
 		public void OnClickBack()
 		{
@@ -26,6 +27,11 @@ namespace GUI
 		public void OnClickClearField()
 		{
 			FieldEditorController.Instance.ClearField();
+		}
+
+		public void OnClickConfigSpawn()
+		{
+			ConfigSpawn.Show();
 		}
 	}
 }

@@ -1,0 +1,72 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using System;
+using UnityEngine.EventSystems;
+
+namespace GUI.Editor.ConfigSpawn
+{
+	public class ItemController : MonoBehaviour
+	{
+		[SerializeField]
+		private Sprite SpriteEnemy1;
+		[SerializeField]
+		private Sprite SpriteEnemy2;
+		[SerializeField]
+		private Sprite SpriteEnemy3;
+		[SerializeField]
+		private Sprite SpriteEnemy4;
+
+		[Space(3)]
+		[SerializeField]
+		private Image Graphic;
+		[SerializeField]
+		private Text Number;
+
+		public EnemyType Type { get; set; }
+		public int Index
+		{
+			get
+			{
+				int res;
+				if (!int.TryParse(Number.text, out res))
+					Number.gameObject.SetActive(false);
+				return res;
+			}
+			set
+			{
+				name = Type + "_" + value;
+				Number.gameObject.SetActive(value > 0);
+				Number.text = value.ToString();
+			}
+		}
+		public event ClickHandler ClickEvent;
+
+		public void SetType(EnemyType type)
+		{
+			switch (type)
+			{
+				case EnemyType.Enemy1:
+					Graphic.sprite = SpriteEnemy1;
+					break;
+				case EnemyType.Enemy2:
+					Graphic.sprite = SpriteEnemy2;
+					break;
+				case EnemyType.Enemy3:
+					Graphic.sprite = SpriteEnemy3;
+					break;
+				case EnemyType.Enemy4:
+					Graphic.sprite = SpriteEnemy4;
+					break;
+			}
+		}
+
+		public void OnPointerClick(BaseEventData eventData)
+		{
+			if (ClickEvent != null)
+				ClickEvent(this);
+		}
+
+		public delegate void ClickHandler(ItemController item);
+	}
+}
