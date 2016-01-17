@@ -87,11 +87,12 @@ namespace BattleCity
 		public void LoadApplication()
 		{
 			Black.gameObject.SetActive(false);
+			MainMenuController.Show();
 		}
 
-		public static void StartGame(int countPlayers, EventHandler overlapScreen)
+		public static void StartGame(bool singlePlayer, EventHandler overlapScreen)
 		{
-			SinglePlayer = (countPlayers == 1);
+			SinglePlayer = singlePlayer;
 
 			Player1.Score = 0;
 			Player1.ResetEnemy();
@@ -114,7 +115,6 @@ namespace BattleCity
 		private IEnumerator NextLevel(EventHandler overlapScreen, bool skipCalcScore)
 		{
 			Reset();
-			SpawnPointEnemiesManager.Reset();
 			if (!skipCalcScore)
 			{
 				var loop = true;
@@ -136,17 +136,11 @@ namespace BattleCity
 
 		public static void GameOver()
 		{
-			var player = FieldController.Instance.FindBlock(Block.Player1);
-			if (player != null)
-				player.EditorMode = true;
-
-			player = FieldController.Instance.FindBlock(Block.Player2);
-			if (player != null)
-				player.EditorMode = true;
-
-			if (!_instance._gameOver)
-				GameGUIController.Instance.ShowGameOver();
+			if (_instance._gameOver)
+				return;
 			_instance._gameOver = true;
+
+			_instance.StartCoroutine(_instance.ShowGameOver());
 		}
 
 		private IEnumerator NextLevelLoadScreen(EventHandler overlapScreen)
@@ -181,13 +175,54 @@ namespace BattleCity
 			Player2.ResetEnemy();
 		}
 
+		private IEnumerator ShowGameOver()
+		{
+			var player = FieldController.Instance.FindBlock(Block.Player1);
+			if (player != null)
+				player.EditorMode = true;
+
+			player = FieldController.Instance.FindBlock(Block.Player2);
+			if (player != null)
+				player.EditorMode = true;
+
+			// Show GameOver in game
+			GameGUIController.Instance.ShowGameOver();
+			yield return new WaitForSeconds(10);
+
+			Reset();
+
+			// Show calc score
+			var loop = true;
+			ScoreGUIController.Show((s, e) => { loop = false; },
+				LevelManager.LevelNumber, Player1, Player2);
+			while (true)
+			{
+				if (Input.anyKey && !loop)
+					break;
+				yield return null;
+			}
+			ScoreGUIController.Hide();
+
+			// Show final screen with GameOver
+			FinalScreenController.Show();
+			yield return new WaitForSeconds(5);
+			while (!Input.anyKeyDown)
+				yield return null;
+			FinalScreenController.Hide();
+
+			MainMenuController.Show();
+		}
+
 		private void Reset()
 		{
 			_gameOver = false;
 			_pause = false;
 
+			LevelManager.Reset();
+			SpawnPointEnemiesManager.Reset();
 			GameGUIController.Instance.HidePause();
 			GameGUIController.Instance.HideGameOver();
+			FieldController.Instance.Clear();
 		}
 
 		private void Awake()

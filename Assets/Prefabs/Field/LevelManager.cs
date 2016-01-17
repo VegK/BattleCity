@@ -36,6 +36,11 @@ namespace BattleCity
 		private int _index = -1;
 		private HashSet<FieldData> _levels;
 
+		public static void Reset()
+		{
+			_instance._index = -1;
+		}
+
 		public static void NextLevel()
 		{
 			var levelsCount = _instance._levels.Count;

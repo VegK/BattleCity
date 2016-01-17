@@ -11,16 +11,30 @@ namespace BattleCity.GUI.Main
 
 		public static bool Lock { get; set; }
 
+		private static MainMenuController _instance;
+
+		public static void Show()
+		{
+			Lock = false;
+			EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
+			_instance.gameObject.SetActive(true);
+		}
+
+		public static void Hide()
+		{
+			_instance.gameObject.SetActive(false);
+		}
+
 		public void OnClickPlayer1()
 		{
 			Lock = true;
-			GameManager.StartGame(1, (s, e) => { gameObject.SetActive(false); });
+			GameManager.StartGame(true, (s, e) => { Hide(); });
 		}
 
 		public void OnClickPlayer2()
 		{
 			Lock = true;
-			GameManager.StartGame(2, (s, e) => { gameObject.SetActive(false); });
+			GameManager.StartGame(false, (s, e) => { Hide(); });
 		}
 
 		public void OnClickConstruction()
@@ -57,6 +71,11 @@ namespace BattleCity.GUI.Main
 				var first = EventSystem.current.firstSelectedGameObject;
 				EventSystem.current.SetSelectedGameObject(first);
 			}
+		}
+
+		private void Awake()
+		{
+			_instance = this;
 		}
 
 		private void OnEnable()

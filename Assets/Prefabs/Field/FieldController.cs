@@ -79,60 +79,6 @@ namespace BattleCity
 		private HashSet<GameObject> _otherObjects;
 		private HashSet<EnemyController> _enemiesObjects;
 
-		private void Awake()
-		{
-			Instance = this;
-			_otherObjects = new HashSet<GameObject>();
-			_enemiesObjects = new HashSet<EnemyController>();
-		}
-
-		private void Start()
-		{
-			_blocks = new BlockController[Width, Height];
-			TimeFreezed = -(Consts.TimeFreeze + 1);
-		}
-
-		private void OnDrawGizmos()
-		{
-			// Draw grid
-			Gizmos.color = Color.white;
-			for (int x = 0; x < Width; x++)
-				for (int y = 0; y < Height; y++)
-				{
-					var pos = transform.position;
-					pos.x += x;
-					pos.y += y;
-					Gizmos.DrawWireCube(pos, Vector2.one);
-				}
-		}
-
-		private void DestroyAdditionalObjects()
-		{
-			Bonus = null;
-
-			foreach (GameObject obj in _otherObjects)
-			{
-				if (obj == null)
-					continue;
-
-				var destroy = obj.GetComponent<IDestroy>();
-				if (destroy != null)
-					destroy.ClearEvent();
-				Destroy(obj);
-			}
-			_otherObjects.Clear();
-
-			foreach (EnemyController obj in _enemiesObjects)
-			{
-				if (obj == null)
-					continue;
-
-				obj.ClearEvent();
-				Destroy(obj);
-			}
-			_enemiesObjects.Clear();
-		}
-
 		public void AddOtherObject(GameObject obj)
 		{
 			_otherObjects.RemoveWhere(o => o == null);
@@ -277,7 +223,6 @@ namespace BattleCity
 			int[,] blocks, EnemyType[] spawnEnemies)
 		{
 			Clear();
-			DestroyAdditionalObjects();
 
 			Name = name;
 			Width = width;
@@ -310,6 +255,71 @@ namespace BattleCity
 						return block;
 				}
 			return null;
+		}
+
+		public void Clear()
+		{
+			DestroyAdditionalObjects();
+
+			var width = _blocks.GetLength(0);
+			var height = _blocks.GetLength(1);
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < height; y++)
+					FieldController.Instance.SetCell(x, y, Block.Empty);
+		}
+
+		private void Awake()
+		{
+			Instance = this;
+			_otherObjects = new HashSet<GameObject>();
+			_enemiesObjects = new HashSet<EnemyController>();
+		}
+
+		private void Start()
+		{
+			_blocks = new BlockController[Width, Height];
+			TimeFreezed = -(Consts.TimeFreeze + 1);
+		}
+
+		private void OnDrawGizmos()
+		{
+			// Draw grid field
+			Gizmos.color = Color.white;
+			for (int x = 0; x < Width; x++)
+				for (int y = 0; y < Height; y++)
+				{
+					var pos = transform.position;
+					pos.x += x;
+					pos.y += y;
+					Gizmos.DrawWireCube(pos, Vector2.one);
+				}
+		}
+
+		private void DestroyAdditionalObjects()
+		{
+			Bonus = null;
+
+			foreach (GameObject obj in _otherObjects)
+			{
+				if (obj == null)
+					continue;
+
+				var destroy = obj.GetComponent<IDestroy>();
+				if (destroy != null)
+					destroy.ClearEvent();
+				Destroy(obj);
+			}
+			_otherObjects.Clear();
+
+			foreach (EnemyController obj in _enemiesObjects)
+			{
+				if (obj == null)
+					continue;
+
+				obj.ClearEvent();
+				Destroy(obj.gameObject);
+			}
+			_enemiesObjects.Clear();
 		}
 
 		private IEnumerator SetProtectBase()
@@ -418,15 +428,6 @@ namespace BattleCity
 			y = baseY + 1;
 			if (x > 0 && y < Height)
 				SetCell(x, y, Block.BrickRightBottom);
-		}
-
-		private void Clear()
-		{
-			var width = _blocks.GetLength(0);
-			var height = _blocks.GetLength(1);
-			for (int x = 0; x < width; x++)
-				for (int y = 0; y < height; y++)
-					FieldController.Instance.SetCell(x, y, Block.Empty);
 		}
 	}
 }

@@ -54,6 +54,7 @@ namespace BattleCity
 			IndexEnemy = 0;
 			_spawnPoints.Clear();
 			_indexCurrentSpawnPoint = 0;
+			_instance.StopAllCoroutines();
 		}
 
 		public static int GetEnemiesCount()
@@ -82,6 +83,7 @@ namespace BattleCity
 				return;
 
 			_enemiesCount = _orderEnemiesSpawn.Length;
+			_instance.StopCoroutine(_instance.SpawnEnemies());
 			_instance.StartCoroutine(_instance.SpawnEnemies());
 		}
 
@@ -109,7 +111,8 @@ namespace BattleCity
 				_enemiesCount--;
 				_enemiesOnField++;
 				IndexEnemy++;
-				GetCurrentSpawnPoint().Spawn(IndexEnemy, _orderEnemiesSpawn[IndexEnemy - 1],
+				GetCurrentSpawnPoint().Spawn(IndexEnemy,
+					_orderEnemiesSpawn[IndexEnemy - 1],
 					new EventHandler(EnemyDestroy));
 			}
 		}
