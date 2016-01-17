@@ -14,7 +14,7 @@ namespace BattleCity.GUI.Files
 
 		private ToggleGroup _toggleGroup;
 		private FileInfoController _selectFileInfo;
-		private List<FileInfoController> _listFileInfo;
+		private HashSet<FileInfoController> _listFileInfo;
 
 		public void Show()
 		{
@@ -50,7 +50,7 @@ namespace BattleCity.GUI.Files
 		private void Awake()
 		{
 			_toggleGroup = Content.GetComponent<ToggleGroup>();
-			_listFileInfo = new List<FileInfoController>();
+			_listFileInfo = new HashSet<FileInfoController>();
 		}
 
 		private void OnEnable()

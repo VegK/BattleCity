@@ -34,7 +34,7 @@ namespace BattleCity
 
 		private static LevelManager _instance;
 		private int _index = -1;
-		private List<FieldData> _levels;
+		private HashSet<FieldData> _levels;
 
 		public static void NextLevel()
 		{
@@ -114,7 +114,7 @@ namespace BattleCity
 						data.Blocks[x, y] = (int)block.TypeItem;
 				}
 
-			if (_levels.Find(fd => fd.Name == name) == null)
+			if (!_levels.Any(fd => fd.Name == name))
 				_levels.Add(data);
 
 			var formatter = new BinaryFormatter();
@@ -139,7 +139,7 @@ namespace BattleCity
 
 		private void BufferLevels()
 		{
-			_levels = new List<FieldData>();
+			_levels = new HashSet<FieldData>();
 			if (!Directory.Exists(Consts.PATH))
 				return;
 
@@ -175,7 +175,7 @@ namespace BattleCity
 
 		private FieldData GetLevel(string name)
 		{
-			return _levels.Find(l => l.Name == name);
+			return _levels.FirstOrDefault(l => l.Name == name);
 		}
 
 		[Serializable]

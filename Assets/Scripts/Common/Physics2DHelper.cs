@@ -8,7 +8,7 @@ namespace BattleCity
 		public static bool Overlap(this Collider2D collider, Vector2 point1, Vector2 point2,
 			out Collider2D[] listOverlap)
 		{
-			var res = new List<Collider2D>();
+			var res = new HashSet<Collider2D>();
 			var layer = collider.gameObject.layer;
 			var colliders = Physics2D.OverlapAreaAll(point1, point2);
 
@@ -17,7 +17,8 @@ namespace BattleCity
 					!Physics2D.GetIgnoreLayerCollision(layer, item.gameObject.layer))
 					res.Add(item);
 
-			listOverlap = res.ToArray();
+			listOverlap = new Collider2D[res.Count];
+			res.CopyTo(listOverlap);
 			return (listOverlap.Length > 0);
 		}
 

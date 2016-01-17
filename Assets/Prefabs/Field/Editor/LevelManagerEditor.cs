@@ -92,7 +92,7 @@ namespace BattleCity
 
 		private void LoadListFiles()
 		{
-			var list = new List<string>();
+			var list = new HashSet<string>();
 
 			var ext = "." + Consts.EXTENSION;
 			var dir = new DirectoryInfo(Consts.PATH);
@@ -100,7 +100,8 @@ namespace BattleCity
 				if (file.Extension == ext)
 					list.Add(Path.GetFileNameWithoutExtension(file.Name));
 
-			_listLevelName = list.ToArray();
+			_listLevelName = new string[list.Count];
+			list.CopyTo(_listLevelName);
 		}
 	}
 }
