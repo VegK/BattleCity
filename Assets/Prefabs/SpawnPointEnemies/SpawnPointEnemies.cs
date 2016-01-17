@@ -40,6 +40,8 @@ namespace BattleCity.Blocks
 				enemy.DestroyEvent += destroyEnemy;
 				enemy.Show();
 			};
+
+			FieldController.Instance.AddOtherObject(obj.gameObject);
 		}
 
 		protected override void Start()
