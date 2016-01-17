@@ -133,6 +133,10 @@ namespace BattleCity.Player
 								Upgrade++;
 							break;
 						case Bonus.Bomb:
+							if (TypeItem == Block.Player1)
+								GameManager.Player1.Score += Consts.PointsBonusBomb;
+							else if (TypeItem == Block.Player2)
+								GameManager.Player2.Score += Consts.PointsBonusBomb;
 							FieldController.Instance.ExplosionEnemies();
 							break;
 						case Bonus.Helmet:

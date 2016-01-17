@@ -79,12 +79,6 @@ namespace BattleCity
 					obj.AddComponent<SpriteRenderer>().sprite = Sprite500Points;
 					Destroy(obj, Consts.TimeDestroyObjectPoints);
 					FieldController.Instance.AddOtherObject(obj);
-
-					var layer = LayerMask.LayerToName(other.gameObject.layer);
-					if (layer == "Player1")
-						GameManager.Player1.Score += Consts.PointsBonusBomb;
-					else if (layer == "Player2")
-						GameManager.Player2.Score += Consts.PointsBonusBomb;
 				}
 
 				Destroy(gameObject);
