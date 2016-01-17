@@ -1,8 +1,11 @@
 ﻿using System;
 
-public interface IDestroy
+namespace BattleCity
 {
-	event EventHandler DestroyEvent;
+	public interface IDestroy
+	{
+		event EventHandler DestroyEvent;
 
-	void ClearEvent();
+		void ClearEvent();
+	}
 }

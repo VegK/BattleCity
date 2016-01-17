@@ -1,15 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GUI
+namespace BattleCity.GUI.Files
 {
 	public class FileInfoController : MonoBehaviour
 	{
 		[SerializeField]
 		private Text UIText;
 
+		public event FileInfoClickHandler ClickEvent;
 		public string Text
 		{
 			get
@@ -22,12 +22,12 @@ namespace GUI
 			}
 		}
 
-		public event FileInfoClickHandler ClickEvent;
-
 		public void OnClickSelect(BaseEventData data)
 		{
 			if (ClickEvent != null)
 				ClickEvent(this);
 		}
 	}
+
+	public delegate void FileInfoClickHandler(FileInfoController fileInfo);
 }

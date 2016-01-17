@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace GUI
+namespace BattleCity.GUI.Main
 {
 	public class PlayerLife : MonoBehaviour
 	{
 		[SerializeField]
 		private Text Text;
+		[SerializeField]
+		private int _count = 0;
 
 		public int Count
 		{
@@ -23,8 +25,5 @@ namespace GUI
 				_count = value;
 			}
 		}
-
-		[SerializeField]
-		private int _count = 0;
 	}
 }

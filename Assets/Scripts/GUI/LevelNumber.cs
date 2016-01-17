@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace GUI
+namespace BattleCity.GUI.Main
 {
 	public class LevelNumber : MonoBehaviour
 	{
 		[SerializeField]
 		private Text Text;
+		[SerializeField]
+		private int _number = 1;
 
 		public int Number
 		{
@@ -23,8 +25,5 @@ namespace GUI
 				_number = value;
 			}
 		}
-
-		[SerializeField]
-		private int _number = 1;
 	}
 }

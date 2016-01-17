@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-namespace GUI
+namespace BattleCity.GUI.Main
 {
 	public class GameOver : MonoBehaviour
 	{
-		public Canvas UICanvas;
-		public float Speed = 1f;
-		public Vector2 StartPoint = new Vector2(0, -110);
+		[SerializeField]
+		private Canvas UICanvas;
+		[SerializeField]
+		private float Speed = 1f;
+		[SerializeField]
+		private Vector2 StartPoint = new Vector2(0, -110);
 
 		private float _time;
 		private Vector2 _startPoint;

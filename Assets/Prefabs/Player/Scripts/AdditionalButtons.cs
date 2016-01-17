@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
 
-public class AdditionalButtons : MonoBehaviour
+namespace BattleCity.Player
 {
-	private bool _keyEscapePress;
-	private string _buttonNamePause;
-
-	private void Awake()
+	public class AdditionalButtons : MonoBehaviour
 	{
-		var player = GetComponent<PlayerController>();
-		_buttonNamePause = player.TypeItem + "_Pause";
-	}
+		private bool _keyEscapePress;
+		private string _buttonNamePause;
 
-	private void Update()
-	{
-		if (Input.GetButtonDown(_buttonNamePause))
+		private void Awake()
 		{
-			_keyEscapePress = !_keyEscapePress;
-			GameManager.Pause = _keyEscapePress;
+			var player = GetComponent<PlayerController>();
+			_buttonNamePause = player.TypeItem + "_Pause";
+		}
+
+		private void Update()
+		{
+			if (Input.GetButtonDown(_buttonNamePause))
+			{
+				_keyEscapePress = !_keyEscapePress;
+				GameManager.Pause = _keyEscapePress;
+			}
 		}
 	}
 }

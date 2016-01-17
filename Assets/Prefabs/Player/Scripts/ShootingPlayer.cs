@@ -1,47 +1,50 @@
 ﻿using System;
 using UnityEngine;
 
-public class ShootingPlayer : Shooting
+namespace BattleCity.Player
 {
-	[SerializeField]
-	private Parameters[] ParamsUpgrade;
-
-	private PlayerController _playerController;
-	private string _buttonNameFire;
-
-	protected override void Awake()
+	public class ShootingPlayer : Shooting
 	{
-		_playerController = GetComponent<PlayerController>();
-		_playerController.UpgradeEvent += SetParameters;
-		_buttonNameFire = _playerController.TypeItem + "_Fire";
-		base.Awake();
-	}
+		[SerializeField]
+		private Parameters[] ParamsUpgrade;
 
-	private void FixedUpdate()
-	{
-		if (_playerController.EditorMode)
-			return;
-		if (Input.GetButton(_buttonNameFire))
-			RunBullet();
-	}
+		private PlayerController _playerController;
+		private string _buttonNameFire;
 
-	private void SetParameters(int index)
-	{
-		if (index < 0)
-			return;
-		if (index >= ParamsUpgrade.Length)
-			return;
+		protected override void Awake()
+		{
+			_playerController = GetComponent<PlayerController>();
+			_playerController.UpgradeEvent += SetParameters;
+			_buttonNameFire = _playerController.TypeItem + "_Fire";
+			base.Awake();
+		}
 
-		SpeedBullet = ParamsUpgrade[index].SpeedBullet;
-		MaxBullet = ParamsUpgrade[index].MaxBullet;
-		ShotDelay = ParamsUpgrade[index].ShotDelay;
-	}
+		private void FixedUpdate()
+		{
+			if (_playerController.EditorMode)
+				return;
+			if (Input.GetButton(_buttonNameFire))
+				RunBullet();
+		}
 
-	[Serializable]
-	public class Parameters
-	{
-		public float SpeedBullet;
-		public int MaxBullet;
-		public float ShotDelay;
+		private void SetParameters(int index)
+		{
+			if (index < 0)
+				return;
+			if (index >= ParamsUpgrade.Length)
+				return;
+
+			SpeedBullet = ParamsUpgrade[index].SpeedBullet;
+			MaxBullet = ParamsUpgrade[index].MaxBullet;
+			ShotDelay = ParamsUpgrade[index].ShotDelay;
+		}
+
+		[Serializable]
+		public class Parameters
+		{
+			public float SpeedBullet;
+			public int MaxBullet;
+			public float ShotDelay;
+		}
 	}
 }

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace GUI
+namespace BattleCity.GUI.Files
 {
-	public class SaveManagerController : MonoBehaviour
+	public class SaveLevelController : MonoBehaviour
 	{
 		[SerializeField]
 		private InputField FileName;

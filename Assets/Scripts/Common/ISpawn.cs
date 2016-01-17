@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public interface ISpawn
+namespace BattleCity
 {
-	Vector3 SpawnPoint { get; set; }
+	public interface ISpawn
+	{
+		Vector3 SpawnPoint { get; set; }
+	}
 }

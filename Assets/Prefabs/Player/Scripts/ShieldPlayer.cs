@@ -1,25 +1,27 @@
 ﻿using System;
 using UnityEngine;
 
-public class ShieldPlayer : MonoBehaviour
+namespace BattleCity.Player
 {
-	public float TimeLife = 3.5f;
-
-	public event EventHandler DestroyEvent;
-
-	private void Start()
+	public class ShieldPlayer : MonoBehaviour
 	{
-		Destroy(gameObject, TimeLife);
-	}
+		public event EventHandler DestroyEvent;
+		public float TimeLife = 3.5f;
 
-	private void OnDestroy()
-	{
-		if (DestroyEvent != null)
-			DestroyEvent(this, EventArgs.Empty);
-	}
+		private void Start()
+		{
+			Destroy(gameObject, TimeLife);
+		}
 
-	private void OnApplicationQuit()
-	{
-		DestroyEvent = null;
+		private void OnDestroy()
+		{
+			if (DestroyEvent != null)
+				DestroyEvent(this, EventArgs.Empty);
+		}
+
+		private void OnApplicationQuit()
+		{
+			DestroyEvent = null;
+		}
 	}
 }

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System.Linq;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace GUI
+namespace BattleCity.GUI.Editor
 {
 	public class PanelItemsController : MonoBehaviour
 	{

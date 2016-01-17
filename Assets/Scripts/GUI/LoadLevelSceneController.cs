@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GUI
+namespace BattleCity.GUI.Main
 {
 	public class LoadLevelSceneController : MonoBehaviour
 	{

@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using BattleCity.GUI.Editor.ConfigSpawn;
+using BattleCity.GUI.Files;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GUI
+namespace BattleCity.GUI.Editor
 {
 	public class EditorGUIController : MonoBehaviour
 	{
-		public SaveManagerController SaveManager;
-		public LoadManagerController LoadManager;
-		public Editor.ConfigSpawn.ConfigController ConfigSpawn;
+		public SaveLevelController SaveManager;
+		public LoadLevelController LoadManager;
+		public ConfigController ConfigSpawn;
 
 		public void OnClickBack()
 		{

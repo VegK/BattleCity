@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using System;
 
-namespace GUI
+namespace BattleCity.GUI.Main
 {
 	public class ScoreGUIController : MonoBehaviour
 	{
@@ -26,7 +26,8 @@ namespace GUI
 
 		private static ScoreGUIController _instance;
 		private EventHandler _finishEvent;
-		PlayerData _player1, _player2;
+		private PlayerData _player1;
+		private PlayerData _player2;
 
 		public static void Show(EventHandler finishEvent, int levelNumber,
 			PlayerData player1, PlayerData player2)

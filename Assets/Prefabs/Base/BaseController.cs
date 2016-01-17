@@ -1,36 +1,38 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class BaseController : BlockController
+namespace BattleCity
 {
-	public Sprite Destroyed;
-	public ExplosionController PrefabExplosion;
-
-	private SpriteRenderer _spriteRenderer;
-	private BoxCollider2D _boxCollider;
-
-	protected override void Awake()
+	public class BaseController : BlockController
 	{
-		base.Awake();
-		_spriteRenderer = GetComponent<SpriteRenderer>();
-		_boxCollider = GetComponent<BoxCollider2D>();
-	}
+		public Sprite Destroyed;
+		public ExplosionController PrefabExplosion;
 
-	private void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.tag == "Bullet")
+		private SpriteRenderer _spriteRenderer;
+		private BoxCollider2D _boxCollider;
+
+		protected override void Awake()
 		{
-			_spriteRenderer.sprite = Destroyed;
+			base.Awake();
+			_spriteRenderer = GetComponent<SpriteRenderer>();
+			_boxCollider = GetComponent<BoxCollider2D>();
+		}
 
-			_boxCollider.enabled = false;
+		private void OnTriggerEnter2D(Collider2D other)
+		{
+			if (other.tag == "Bullet")
+			{
+				_spriteRenderer.sprite = Destroyed;
 
-			var obj = Instantiate(PrefabExplosion);
-			var pos = transform.position;
-			pos.z = PrefabExplosion.transform.position.z;
-			obj.transform.position = transform.position;
-			obj.Show(ExplosionController.ExplosionType.Object);
+				_boxCollider.enabled = false;
 
-			GameManager.GameOver();
+				var obj = Instantiate(PrefabExplosion);
+				var pos = transform.position;
+				pos.z = PrefabExplosion.transform.position.z;
+				obj.transform.position = transform.position;
+				obj.Show(ExplosionController.ExplosionType.Object);
+
+				GameManager.GameOver();
+			}
 		}
 	}
 }

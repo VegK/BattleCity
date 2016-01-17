@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-namespace GUI
+namespace BattleCity.GUI.Main
 {
 	public class MainMenuController : MonoBehaviour
 	{

@@ -1,96 +1,103 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(FieldController))]
-public class FieldControllerEditor : Editor
+namespace BattleCity
 {
-	private FieldController _field;
-	private int _lastWidth = -1;
-	private int _lastHeight = -1;
-
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(FieldController))]
+	public class FieldControllerEditor : Editor
 	{
-		base.OnInspectorGUI();
-
-		_field = target as FieldController;
-
-		if (_field.Width != _lastWidth || _field.Height != _lastHeight)
+		private FieldController Target
 		{
-			ResizeBorders();
-			ResizeBackground();
+			get
+			{
+				return target as FieldController;
+			}
 		}
-		_lastWidth = _field.Width;
-		_lastHeight = _field.Height;
-	}
+		private int _lastWidth = -1;
+		private int _lastHeight = -1;
 
-	private void ResizeBorders()
-	{
-		Vector2 size, pos;
-
-		if (_field.BorderTop != null)
+		public override void OnInspectorGUI()
 		{
-			size = _field.BorderTop.localScale;
-			size.x = _field.Width;
-			_field.BorderTop.localScale = size;
+			base.OnInspectorGUI();
 
-			pos = _field.BorderTop.transform.position;
-			pos.x = _field.Width / 2f - 0.5f;
-			pos.y = _field.Height;
-			_field.BorderTop.transform.position = pos;
+			if (Target.Width != _lastWidth || Target.Height != _lastHeight)
+			{
+				ResizeBorders();
+				ResizeBackground();
+			}
+			_lastWidth = Target.Width;
+			_lastHeight = Target.Height;
 		}
 
-		if (_field.BorderRight != null)
+		private void ResizeBorders()
 		{
-			size = _field.BorderRight.localScale;
-			size.y = _field.Height;
-			_field.BorderRight.localScale = size;
+			Vector2 size, pos;
 
-			pos = _field.BorderRight.transform.position;
-			pos.x = _field.Width;
-			pos.y = _field.Height / 2f - 0.5f;
-			_field.BorderRight.transform.position = pos;
+			if (Target.BorderTop != null)
+			{
+				size = Target.BorderTop.localScale;
+				size.x = Target.Width;
+				Target.BorderTop.localScale = size;
+
+				pos = Target.BorderTop.transform.position;
+				pos.x = Target.Width / 2f - 0.5f;
+				pos.y = Target.Height;
+				Target.BorderTop.transform.position = pos;
+			}
+
+			if (Target.BorderRight != null)
+			{
+				size = Target.BorderRight.localScale;
+				size.y = Target.Height;
+				Target.BorderRight.localScale = size;
+
+				pos = Target.BorderRight.transform.position;
+				pos.x = Target.Width;
+				pos.y = Target.Height / 2f - 0.5f;
+				Target.BorderRight.transform.position = pos;
+			}
+
+			if (Target.BorderBottom != null)
+			{
+				size = Target.BorderBottom.localScale;
+				size.x = Target.Width;
+				Target.BorderBottom.localScale = size;
+
+				pos = Target.BorderBottom.transform.position;
+				pos.x = Target.Width / 2f - 0.5f;
+				pos.y = -1;
+				Target.BorderBottom.transform.position = pos;
+			}
+
+			if (Target.BorderLeft != null)
+			{
+				size = Target.BorderLeft.localScale;
+				size.y = Target.Height;
+				Target.BorderLeft.localScale = size;
+
+				pos = Target.BorderLeft.transform.position;
+				pos.x = -1;
+				pos.y = Target.Height / 2f - 0.5f;
+				Target.BorderLeft.transform.position = pos;
+			}
 		}
 
-		if (_field.BorderBottom != null)
+		private void ResizeBackground()
 		{
-			size = _field.BorderBottom.localScale;
-			size.x = _field.Width;
-			_field.BorderBottom.localScale = size;
+			if (Target.Background == null)
+				return;
 
-			pos = _field.BorderBottom.transform.position;
-			pos.x = _field.Width / 2f - 0.5f;
-			pos.y = -1;
-			_field.BorderBottom.transform.position = pos;
+			Vector3 vec;
+
+			vec = Target.Background.transform.localScale;
+			vec.x = Target.Width;
+			vec.y = Target.Height;
+			Target.Background.transform.localScale = vec;
+
+			vec = Target.Background.transform.position;
+			vec.x = Target.Width / 2f - 0.5f;
+			vec.y = Target.Height / 2f - 0.5f;
+			Target.Background.transform.position = vec;
 		}
-
-		if (_field.BorderLeft != null)
-		{
-			size = _field.BorderLeft.localScale;
-			size.y = _field.Height;
-			_field.BorderLeft.localScale = size;
-
-			pos = _field.BorderLeft.transform.position;
-			pos.x = -1;
-			pos.y = _field.Height / 2f - 0.5f;
-			_field.BorderLeft.transform.position = pos;
-		}
-	}
-
-	private void ResizeBackground()
-	{
-		if (_field.Background == null)
-			return;
-
-		Vector3 vec;
-
-		vec = _field.Background.transform.localScale;
-		vec.x = _field.Width;
-		vec.y = _field.Height;
-		_field.Background.transform.localScale = vec;
-
-		vec = _field.Background.transform.position;
-		vec.x = _field.Width / 2f - 0.5f;
-		vec.y = _field.Height / 2f - 0.5f;
-		_field.Background.transform.position = vec;
 	}
 }

@@ -2,18 +2,21 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
 
-public class BuildPostprocessor
+namespace BattleCity
 {
-	[PostProcessBuild(1)]
-	public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
+	public class BuildPostprocessor
 	{
-		var path = Path.GetDirectoryName(pathToBuiltProject);
-		var fileName = Path.GetFileNameWithoutExtension(pathToBuiltProject);
-		var to = path + "/" + fileName + "_Data/Levels/";
-		Directory.CreateDirectory(to);
+		[PostProcessBuild(1)]
+		public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
+		{
+			var path = Path.GetDirectoryName(pathToBuiltProject);
+			var fileName = Path.GetFileNameWithoutExtension(pathToBuiltProject);
+			var to = path + "/" + fileName + "_Data/Levels/";
+			Directory.CreateDirectory(to);
 
-		var files = new DirectoryInfo(Consts.PATH).GetFiles("*." + Consts.EXTENSION);
-		foreach (FileInfo file in files)
-			FileUtil.CopyFileOrDirectory(Consts.PATH + file.Name, to + file.Name);
+			var files = new DirectoryInfo(Consts.PATH).GetFiles("*." + Consts.EXTENSION);
+			foreach (FileInfo file in files)
+				FileUtil.CopyFileOrDirectory(Consts.PATH + file.Name, to + file.Name);
+		}
 	}
 }

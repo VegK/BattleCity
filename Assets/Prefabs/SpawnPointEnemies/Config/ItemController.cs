@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using System;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-namespace GUI.Editor.ConfigSpawn
+namespace BattleCity.GUI.Editor.ConfigSpawn
 {
 	public class ItemController : MonoBehaviour
 	{
@@ -23,6 +21,7 @@ namespace GUI.Editor.ConfigSpawn
 		[SerializeField]
 		private Text Number;
 
+		public event ClickHandler ClickEvent;
 		public EnemyType Type
 		{
 			get
@@ -65,7 +64,6 @@ namespace GUI.Editor.ConfigSpawn
 				Number.text = value.ToString();
 			}
 		}
-		public event ClickHandler ClickEvent;
 
 		private EnemyType _type;
 

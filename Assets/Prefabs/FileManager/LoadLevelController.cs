@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GUI
+namespace BattleCity.GUI.Files
 {
-	public class LoadManagerController : MonoBehaviour
+	public class LoadLevelController : MonoBehaviour
 	{
 		public FileInfoController PrefabFile;
 		public Transform Content;
@@ -104,6 +104,4 @@ namespace GUI
 			Preview.sprite = Sprite.Create(texture, rect, pivot);
 		}
 	}
-
-	public delegate void FileInfoClickHandler(FileInfoController fileInfo);
 }

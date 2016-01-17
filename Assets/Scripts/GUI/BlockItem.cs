@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-namespace GUI
+namespace BattleCity.GUI.Editor
 {
 	public class BlockItem : MonoBehaviour
 	{

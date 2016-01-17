@@ -1,39 +1,42 @@
 ﻿using System;
 using UnityEngine;
 
-public class SpawnController : MonoBehaviour, IDestroy
+namespace BattleCity
 {
-	public float SpeedAnimation= 1.5f;
-	public float TimeLife = 1f;
-
-	public event EventHandler DestroyEvent;
-
-	private Animator _animator;
-
-	public void ClearEvent()
+	public class SpawnController : MonoBehaviour, IDestroy
 	{
-		DestroyEvent = null;
-	}
+		public float SpeedAnimation = 1.5f;
+		public float TimeLife = 1f;
 
-	private void Awake()
-	{
-		_animator = GetComponent<Animator>();
-		_animator.speed = SpeedAnimation;
-	}
+		public event EventHandler DestroyEvent;
 
-	private void Start()
-	{
-		Destroy(gameObject, TimeLife);
-	}
+		private Animator _animator;
 
-	private void OnDestroy()
-	{
-		if (DestroyEvent != null)
-			DestroyEvent(this, EventArgs.Empty);
-	}
+		public void ClearEvent()
+		{
+			DestroyEvent = null;
+		}
 
-	private void OnApplicationQuit()
-	{
-		DestroyEvent = null;
+		private void Awake()
+		{
+			_animator = GetComponent<Animator>();
+			_animator.speed = SpeedAnimation;
+		}
+
+		private void Start()
+		{
+			Destroy(gameObject, TimeLife);
+		}
+
+		private void OnDestroy()
+		{
+			if (DestroyEvent != null)
+				DestroyEvent(this, EventArgs.Empty);
+		}
+
+		private void OnApplicationQuit()
+		{
+			DestroyEvent = null;
+		}
 	}
 }

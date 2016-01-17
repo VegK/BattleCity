@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GUI
+namespace BattleCity.GUI.Editor
 {
 	public static class Screenshot
 	{

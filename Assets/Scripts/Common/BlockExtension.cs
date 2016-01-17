@@ -1,56 +1,58 @@
-﻿using UnityEngine;
-
-public static class BlockExtension
+﻿namespace BattleCity.Blocks
 {
-	public static BlockController GetPrefab(this Block block)
+	public static class BlockExtension
 	{
-		switch (block)
+		public static BlockController GetPrefab(this Block block)
 		{
-			case Block.BrickFull:
-				return FieldController.Instance.PrefabBrickFull;
-			case Block.BrickTop:
-				return FieldController.Instance.PrefabBrickTop;
-			case Block.BrickRight:
-				return FieldController.Instance.PrefabBrickRight;
-			case Block.BrickBottom:
-				return FieldController.Instance.PrefabBrickBottom;
-			case Block.BrickLeft:
-				return FieldController.Instance.PrefabBrickLeft;
-			case Block.BrickLeftTop:
-				return FieldController.Instance.PrefabBrickLeftTop;
-			case Block.BrickRightTop:
-				return FieldController.Instance.PrefabBrickRightTop;
-			case Block.BrickRightBottom:
-				return FieldController.Instance.PrefabBrickRightBottom;
-			case Block.BrickLeftBottom:
-				return FieldController.Instance.PrefabBrickLeftBottom;
-			case Block.MetalFull:
-				return FieldController.Instance.PrefabMetalFull;
-			case Block.MetalTop:
-				return FieldController.Instance.PrefabMetalTop;
-			case Block.MetalRight:
-				return FieldController.Instance.PrefabMetalRight;
-			case Block.MetalBottom:
-				return FieldController.Instance.PrefabMetalBottom;
-			case Block.MetalLeft:
-				return FieldController.Instance.PrefabMetalLeft;
-			case Block.Forest:
-				return FieldController.Instance.PrefabForest;
-			case Block.Water:
-				return FieldController.Instance.PrefabWater;
-			case Block.Ice:
-				return FieldController.Instance.PrefabIce;
-			case Block.Base:
-				return FieldController.Instance.PrefabBase;
-			case Block.Player1:
-				return FieldController.Instance.PrefabPlayer1;
-			case Block.Player2:
-				return FieldController.Instance.PrefabPlayer2;
-			case Block.EnemyRespawn:
-				return FieldController.Instance.PrefabSpawnEnemies;
-			default:
-			case Block.Empty:
-				return null;
+			var instance = FieldController.Instance;
+			switch (block)
+			{
+				case Block.BrickFull:
+					return instance.PrefabBrickFull;
+				case Block.BrickTop:
+					return instance.PrefabBrickTop;
+				case Block.BrickRight:
+					return instance.PrefabBrickRight;
+				case Block.BrickBottom:
+					return instance.PrefabBrickBottom;
+				case Block.BrickLeft:
+					return instance.PrefabBrickLeft;
+				case Block.BrickLeftTop:
+					return instance.PrefabBrickLeftTop;
+				case Block.BrickRightTop:
+					return instance.PrefabBrickRightTop;
+				case Block.BrickRightBottom:
+					return instance.PrefabBrickRightBottom;
+				case Block.BrickLeftBottom:
+					return instance.PrefabBrickLeftBottom;
+				case Block.MetalFull:
+					return instance.PrefabMetalFull;
+				case Block.MetalTop:
+					return instance.PrefabMetalTop;
+				case Block.MetalRight:
+					return instance.PrefabMetalRight;
+				case Block.MetalBottom:
+					return instance.PrefabMetalBottom;
+				case Block.MetalLeft:
+					return instance.PrefabMetalLeft;
+				case Block.Forest:
+					return instance.PrefabForest;
+				case Block.Water:
+					return instance.PrefabWater;
+				case Block.Ice:
+					return instance.PrefabIce;
+				case Block.Base:
+					return instance.PrefabBase;
+				case Block.Player1:
+					return instance.PrefabPlayer1;
+				case Block.Player2:
+					return instance.PrefabPlayer2;
+				case Block.EnemyRespawn:
+					return instance.PrefabSpawnEnemies;
+				default:
+				case Block.Empty:
+					return null;
+			}
 		}
 	}
 }

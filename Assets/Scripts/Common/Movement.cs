@@ -1,133 +1,135 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
+﻿using System;
+using UnityEngine;
 
-public class Movement : MonoBehaviour
+namespace BattleCity
 {
-	public float SpeedMove = 2f;
-
-	[Header("Animations")]
-	[SerializeField]
-	protected AnimationClip AnimTop;
-	[SerializeField]
-	protected AnimationClip AnimRight;
-	[SerializeField]
-	protected AnimationClip AnimBottom;
-	[SerializeField]
-	protected AnimationClip AnimLeft;
-
-	[Header("Animation level")]
-	[SerializeField]
-	protected AnimationMove[] AnimLevel;
-
-	public Direction CurrentDirection { get; protected set; }
-
-	protected bool AnimationEnabled;
-	protected Animator Animator;
-	private Collider2D _collider;
-	private Direction _prevDirection;
-
-	protected virtual void Awake()
+	public class Movement : MonoBehaviour
 	{
-		Animator = GetComponent<Animator>();
-		_collider = GetComponent<Collider2D>();
-	}
+		public float SpeedMove = 2f;
 
-	protected virtual void OnEnable()
-	{
-		switch (CurrentDirection)
+		[Header("Animations")]
+		[SerializeField]
+		protected AnimationClip AnimTop;
+		[SerializeField]
+		protected AnimationClip AnimRight;
+		[SerializeField]
+		protected AnimationClip AnimBottom;
+		[SerializeField]
+		protected AnimationClip AnimLeft;
+
+		[Header("Animation level")]
+		[SerializeField]
+		protected AnimationMove[] AnimLevel;
+
+		public Direction CurrentDirection { get; protected set; }
+
+		protected bool AnimationEnabled;
+		protected Animator Animator;
+		private Collider2D _collider;
+		private Direction _prevDirection;
+
+		protected virtual void Awake()
 		{
-			case Direction.Top:
-				AnimTop.SampleAnimation(gameObject, 0);
-				break;
-			case Direction.Right:
-				AnimRight.SampleAnimation(gameObject, 0);
-				break;
-			case Direction.Bottom:
-				AnimBottom.SampleAnimation(gameObject, 0);
-				break;
-			case Direction.Left:
-				AnimLeft.SampleAnimation(gameObject, 0);
-				break;
-		}
-		Animator.enabled = false;
-	}
-
-	protected virtual void FixedUpdate()
-	{
-		var beside = _collider.CheckColliderBeside(CurrentDirection);
-		var move = Vector2.zero;
-
-		switch (CurrentDirection)
-		{
-			case Direction.Top:
-				Animator.Play(AnimTop.name);
-				if (!beside)
-					move.y = SpeedMove;
-				break;
-			case Direction.Right:
-				Animator.Play(AnimRight.name);
-				if (!beside)
-					move.x = SpeedMove;
-				break;
-			case Direction.Bottom:
-				Animator.Play(AnimBottom.name);
-				if (!beside)
-					move.y = -SpeedMove;
-				break;
-			case Direction.Left:
-				Animator.Play(AnimLeft.name);
-				if (!beside)
-					move.x = -SpeedMove;
-				break;
+			Animator = GetComponent<Animator>();
+			_collider = GetComponent<Collider2D>();
 		}
 
-		RoundPosition(CurrentDirection);
-		transform.Translate(move * Time.deltaTime);
-	}
+		protected virtual void OnEnable()
+		{
+			switch (CurrentDirection)
+			{
+				case Direction.Top:
+					AnimTop.SampleAnimation(gameObject, 0);
+					break;
+				case Direction.Right:
+					AnimRight.SampleAnimation(gameObject, 0);
+					break;
+				case Direction.Bottom:
+					AnimBottom.SampleAnimation(gameObject, 0);
+					break;
+				case Direction.Left:
+					AnimLeft.SampleAnimation(gameObject, 0);
+					break;
+			}
+			Animator.enabled = false;
+		}
 
-	protected void SetAnimationsLevel(int value)
-	{
-		if (value < 0)
-			return;
-		if (AnimLevel.Length == 0)
-			return;
+		protected virtual void FixedUpdate()
+		{
+			var beside = _collider.CheckColliderBeside(CurrentDirection);
+			var move = Vector2.zero;
 
-		var index = value % AnimLevel.Length;
-		AnimTop = AnimLevel[index].AnimTop;
-		AnimRight = AnimLevel[index].AnimRight;
-		AnimBottom = AnimLevel[index].AnimBottom;
-		AnimLeft = AnimLevel[index].AnimLeft;
-	}
+			switch (CurrentDirection)
+			{
+				case Direction.Top:
+					Animator.Play(AnimTop.name);
+					if (!beside)
+						move.y = SpeedMove;
+					break;
+				case Direction.Right:
+					Animator.Play(AnimRight.name);
+					if (!beside)
+						move.x = SpeedMove;
+					break;
+				case Direction.Bottom:
+					Animator.Play(AnimBottom.name);
+					if (!beside)
+						move.y = -SpeedMove;
+					break;
+				case Direction.Left:
+					Animator.Play(AnimLeft.name);
+					if (!beside)
+						move.x = -SpeedMove;
+					break;
+			}
 
-	private void RoundPosition(Direction direction)
-	{
-		if (_prevDirection == direction)
-			return;
-		if (direction == Direction.Top && _prevDirection == Direction.Bottom ||
-			direction == Direction.Bottom && _prevDirection == Direction.Top)
-			return;
-		if (direction == Direction.Right && _prevDirection == Direction.Left ||
-			direction == Direction.Left && _prevDirection == Direction.Right)
-			return;
+			RoundPosition(CurrentDirection);
+			transform.Translate(move * Time.deltaTime);
+		}
 
-		var pos = transform.position;
+		protected void SetAnimationsLevel(int value)
+		{
+			if (value < 0)
+				return;
+			if (AnimLevel.Length == 0)
+				return;
 
-		if (direction == Direction.Top || direction == Direction.Bottom)
-			pos.x = Mathf.Round(pos.x / Consts.SHARE) * Consts.SHARE;
-		else if (direction == Direction.Right || direction == Direction.Left)
-			pos.y = Mathf.Round(pos.y / Consts.SHARE) * Consts.SHARE;
+			var index = value % AnimLevel.Length;
+			AnimTop = AnimLevel[index].AnimTop;
+			AnimRight = AnimLevel[index].AnimRight;
+			AnimBottom = AnimLevel[index].AnimBottom;
+			AnimLeft = AnimLevel[index].AnimLeft;
+		}
 
-		transform.position = pos;
-		_prevDirection = direction;
-	}
+		private void RoundPosition(Direction direction)
+		{
+			if (_prevDirection == direction)
+				return;
+			if (direction == Direction.Top && _prevDirection == Direction.Bottom ||
+				direction == Direction.Bottom && _prevDirection == Direction.Top)
+				return;
+			if (direction == Direction.Right && _prevDirection == Direction.Left ||
+				direction == Direction.Left && _prevDirection == Direction.Right)
+				return;
 
-	[Serializable]
-	public class AnimationMove
-	{
-		public AnimationClip AnimTop;
-		public AnimationClip AnimRight;
-		public AnimationClip AnimBottom;
-		public AnimationClip AnimLeft;
+			var pos = transform.position;
+
+			if (direction == Direction.Top || direction == Direction.Bottom)
+				pos.x = Mathf.Round(pos.x / Consts.SHARE) * Consts.SHARE;
+			else if (direction == Direction.Right || direction == Direction.Left)
+				pos.y = Mathf.Round(pos.y / Consts.SHARE) * Consts.SHARE;
+
+			transform.position = pos;
+			_prevDirection = direction;
+		}
+
+		[Serializable]
+		public class AnimationMove
+		{
+			public AnimationClip AnimTop;
+			public AnimationClip AnimRight;
+			public AnimationClip AnimBottom;
+			public AnimationClip AnimLeft;
+		}
 	}
 }

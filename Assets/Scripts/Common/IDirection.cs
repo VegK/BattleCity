@@ -1,4 +1,7 @@
-﻿public interface IDirection
+﻿namespace BattleCity
 {
-	Direction DirectionMove { get; }
+	public interface IDirection
+	{
+		Direction DirectionMove { get; }
+	}
 }

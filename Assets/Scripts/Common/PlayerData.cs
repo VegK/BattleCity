@@ -1,36 +1,39 @@
-﻿public struct PlayerData
+﻿namespace BattleCity
 {
-	public int Score;
-	public int Enemy1;
-	public int Enemy2;
-	public int Enemy3;
-	public int Enemy4;
-
-	public void AddPoint(EnemyType enemy, int points)
+	public struct PlayerData
 	{
-		Score += points;
-		switch (enemy)
+		public int Score;
+		public int Enemy1;
+		public int Enemy2;
+		public int Enemy3;
+		public int Enemy4;
+
+		public void AddPoint(EnemyType enemy, int points)
 		{
-			case EnemyType.Enemy1:
-				Enemy1++;
-				break;
-			case EnemyType.Enemy2:
-				Enemy2++;
-				break;
-			case EnemyType.Enemy3:
-				Enemy3++;
-				break;
-			case EnemyType.Enemy4:
-				Enemy4++;
-				break;
+			Score += points;
+			switch (enemy)
+			{
+				case EnemyType.Enemy1:
+					Enemy1++;
+					break;
+				case EnemyType.Enemy2:
+					Enemy2++;
+					break;
+				case EnemyType.Enemy3:
+					Enemy3++;
+					break;
+				case EnemyType.Enemy4:
+					Enemy4++;
+					break;
+			}
 		}
-	}
 
-	public void ResetEnemy()
-	{
-		Enemy1 = 0;
-		Enemy2 = 0;
-		Enemy3 = 0;
-		Enemy4 = 0;
+		public void ResetEnemy()
+		{
+			Enemy1 = 0;
+			Enemy2 = 0;
+			Enemy3 = 0;
+			Enemy4 = 0;
+		}
 	}
 }

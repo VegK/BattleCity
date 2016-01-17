@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GUI.Editor.ConfigSpawn
+namespace BattleCity.GUI.Editor.ConfigSpawn
 {
 	public class ConfigController : MonoBehaviour
 	{
