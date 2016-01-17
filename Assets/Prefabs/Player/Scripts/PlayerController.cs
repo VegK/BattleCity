@@ -142,6 +142,9 @@ namespace BattleCity.Player
 						case Bonus.Helmet:
 							ActiveShield(Consts.TimeShield);
 							break;
+						case Bonus.Shovel:
+							FieldController.Instance.ProtectBase();
+							break;
 						case Bonus.Life:
 							if (TypeItem == Block.Player1)
 								GameManager.Player1Life++;

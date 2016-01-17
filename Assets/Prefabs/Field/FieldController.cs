@@ -1,6 +1,7 @@
 ﻿using BattleCity.Blocks;
 using BattleCity.Enemy;
 using BattleCity.Player;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -157,6 +158,11 @@ namespace BattleCity
 			TimeFreezed = Time.time + Consts.TimeFreeze;
 		}
 
+		public void ProtectBase()
+		{
+			StartCoroutine(SetProtectBase());
+		}
+
 		public Vector2 GetPosition()
 		{
 			var res = transform.position;
@@ -294,15 +300,6 @@ namespace BattleCity
 			}
 		}
 
-		private void Clear()
-		{
-			var width = _blocks.GetLength(0);
-			var height = _blocks.GetLength(1);
-			for (int x = 0; x < width; x++)
-				for (int y = 0; y < height; y++)
-					FieldController.Instance.SetCell(x, y, Block.Empty);
-		}
-
 		public BlockController FindBlock(Block type)
 		{
 			for (int x = 0; x < Width; x++)
@@ -313,6 +310,123 @@ namespace BattleCity
 						return block;
 				}
 			return null;
+		}
+
+		private IEnumerator SetProtectBase()
+		{
+			var block = FindBlock(Block.Base);
+			if (block == null)
+				yield break;
+
+			SetMetalWallsBase(block.X, block.Y);
+
+			yield return new WaitForSeconds(Consts.TimeShovel - 3);
+
+			var loop = 3;
+			while (loop-- > 0)
+			{
+				SetBrickWallsBase(block.X, block.Y);
+				yield return new WaitForSeconds(0.5f);
+				SetMetalWallsBase(block.X, block.Y);
+				yield return new WaitForSeconds(0.5f);
+			}
+
+			SetBrickWallsBase(block.X, block.Y);
+		}
+
+		private void SetMetalWallsBase(int baseX, int baseY)
+		{
+			var x = baseX;
+			var y = baseY + 1;
+			if (y < Height)
+				SetCell(x, y, Block.MetalBottom);
+
+			x = baseX + 1;
+			y = baseY + 1;
+			if (x < Width && y < Height)
+				SetCell(x, y, Block.MetalLeftBottom);
+
+			x = baseX + 1;
+			y = baseY;
+			if (x < Width)
+				SetCell(x, y, Block.MetalLeft);
+
+			x = baseX + 1;
+			y = baseY - 1;
+			if (x < Width && y > 0)
+				SetCell(x, y, Block.MetalLeftTop);
+
+			x = baseX;
+			y = baseY - 1;
+			if (y > 0)
+				SetCell(x, y, Block.MetalTop);
+
+			x = baseX - 1;
+			y = baseY - 1;
+			if (x > 0 && y > 0)
+				SetCell(x, y, Block.MetalRightTop);
+
+			x = baseX - 1;
+			y = baseY;
+			if (x > 0)
+				SetCell(x, y, Block.MetalRight);
+
+			x = baseX - 1;
+			y = baseY + 1;
+			if (x > 0 && y < Height)
+				SetCell(x, y, Block.MetalRightBottom);
+		}
+
+		private void SetBrickWallsBase(int baseX, int baseY)
+		{
+			var x = baseX;
+			var y = baseY + 1;
+			if (y < Height)
+				SetCell(x, y, Block.BrickBottom);
+
+			x = baseX + 1;
+			y = baseY + 1;
+			if (x < Width && y < Height)
+				SetCell(x, y, Block.BrickLeftBottom);
+
+			x = baseX + 1;
+			y = baseY;
+			if (x < Width)
+				SetCell(x, y, Block.BrickLeft);
+
+			x = baseX + 1;
+			y = baseY - 1;
+			if (x < Width && y > 0)
+				SetCell(x, y, Block.BrickLeftTop);
+
+			x = baseX;
+			y = baseY - 1;
+			if (y > 0)
+				SetCell(x, y, Block.BrickTop);
+
+			x = baseX - 1;
+			y = baseY - 1;
+			if (x > 0 && y > 0)
+				SetCell(x, y, Block.BrickRightTop);
+
+			x = baseX - 1;
+			y = baseY;
+			if (x > 0)
+				SetCell(x, y, Block.BrickRight);
+
+			x = baseX - 1;
+			y = baseY + 1;
+			if (x > 0 && y < Height)
+				SetCell(x, y, Block.BrickRightBottom);
+		}
+
+		private void Clear()
+		{
+			var width = _blocks.GetLength(0);
+			var height = _blocks.GetLength(1);
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < height; y++)
+					FieldController.Instance.SetCell(x, y, Block.Empty);
 		}
 	}
 }

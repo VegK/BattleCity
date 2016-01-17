@@ -11,6 +11,7 @@ namespace BattleCity
 		public const int TimeShieldAfterSpawn = 3;
 		public const int TimeShield = 10;
 		public const int TimeFreeze = 10;
+		public const int TimeShovel = 20;
 
 		public const float TimeDestroyObjectPoints = 0.5f;
 		public const int PointsBonusBomb = 500;
