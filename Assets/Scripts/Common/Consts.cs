@@ -13,6 +13,8 @@ public class Consts
 	public const float TimeDestroyObjectPoints = 0.5f;
 	public const int PointsBonusBomb = 500;
 
+	public const int MaxLevelUpgradePlayer = 3;
+
 	static Consts()
 	{
 		PATH = Application.dataPath + "/Levels/";

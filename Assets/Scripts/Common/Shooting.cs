@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-	public BulletController PrefabBullet;
-	public float SpeedBullet = 4f;
-	public int MaxBullet = 1;
-	public float ShotDelay = 0.1f;
+	[SerializeField]
+	private BulletController PrefabBullet;
+	[SerializeField]
+	protected float SpeedBullet = 4f;
+	[SerializeField]
+	protected int MaxBullet = 1;
+	[SerializeField]
+	protected float ShotDelay = 0.1f;
 
 	private IDirection _direction;
 	private int _bulletCount;

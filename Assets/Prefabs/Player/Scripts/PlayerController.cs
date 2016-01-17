@@ -7,6 +7,7 @@ public class PlayerController : BlockController, ISpawn, IDirection
 	public ShieldPlayer PrefabShield;
 	public ExplosionController PrefabExplosion;
 
+	public event UpgradeHandler UpgradeEvent;
 	public Direction DirectionMove
 	{
 		get
@@ -15,10 +16,24 @@ public class PlayerController : BlockController, ISpawn, IDirection
 		}
 	}
 	public Vector3 SpawnPoint { get; set; }
+	public int Upgrade
+	{
+		get
+		{
+			return _upgrade;
+		}
+		set
+		{
+			_upgrade = value;
+			if (UpgradeEvent != null)
+				UpgradeEvent(value);
+		}
+	}
 
 	private BoxCollider2D _boxCollider;
 	private MovementPlayer _movement;
 	private ShieldPlayer _shield;
+	private int _upgrade;
 
 	public void ActiveShield(float time)
 	{
@@ -108,6 +123,10 @@ public class PlayerController : BlockController, ISpawn, IDirection
 			if (bonus != null)
 				switch (bonus.Type)
 				{
+					case Bonus.Star:
+						if (Upgrade < Consts.MaxLevelUpgradePlayer)
+							Upgrade++;
+						break;
 					case Bonus.Bomb:
 						FieldController.Instance.ExplosionEnemies();
 						break;
@@ -134,6 +153,7 @@ public class PlayerController : BlockController, ISpawn, IDirection
 
 		gameObject.SetActive(false);
 		transform.position = SpawnPoint;
+		Upgrade = 0;
 
 		var obj = Instantiate(PrefabSpawn);
 		obj.transform.position = transform.position;
@@ -151,4 +171,6 @@ public class PlayerController : BlockController, ISpawn, IDirection
 		_shield = null;
 		DeactiveShield();
 	}
+
+	public delegate void UpgradeHandler(int upgrade);
 }

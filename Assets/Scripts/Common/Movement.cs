@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Movement : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class Movement : MonoBehaviour
 	protected AnimationClip AnimBottom;
 	[SerializeField]
 	protected AnimationClip AnimLeft;
+
+	[Header("Animation level")]
+	[SerializeField]
+	protected AnimationMove[] AnimLevel;
 
 	public Direction CurrentDirection { get; protected set; }
 
@@ -81,6 +86,20 @@ public class Movement : MonoBehaviour
 		transform.Translate(move * Time.deltaTime);
 	}
 
+	protected void SetAnimationsLevel(int value)
+	{
+		if (value < 0)
+			return;
+		if (AnimLevel.Length == 0)
+			return;
+
+		var index = value % AnimLevel.Length;
+		AnimTop = AnimLevel[index].AnimTop;
+		AnimRight = AnimLevel[index].AnimRight;
+		AnimBottom = AnimLevel[index].AnimBottom;
+		AnimLeft = AnimLevel[index].AnimLeft;
+	}
+
 	private void RoundPosition(Direction direction)
 	{
 		if (_prevDirection == direction)
@@ -101,5 +120,14 @@ public class Movement : MonoBehaviour
 
 		transform.position = pos;
 		_prevDirection = direction;
+	}
+
+	[Serializable]
+	public class AnimationMove
+	{
+		public AnimationClip AnimTop;
+		public AnimationClip AnimRight;
+		public AnimationClip AnimBottom;
+		public AnimationClip AnimLeft;
 	}
 }

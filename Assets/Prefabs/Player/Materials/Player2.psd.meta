@@ -1,41 +1,41 @@
 fileFormatVersion: 2
 guid: 3fdafe585d5238741a70216109aa7e2c
-timeCreated: 1452407725
+timeCreated: 1452994217
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Player2_1_Top1
-    21300002: Player2_1_Top2
-    21300004: Player2_1_Left1
-    21300006: Player2_1_Left2
-    21300008: Player2_1_Bottom1
-    21300010: Player2_1_Bottom2
-    21300012: Player2_1_Right1
-    21300014: Player2_1_Right2
-    21300016: Player2_2_Top1
-    21300018: Player2_2_Top2
-    21300020: Player2_2_Left1
-    21300022: Player2_2_Left2
-    21300024: Player2_2_Bottom1
-    21300026: Player2_2_Bottom2
-    21300028: Player2_2_Right1
-    21300030: Player2_2_Right2
-    21300032: Player2_3_Top1
-    21300034: Player2_3_Top2
-    21300036: Player2_3_Left1
-    21300038: Player2_3_Left2
-    21300040: Player2_3_Bottom1
-    21300042: Player2_3_Bottom2
-    21300044: Player2_3_Right1
-    21300046: Player2_3_Right2
-    21300048: Player2_4_Top1
-    21300050: Player2_4_Top2
-    21300052: Player2_4_Left1
-    21300054: Player2_4_Left2
-    21300056: Player2_4_Bottom1
-    21300058: Player2_4_Bottom2
-    21300060: Player2_4_Right1
-    21300062: Player2_4_Right2
+    21300000: Player2_0_Top1
+    21300002: Player2_0_Top2
+    21300004: Player2_0_Left1
+    21300006: Player2_0_Left2
+    21300008: Player2_0_Bottom1
+    21300010: Player2_0_Bottom2
+    21300012: Player2_0_Right1
+    21300014: Player2_0_Right2
+    21300016: Player2_1_Top1
+    21300018: Player2_1_Top2
+    21300020: Player2_1_Left1
+    21300022: Player2_1_Left2
+    21300024: Player2_1_Bottom1
+    21300026: Player2_1_Bottom2
+    21300028: Player2_1_Right1
+    21300030: Player2_1_Right2
+    21300032: Player2_2_Top1
+    21300034: Player2_2_Top2
+    21300036: Player2_2_Left1
+    21300038: Player2_2_Left2
+    21300040: Player2_2_Bottom1
+    21300042: Player2_2_Bottom2
+    21300044: Player2_2_Right1
+    21300046: Player2_2_Right2
+    21300048: Player2_3_Top1
+    21300050: Player2_3_Top2
+    21300052: Player2_3_Left1
+    21300054: Player2_3_Left2
+    21300056: Player2_3_Bottom1
+    21300058: Player2_3_Bottom2
+    21300060: Player2_3_Right1
+    21300062: Player2_3_Right2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -82,11 +82,99 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Player2_1_Top1
+    - name: Player2_0_Top1
       rect:
         serializedVersion: 2
         x: 0
         y: 51
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Player2_0_Top2
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 51
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Player2_0_Left1
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 51
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Player2_0_Left2
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 51
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Player2_0_Bottom1
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 51
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Player2_0_Bottom2
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 51
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Player2_0_Right1
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 51
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Player2_0_Right2
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 51
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Player2_1_Top1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -97,7 +185,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 17
-        y: 51
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -108,7 +196,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 34
-        y: 51
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -119,7 +207,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 51
-        y: 51
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -130,7 +218,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 68
-        y: 51
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -141,7 +229,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 85
-        y: 51
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -152,7 +240,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 102
-        y: 51
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -163,7 +251,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 119
-        y: 51
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -174,7 +262,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 34
+        y: 17
         width: 16
         height: 16
       alignment: 0
@@ -185,7 +273,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 17
-        y: 34
+        y: 17
         width: 16
         height: 16
       alignment: 0
@@ -196,7 +284,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 34
-        y: 34
+        y: 17
         width: 16
         height: 16
       alignment: 0
@@ -207,7 +295,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 51
-        y: 34
+        y: 17
         width: 16
         height: 16
       alignment: 0
@@ -218,7 +306,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 68
-        y: 34
+        y: 17
         width: 16
         height: 16
       alignment: 0
@@ -229,7 +317,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 85
-        y: 34
+        y: 17
         width: 16
         height: 16
       alignment: 0
@@ -240,7 +328,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 102
-        y: 34
+        y: 17
         width: 16
         height: 16
       alignment: 0
@@ -251,7 +339,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 119
-        y: 34
+        y: 17
         width: 16
         height: 16
       alignment: 0
@@ -262,7 +350,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 17
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -273,7 +361,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 17
-        y: 17
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -284,7 +372,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 34
-        y: 17
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -295,7 +383,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 51
-        y: 17
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -306,7 +394,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 68
-        y: 17
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -317,7 +405,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 85
-        y: 17
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -328,7 +416,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 102
-        y: 17
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -336,94 +424,6 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
     - name: Player2_3_Right2
-      rect:
-        serializedVersion: 2
-        x: 119
-        y: 17
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Player2_4_Top1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Player2_4_Top2
-      rect:
-        serializedVersion: 2
-        x: 17
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Player2_4_Left1
-      rect:
-        serializedVersion: 2
-        x: 34
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Player2_4_Left2
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Player2_4_Bottom1
-      rect:
-        serializedVersion: 2
-        x: 68
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Player2_4_Bottom2
-      rect:
-        serializedVersion: 2
-        x: 85
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Player2_4_Right1
-      rect:
-        serializedVersion: 2
-        x: 102
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Player2_4_Right2
       rect:
         serializedVersion: 2
         x: 119

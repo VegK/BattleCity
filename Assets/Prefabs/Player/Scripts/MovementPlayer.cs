@@ -14,6 +14,8 @@ public class MovementPlayer : Movement
 		base.Awake();
 
 		_playerController = GetComponent<PlayerController>();
+		_playerController.UpgradeEvent += SetAnimationsLevel;
+
 		_buttonNameHorizontal = _playerController.TypeItem + "_Horizontal";
 		_buttonNameVertical = _playerController.TypeItem + "_Vertical";
 	}

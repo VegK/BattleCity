@@ -145,8 +145,6 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 			}
 
 			Armor--;
-			if (ChangedArmorEvent != null)
-				ChangedArmorEvent(Armor);
 			if (Armor == 0)
 			{
 				Explosion(true);
@@ -157,6 +155,9 @@ public class EnemyController : MonoBehaviour, IDirection, IDestroy
 				else if (layer == "BulletPlayer2")
 					GameManager.Player2.AddPoint(Type, Points);
 			}
+			else
+				if (ChangedArmorEvent != null)
+					ChangedArmorEvent(Armor - 1);
 		}
 	}
 
