@@ -42,6 +42,12 @@ namespace BattleCity.Player
 
 		public void ActiveShield(float time)
 		{
+			if (_shield != null)
+			{
+				_shield.DestroyEvent -= DestroyShield;
+				Destroy(_shield.gameObject);
+			}
+
 			tag = "Shield";
 
 			_shield = Instantiate(PrefabShield);
