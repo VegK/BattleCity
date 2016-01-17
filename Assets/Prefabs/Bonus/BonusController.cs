@@ -78,9 +78,10 @@ public class BonusController : MonoBehaviour
 				Destroy(obj, Consts.TimeDestroyObjectPoints);
 				FieldController.Instance.AddOtherObject(obj);
 
-				if (other.tag == "Player1")
+				var layer = LayerMask.LayerToName(other.gameObject.layer);
+				if (layer == "Player1")
 					GameManager.Player1.Score += Consts.PointsBonusBomb;
-				else if (other.tag == "Player2")
+				else if (layer == "Player2")
 					GameManager.Player2.Score += Consts.PointsBonusBomb;
 			}
 
