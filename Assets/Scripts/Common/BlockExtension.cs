@@ -7,6 +7,7 @@
 			var instance = FieldController.Instance;
 			switch (block)
 			{
+				// Brick walls
 				case Block.BrickFull:
 					return instance.PrefabBrickFull;
 				case Block.BrickTop:
@@ -25,6 +26,7 @@
 					return instance.PrefabBrickRightBottom;
 				case Block.BrickLeftBottom:
 					return instance.PrefabBrickLeftBottom;
+				// Metal walls
 				case Block.MetalFull:
 					return instance.PrefabMetalFull;
 				case Block.MetalTop:
@@ -35,6 +37,15 @@
 					return instance.PrefabMetalBottom;
 				case Block.MetalLeft:
 					return instance.PrefabMetalLeft;
+				case Block.MetalLeftTop:
+					return instance.PrefabMetalLeftTop;
+				case Block.MetalRightTop:
+					return instance.PrefabMetalRightTop;
+				case Block.MetalRightBottom:
+					return instance.PrefabMetalRightBottom;
+				case Block.MetalLeftBottom:
+					return instance.PrefabMetalLeftBottom;
+				// Other
 				case Block.Forest:
 					return instance.PrefabForest;
 				case Block.Water:

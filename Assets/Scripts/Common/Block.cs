@@ -23,6 +23,10 @@
 		BrickLeftTop = 18,
 		BrickRightTop = 19,
 		BrickLeftBottom = 20,
-		BrickRightBottom = 21
+		BrickRightBottom = 21,
+		MetalLeftTop = 22,
+		MetalRightTop = 23,
+		MetalLeftBottom = 24,
+		MetalRightBottom = 25
 	}
 }

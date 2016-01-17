@@ -31,6 +31,10 @@ namespace BattleCity
 		public BlockController PrefabMetalRight;
 		public BlockController PrefabMetalBottom;
 		public BlockController PrefabMetalLeft;
+		public BlockController PrefabMetalLeftTop;
+		public BlockController PrefabMetalRightTop;
+		public BlockController PrefabMetalRightBottom;
+		public BlockController PrefabMetalLeftBottom;
 		public BlockController PrefabForest;
 		public BlockController PrefabWater;
 		public BlockController PrefabIce;
