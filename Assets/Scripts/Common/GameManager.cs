@@ -210,6 +210,7 @@ namespace BattleCity
 				yield return null;
 			FinalScreenController.Hide();
 
+			LevelManager.Reset();
 			MainMenuController.Show();
 		}
 
@@ -218,7 +219,6 @@ namespace BattleCity
 			_gameOver = false;
 			_pause = false;
 
-			LevelManager.Reset();
 			SpawnPointEnemiesManager.Reset();
 			GameGUIController.Instance.HidePause();
 			GameGUIController.Instance.HideGameOver();

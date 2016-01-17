@@ -18,7 +18,7 @@ namespace BattleCity
 		{
 			get
 			{
-				var i = _instance._index;
+				var i = _instance._index - 1;
 				if (i >= _instance.Levels.Count)
 					i = _instance._index % _instance.Levels.Count;
 				return _instance.Levels[i];
@@ -28,17 +28,17 @@ namespace BattleCity
 		{
 			get
 			{
-				return _instance._index + 1;
+				return _instance._index;
 			}
 		}
 
 		private static LevelManager _instance;
-		private int _index = -1;
+		private int _index = 0;
 		private HashSet<FieldData> _levels;
 
 		public static void Reset()
 		{
-			_instance._index = -1;
+			_instance._index = 0;
 		}
 
 		public static void NextLevel()
@@ -47,7 +47,8 @@ namespace BattleCity
 			while (levelsCount > 0)
 			{
 				levelsCount--;
-				GameGUIController.Instance.LevelNumber = ++_instance._index + 1;
+				_instance._index++;
+				GameGUIController.Instance.LevelNumber = LevelNumber;
 				var enemiesCount = SpawnPointEnemiesManager.GetEnemiesCount();
 				GameGUIController.Instance.EnemiesCount = enemiesCount;
 				if (Load(CurrentLevel))
