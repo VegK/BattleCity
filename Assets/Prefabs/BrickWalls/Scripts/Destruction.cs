@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BattleCity
 {
-	public class Destruction : MonoBehaviour, IDestroy
+	public class Destruction : DestructionWall
 	{
 		public Sprite BrickTop;
 		public Sprite BrickRight;
@@ -12,16 +12,9 @@ namespace BattleCity
 		public Sprite BrickOne1;
 		public Sprite BrickOne2;
 
-		public event EventHandler DestroyEvent;
-
 		private SpriteRenderer _spriteRenderer;
 		private BoxCollider2D _boxCollider2d;
 		private TypeDestruction _typeDestruction = TypeDestruction.None;
-
-		public void ClearEvent()
-		{
-			DestroyEvent = null;
-		}
 
 		private void Awake()
 		{
@@ -29,13 +22,19 @@ namespace BattleCity
 			_boxCollider2d = GetComponent<BoxCollider2D>();
 		}
 
-		private void OnTriggerEnter2D(Collider2D other)
+		protected override void OnTriggerEnter2D(Collider2D other)
 		{
 			if (other.tag == "Bullet")
 			{
 				var bullet = other.GetComponent<BulletController>();
 				if (bullet == null)
 					return;
+
+				if (bullet.ArmorPiercing)
+				{
+					Destroy(gameObject);
+					return;
+				}
 
 				var direction = bullet.DirectionFlight;
 				if (direction == Direction.Bottom)
@@ -240,17 +239,6 @@ namespace BattleCity
 		private void DestructionFull()
 		{
 			Destroy(gameObject);
-		}
-
-		private void OnDestroy()
-		{
-			if (DestroyEvent != null)
-				DestroyEvent(this, null);
-		}
-
-		private void OnApplicationQuit()
-		{
-			DestroyEvent = null;
 		}
 
 		private enum TypeDestruction

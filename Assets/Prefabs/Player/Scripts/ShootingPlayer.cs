@@ -37,6 +37,7 @@ namespace BattleCity.Player
 			SpeedBullet = ParamsUpgrade[index].SpeedBullet;
 			MaxBullet = ParamsUpgrade[index].MaxBullet;
 			ShotDelay = ParamsUpgrade[index].ShotDelay;
+			ArmorPiercing = ParamsUpgrade[index].ArmorPiercing;
 		}
 
 		[Serializable]
@@ -45,6 +46,7 @@ namespace BattleCity.Player
 			public float SpeedBullet;
 			public int MaxBullet;
 			public float ShotDelay;
+			public bool ArmorPiercing;
 		}
 	}
 }

@@ -11,6 +11,7 @@ namespace BattleCity
 		public Sprite BulletLeft;
 		public ExplosionController PrefabExplosion;
 
+		public event EventHandler DestroyEvent;
 		public Direction DirectionFlight
 		{
 			get
@@ -38,8 +39,7 @@ namespace BattleCity
 			}
 		}
 		public float SpeedFlight { get; set; }
-
-		public event EventHandler DestroyEvent;
+		public bool ArmorPiercing { get; set; }
 
 		private SpriteRenderer _spriteRenderer;
 		private Direction _directionFlight;

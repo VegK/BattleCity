@@ -13,6 +13,8 @@ namespace BattleCity
 		protected int MaxBullet = 1;
 		[SerializeField]
 		protected float ShotDelay = 0.1f;
+		[SerializeField]
+		protected bool ArmorPiercing = false;
 
 		private IDirection _direction;
 		private int _bulletCount;
@@ -56,9 +58,10 @@ namespace BattleCity
 			}
 			obj.transform.position = pos;
 
+			obj.DestroyEvent += DestroyBullet;
 			obj.SpeedFlight = SpeedBullet;
 			obj.DirectionFlight = _direction.DirectionMove;
-			obj.DestroyEvent += DestroyBullet;
+			obj.ArmorPiercing = ArmorPiercing;
 
 			FieldController.Instance.AddOtherObject(obj.gameObject);
 
