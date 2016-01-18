@@ -23,15 +23,14 @@ namespace BattleCity
 
 		public Direction CurrentDirection { get; protected set; }
 
-		protected bool AnimationEnabled;
 		protected Animator Animator;
-		private Collider2D _collider;
+		protected Collider2D Collider;
 		private Direction _prevDirection;
 
 		protected virtual void Awake()
 		{
 			Animator = GetComponent<Animator>();
-			_collider = GetComponent<Collider2D>();
+			Collider = GetComponent<Collider2D>();
 		}
 
 		protected virtual void OnEnable()
@@ -56,7 +55,7 @@ namespace BattleCity
 
 		protected virtual void FixedUpdate()
 		{
-			var beside = _collider.CheckColliderBeside(CurrentDirection);
+			var beside = Collider.CheckColliderBeside(CurrentDirection);
 			var move = Vector2.zero;
 
 			switch (CurrentDirection)
