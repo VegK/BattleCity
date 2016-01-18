@@ -20,7 +20,7 @@ namespace BattleCity
 			{
 				var i = _instance._index - 1;
 				if (i >= _instance.Levels.Count)
-					i = _instance._index % _instance.Levels.Count;
+					i = i % _instance.Levels.Count;
 				return _instance.Levels[i];
 			}
 		}
