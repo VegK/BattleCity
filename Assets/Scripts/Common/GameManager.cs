@@ -10,9 +10,9 @@ namespace BattleCity
 		[SerializeField]
 		private Canvas Black;
 		[SerializeField]
-		private int _startLifePlayer1 = 3;
+		private int _startLifePlayer1 = 2;
 		[SerializeField]
-		private int _startLifePlayer2 = 3;
+		private int _startLifePlayer2 = 2;
 
 		public static bool Pause
 		{
@@ -46,6 +46,8 @@ namespace BattleCity
 			}
 			set
 			{
+				if (value < _instance._player1Life)
+					Player1.Upgrade = 0;
 				_instance._player1Life = value;
 				if (value < 0)
 				{
@@ -65,6 +67,8 @@ namespace BattleCity
 			}
 			set
 			{
+				if (value < _instance._player2Life)
+					Player2.Upgrade = 0;
 				_instance._player2Life = value;
 				if (value < 0)
 				{
@@ -95,10 +99,12 @@ namespace BattleCity
 			SinglePlayer = singlePlayer;
 
 			Player1.Score = 0;
+			Player1.Upgrade = 0;
 			Player1.ResetEnemy();
 			Player1Life = _instance._startLifePlayer1;
 
 			Player2.Score = 0;
+			Player2.Upgrade = 0;
 			Player2.ResetEnemy();
 			Player2Life = _instance._startLifePlayer2;
 			if (SinglePlayer)

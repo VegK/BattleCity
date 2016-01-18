@@ -3,6 +3,7 @@
 	public struct PlayerData
 	{
 		public int Score;
+		public int Upgrade;
 		public int Enemy1;
 		public int Enemy2;
 		public int Enemy3;

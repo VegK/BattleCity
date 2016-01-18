@@ -25,11 +25,19 @@ namespace BattleCity.Player
 		{
 			get
 			{
-				return _upgrade;
+				var res = 0;
+				if (TypeItem == Block.Player1)
+					res = GameManager.Player1.Upgrade;
+				else if (TypeItem == Block.Player2)
+					res = GameManager.Player2.Upgrade;
+				return res;
 			}
 			set
 			{
-				_upgrade = value;
+				if (TypeItem == Block.Player1)
+					GameManager.Player1.Upgrade = value;
+				else if (TypeItem == Block.Player2)
+					GameManager.Player2.Upgrade = value;
 				if (UpgradeEvent != null)
 					UpgradeEvent(value);
 			}
@@ -38,7 +46,6 @@ namespace BattleCity.Player
 		private BoxCollider2D _boxCollider;
 		private MovementPlayer _movement;
 		private ShieldPlayer _shield;
-		private int _upgrade;
 
 		public void ActiveShield(float time)
 		{
@@ -174,7 +181,13 @@ namespace BattleCity.Player
 
 			gameObject.SetActive(false);
 			transform.position = SpawnPoint;
-			Upgrade = 0;
+			if (UpgradeEvent != null)
+			{
+				if (TypeItem == Block.Player1)
+					UpgradeEvent(GameManager.Player1.Upgrade);
+				else if (TypeItem == Block.Player2)
+					UpgradeEvent(GameManager.Player2.Upgrade);
+			}
 
 			var obj = Instantiate(PrefabSpawn);
 			obj.transform.position = transform.position;
