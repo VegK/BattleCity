@@ -78,6 +78,7 @@ namespace BattleCity
 		private BonusController _bonus;
 		private HashSet<GameObject> _otherObjects;
 		private HashSet<EnemyController> _enemiesObjects;
+		private bool _protectBase;
 
 		public void AddOtherObject(GameObject obj)
 		{
@@ -106,6 +107,7 @@ namespace BattleCity
 
 		public void ProtectBase()
 		{
+			_protectBase = true;
 			StartCoroutine(SetProtectBase());
 		}
 
@@ -261,6 +263,7 @@ namespace BattleCity
 		{
 			TimeFreezed = Time.time - (Consts.TimeFreeze + 1);
 			StopCoroutine(SetProtectBase());
+			_protectBase = false;
 
 			DestroyAdditionalObjects();
 
@@ -333,15 +336,25 @@ namespace BattleCity
 
 			SetMetalWallsBase(block.X, block.Y);
 
-			yield return new WaitForSeconds(Consts.TimeShovel - 3);
+			for (int i = 0; i < Consts.TimeShovel - 3; i++)
+			{
+				yield return new WaitForSeconds(1);
+				if (!_protectBase)
+					yield break;
+			}
 
 			var loop = 3;
 			while (loop-- > 0)
 			{
 				SetBrickWallsBase(block.X, block.Y);
 				yield return new WaitForSeconds(0.5f);
+				if (!_protectBase)
+					yield break;
+
 				SetMetalWallsBase(block.X, block.Y);
 				yield return new WaitForSeconds(0.5f);
+				if (!_protectBase)
+					yield break;
 			}
 
 			SetBrickWallsBase(block.X, block.Y);
