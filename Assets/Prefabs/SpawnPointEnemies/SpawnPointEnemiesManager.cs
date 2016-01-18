@@ -70,6 +70,7 @@ namespace BattleCity
 				return;
 
 			_spawnPoints.Add(spawnPoint);
+			_indexCurrentSpawnPoint = _spawnPoints.Count / 2;
 		}
 
 		public static void SetOrderSpawnEnemies(EnemyType[] orderSpawnEnemies)
