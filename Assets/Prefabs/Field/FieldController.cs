@@ -259,6 +259,9 @@ namespace BattleCity
 
 		public void Clear()
 		{
+			TimeFreezed = Time.time - (Consts.TimeFreeze + 1);
+			StopCoroutine(SetProtectBase());
+
 			DestroyAdditionalObjects();
 
 			var width = _blocks.GetLength(0);
