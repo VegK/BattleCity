@@ -72,14 +72,11 @@ namespace BattleCity
 		{
 			if (other.tag == "Player" || other.tag == "Shield")
 			{
-				if (Type == Bonus.Bomb)
-				{
-					var obj = new GameObject(Sprite500Points.name);
-					obj.transform.position = transform.position;
-					obj.AddComponent<SpriteRenderer>().sprite = Sprite500Points;
-					Destroy(obj, Consts.TimeDestroyObjectPoints);
-					FieldController.Instance.AddOtherObject(obj);
-				}
+				var obj = new GameObject(Sprite500Points.name);
+				obj.transform.position = transform.position;
+				obj.AddComponent<SpriteRenderer>().sprite = Sprite500Points;
+				Destroy(obj, Consts.TimeDestroyObjectPoints);
+				FieldController.Instance.AddOtherObject(obj);
 
 				Destroy(gameObject);
 			}
