@@ -187,7 +187,7 @@ namespace BattleCity
 
 			// Show GameOver in game
 			GameGUIController.Instance.ShowGameOver();
-			yield return new WaitForSeconds(10);
+			yield return new WaitForSeconds(5);
 
 			Reset();
 
