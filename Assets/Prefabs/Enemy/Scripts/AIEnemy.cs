@@ -7,6 +7,7 @@ namespace BattleCity.Enemy
 		private EnemyController _enemyController;
 		private Collider2D _collider;
 		private float _timeBirth;
+		private DirectionRotate? _directionRotate;
 
 		private void Awake()
 		{
@@ -33,26 +34,37 @@ namespace BattleCity.Enemy
 			var posX = roundedPos.x / 10 % Consts.SHARE;
 			var posY = roundedPos.y / 10 % Consts.SHARE;
 
-			if (posX == 0 && posY == 0 && Random.Range(0, 16) == 0)
+			if (posX == 0 && posY == 0 && Random.Range(0, 32) == 0)
 			{
 				if (BehaviourMove())
 					return;
 			}
 
 			if (!_collider.CheckColliderBeside(_enemyController.DirectionMove))
+			{
+				_directionRotate = null;
 				return;
-			if ((posX == 0 || posY == 0) && Random.Range(0, 4) == 0)
+			}
+
+			// Continue rotate
+			if (_directionRotate.HasValue)
+			{
+				Rotate(_directionRotate);
+				return;
+			}
+
+			if ((posX == 0 || posY == 0) && Random.Range(0, 8) == 0)
 				Turning();
 			else
 				if (Random.Range(0, 2) == 0)
-				Rotate();
+					Rotate(null);
 		}
 
 		private bool BehaviourMove()
 		{
 			if (Time.time <= _timeBirth + SpawnPointEnemiesManager.TimeRespawn * 8)
 			{
-				Rotate();
+				Rotate(null);
 				return true;
 			}
 
@@ -133,12 +145,14 @@ namespace BattleCity.Enemy
 			_enemyController.SetDirection(newDirection);
 		}
 
-		private void Rotate()
+		private void Rotate(DirectionRotate? direction)
 		{
 			var newDirection = _enemyController.DirectionMove;
 
+			_directionRotate = direction ?? (DirectionRotate)Random.Range(0, 2);
+
 			// Clockwise
-			if (Random.Range(0, 2) == 0)
+			if (_directionRotate == DirectionRotate.Clockwise)
 			{
 				newDirection++;
 				if (!System.Enum.IsDefined(typeof(Direction), newDirection))
@@ -153,6 +167,12 @@ namespace BattleCity.Enemy
 			}
 
 			_enemyController.SetDirection(newDirection);
+		}
+
+		private enum DirectionRotate
+		{
+			Clockwise = 0,
+			Counterclockwise = 1
 		}
 	}
 }
