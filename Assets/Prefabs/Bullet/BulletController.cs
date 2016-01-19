@@ -40,6 +40,7 @@ namespace BattleCity
 		}
 		public float SpeedFlight { get; set; }
 		public bool ArmorPiercing { get; set; }
+		public bool FirstCollision { get; set; }
 
 		private SpriteRenderer _spriteRenderer;
 		private Direction _directionFlight;

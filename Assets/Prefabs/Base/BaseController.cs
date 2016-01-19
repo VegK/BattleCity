@@ -21,6 +21,14 @@ namespace BattleCity
 		{
 			if (other.tag == "Bullet")
 			{
+				var bullet = other.GetComponent<BulletController>();
+				if (bullet != null)
+				{
+					if (bullet.FirstCollision)
+						return;
+					bullet.FirstCollision = true;
+				}
+
 				_spriteRenderer.sprite = Destroyed;
 
 				_boxCollider.enabled = false;

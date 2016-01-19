@@ -138,6 +138,14 @@ namespace BattleCity.Enemy
 		{
 			if (other.tag == "Bullet")
 			{
+				var bullet = other.GetComponent<BulletController>();
+				if (bullet != null)
+				{
+					if (bullet.FirstCollision)
+						return;
+					bullet.FirstCollision = true;
+				}
+
 				if (IsBonus)
 				{
 					IsBonus = false;

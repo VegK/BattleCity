@@ -117,6 +117,14 @@ namespace BattleCity.Player
 		{
 			if (other.tag == "Bullet" && tag != "Shield")
 			{
+				var bullet = other.GetComponent<BulletController>();
+				if (bullet != null)
+				{
+					if (bullet.FirstCollision)
+						return;
+					bullet.FirstCollision = true;
+				}
+
 				var layer = LayerMask.LayerToName(other.gameObject.layer);
 				if (layer == "BulletPlayer1" || layer == "BulletPlayer2")
 				{
