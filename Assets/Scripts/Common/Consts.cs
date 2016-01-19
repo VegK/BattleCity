@@ -17,6 +17,7 @@ namespace BattleCity
 		public const int PointsBonusBomb = 500;
 
 		public const int MaxLevelUpgradePlayer = 3;
+		public const int TimeLockedMovementPlayer = 5;
 
 		static Consts()
 		{

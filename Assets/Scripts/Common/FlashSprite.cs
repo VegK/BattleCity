@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 
-namespace BattleCity.GUI
+namespace BattleCity
 {
 	public class FlashSprite : MonoBehaviour
 	{
 		[SerializeField]
-		private SpriteRenderer Tagret;
+		private SpriteRenderer Target;
 		[SerializeField]
 		private float SpeedFlash = 6f;
+		[SerializeField]
+		private float AlfaStart = 1;
+		[SerializeField]
+		private float AlfaFinish = 0;
 
 		private float _time;
 		private float _timeDelta;
-		private float _alfaStart = 1;
-		private float _alfaFinish = 0;
+		private float _alfaStart;
+		private float _alfaFinish;
 
 		private void Awake()
 		{
@@ -24,18 +28,27 @@ namespace BattleCity.GUI
 		private void OnEnable()
 		{
 			_timeDelta = Time.deltaTime;
+			if (_timeDelta == 0)
+				_timeDelta = 0.02f;
 
 			_time = 0;
-			_alfaStart = 1;
-			_alfaFinish = 0;
+			_alfaStart = AlfaStart;
+			_alfaFinish = AlfaFinish;
+		}
+
+		private void OnDisable()
+		{
+			var color = Target.color;
+			color.a = AlfaStart;
+			Target.color = color;
 		}
 
 		private void Update()
 		{
-			if (Tagret == null || !Tagret.gameObject.activeSelf)
+			if (Target == null || !Target.gameObject.activeSelf)
 				return;
 
-			var color = Tagret.color;
+			var color = Target.color;
 
 			if (color.a == _alfaFinish)
 			{
@@ -47,7 +60,7 @@ namespace BattleCity.GUI
 
 			_time += _timeDelta;
 			color.a = Mathf.Lerp(_alfaStart, _alfaFinish, _time * SpeedFlash);
-			Tagret.color = color;
+			Target.color = color;
 		}
 	}
 }

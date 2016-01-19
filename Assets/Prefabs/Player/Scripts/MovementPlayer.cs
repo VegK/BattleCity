@@ -8,6 +8,8 @@ namespace BattleCity.Player
 		[SerializeField]
 		private float SpeedSlipOnIce = 2f;
 
+		public bool LockMove { get; set; }
+
 		private PlayerController _playerController;
 		private Axis? _calcFirstAxis;
 		private bool _holdHorizontal;
@@ -31,6 +33,7 @@ namespace BattleCity.Player
 
 		protected override void OnEnable()
 		{
+			LockMove = false;
 			CurrentDirection = Direction.Top;
 			base.OnEnable();
 		}
@@ -38,6 +41,8 @@ namespace BattleCity.Player
 		protected override void FixedUpdate()
 		{
 			if (_playerController.EditorMode)
+				return;
+			if (LockMove)
 				return;
 
 			var horizontal = Input.GetAxis(_buttonNameHorizontal);

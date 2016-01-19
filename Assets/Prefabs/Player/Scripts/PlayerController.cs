@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace BattleCity.Player
@@ -45,7 +46,9 @@ namespace BattleCity.Player
 
 		private BoxCollider2D _boxCollider;
 		private MovementPlayer _movement;
+		private FlashSprite _flashSprite;
 		private ShieldPlayer _shield;
+		private float _timeStartLockMove;
 
 		public void ActiveShield(float time)
 		{
@@ -81,6 +84,7 @@ namespace BattleCity.Player
 			base.Awake();
 			_boxCollider = GetComponent<BoxCollider2D>();
 			_movement = GetComponent<MovementPlayer>();
+			_flashSprite = GetComponent<FlashSprite>();
 		}
 
 		protected override void Start()
@@ -91,6 +95,9 @@ namespace BattleCity.Player
 
 		private void OnEnable()
 		{
+			_timeStartLockMove = Time.time - Consts.TimeLockedMovementPlayer - 1;
+			_flashSprite.enabled = false;
+
 			Vector2 pos = transform.position;
 			var size = new Vector2(_boxCollider.size.x, _boxCollider.size.y);
 			pos = pos - size / 2;
@@ -110,6 +117,15 @@ namespace BattleCity.Player
 		{
 			if (other.tag == "Bullet" && tag != "Shield")
 			{
+				var layer = LayerMask.LayerToName(other.gameObject.layer);
+				if (layer == "BulletPlayer1" || layer == "BulletPlayer2")
+				{
+					_timeStartLockMove = Time.time;
+					StopCoroutine(LockMove());
+					StartCoroutine(LockMove());
+					return;
+				}
+
 				gameObject.SetActive(false);
 
 				var obj = Instantiate(PrefabExplosion);
@@ -204,6 +220,19 @@ namespace BattleCity.Player
 		{
 			_shield = null;
 			DeactiveShield();
+		}
+
+		private IEnumerator LockMove()
+		{
+			_flashSprite.enabled = true;
+			_movement.LockMove = true;
+
+			var timeEndLock = _timeStartLockMove + Consts.TimeLockedMovementPlayer;
+			while (Time.time < timeEndLock)
+				yield return null;
+
+			_flashSprite.enabled = false;
+			_movement.LockMove = false;
 		}
 
 		public delegate void UpgradeHandler(int upgrade);
