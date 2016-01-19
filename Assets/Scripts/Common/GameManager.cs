@@ -51,7 +51,7 @@ namespace BattleCity
 				_instance._player1Life = value;
 				if (value < 0)
 				{
-					if (Player2Life < 0)
+					if (SinglePlayer || Player2Life < 0)
 						GameOver();
 					return;
 				}
