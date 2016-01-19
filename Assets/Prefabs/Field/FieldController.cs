@@ -84,14 +84,21 @@ namespace BattleCity
 		{
 			_otherObjects.RemoveWhere(o => o == null);
 			if (obj != null)
+			{
+				var dest = obj.GetComponent<IDestroy>();
+				if (dest != null)
+					dest.DestroyEvent += (s, e) => { _otherObjects.Remove(obj); };
 				_otherObjects.Add(obj);
+			}
 		}
 
 		public void AddEnemy(EnemyController obj)
 		{
-			_enemiesObjects.RemoveWhere(o => o == null || o.gameObject == null);
-			if (obj != null)
-				_enemiesObjects.Add(obj);
+			if (obj == null)
+				return;
+
+			obj.DestroyEvent += (s, e) => { _enemiesObjects.Remove(obj); };
+			_enemiesObjects.Add(obj);
 		}
 
 		public void ExplosionEnemies()
