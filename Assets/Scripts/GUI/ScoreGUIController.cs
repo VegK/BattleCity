@@ -28,10 +28,12 @@ namespace BattleCity.GUI.Main
 		private EventHandler _finishEvent;
 		private PlayerData _player1;
 		private PlayerData _player2;
+		private bool _skipCalc;
 
 		public static void Show(EventHandler finishEvent, int levelNumber,
 			PlayerData player1, PlayerData player2)
 		{
+			_instance._skipCalc = false;
 			_instance.gameObject.SetActive(true);
 			_instance._finishEvent = finishEvent;
 			_instance.FillParams(levelNumber, player1, player2);
@@ -79,44 +81,12 @@ namespace BattleCity.GUI.Main
 
 		private void Update()
 		{
-			if (Input.GetButtonDown("Player1_Pause") || Input.GetButtonDown("Player2_Pause"))
+			if (!_skipCalc && (Input.GetButtonDown("Player1_Pause") ||
+				Input.GetButtonDown("Player2_Pause")))
 			{
+				_skipCalc = true;
 				StopAllCoroutines();
-
-				UIPlayer1.UIEnemy1PTS.text = (_player1.Enemy1 * Enemy1Points).ToString();
-				UIPlayer1.UIEnemy1Tanks.text = _player1.Enemy1.ToString();
-				UIPlayer1.UIEnemy2PTS.text = (_player1.Enemy2 * Enemy2Points).ToString();
-				UIPlayer1.UIEnemy2Tanks.text = _player1.Enemy2.ToString();
-				UIPlayer1.UIEnemy3PTS.text = (_player1.Enemy3 * Enemy3Points).ToString();
-				UIPlayer1.UIEnemy3Tanks.text = _player1.Enemy3.ToString();
-				UIPlayer1.UIEnemy4PTS.text = (_player1.Enemy4 * Enemy4Points).ToString();
-				UIPlayer1.UIEnemy4Tanks.text = _player1.Enemy4.ToString();
-
-				UIPlayer2.UIEnemy1PTS.text = (_player2.Enemy1 * Enemy1Points).ToString();
-				UIPlayer2.UIEnemy1Tanks.text = _player2.Enemy1.ToString();
-				UIPlayer2.UIEnemy2PTS.text = (_player2.Enemy2 * Enemy2Points).ToString();
-				UIPlayer2.UIEnemy2Tanks.text = _player2.Enemy2.ToString();
-				UIPlayer2.UIEnemy3PTS.text = (_player2.Enemy3 * Enemy3Points).ToString();
-				UIPlayer2.UIEnemy3Tanks.text = _player2.Enemy3.ToString();
-				UIPlayer2.UIEnemy4PTS.text = (_player2.Enemy4 * Enemy4Points).ToString();
-				UIPlayer2.UIEnemy4Tanks.text = _player2.Enemy4.ToString();
-
-				var total1 = _player1.Enemy1 + _player1.Enemy2 + _player1.Enemy3 + _player1.Enemy4;
-				UIPlayer1.UITotalTanks.text = total1.ToString();
-
-				var total2 = _player2.Enemy1 + _player2.Enemy2 + _player2.Enemy3 + _player2.Enemy4;
-				UIPlayer2.UITotalTanks.text = total2.ToString();
-
-				if (!GameManager.SinglePlayer)
-				{
-					if (total1 > total2)
-						UIPlayer1.UIBonus.SetActive(true);
-					else
-						UIPlayer2.UIBonus.SetActive(true);
-				}
-
-				if (_finishEvent != null)
-					_finishEvent(this, EventArgs.Empty);
+				StartCoroutine(SkipCalcScore());
 			}
 		}
 
@@ -162,6 +132,8 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy1Tanks.text = i.ToString();
 				}
 				yield return new WaitForSeconds(wait);
+				if (_skipCalc)
+					yield break;
 			}
 
 			// Enemy #2
@@ -190,6 +162,8 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy2Tanks.text = i.ToString();
 				}
 				yield return new WaitForSeconds(wait);
+				if (_skipCalc)
+					yield break;
 			}
 
 			// Enemy #3
@@ -218,6 +192,8 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy3Tanks.text = i.ToString();
 				}
 				yield return new WaitForSeconds(wait);
+				if (_skipCalc)
+					yield break;
 			}
 
 			// Enemy #4
@@ -246,6 +222,8 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy4Tanks.text = i.ToString();
 				}
 				yield return new WaitForSeconds(wait);
+				if (_skipCalc)
+					yield break;
 			}
 
 			// Total
@@ -256,6 +234,8 @@ namespace BattleCity.GUI.Main
 			UIPlayer2.UITotalTanks.text = total2.ToString();
 
 			yield return new WaitForSeconds(wait);
+			if (_skipCalc)
+				yield break;
 
 			// Bonus
 			if (!GameManager.SinglePlayer)
@@ -266,7 +246,49 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIBonus.SetActive(true);
 			}
 
-			yield return new WaitForSeconds(wait * 2);
+			yield return new WaitForSeconds(wait * 10);
+			if (_skipCalc)
+				yield break;
+
+			if (_finishEvent != null)
+				_finishEvent(this, EventArgs.Empty);
+		}
+
+		private IEnumerator SkipCalcScore()
+		{
+			UIPlayer1.UIEnemy1PTS.text = (_player1.Enemy1 * Enemy1Points).ToString();
+			UIPlayer1.UIEnemy1Tanks.text = _player1.Enemy1.ToString();
+			UIPlayer1.UIEnemy2PTS.text = (_player1.Enemy2 * Enemy2Points).ToString();
+			UIPlayer1.UIEnemy2Tanks.text = _player1.Enemy2.ToString();
+			UIPlayer1.UIEnemy3PTS.text = (_player1.Enemy3 * Enemy3Points).ToString();
+			UIPlayer1.UIEnemy3Tanks.text = _player1.Enemy3.ToString();
+			UIPlayer1.UIEnemy4PTS.text = (_player1.Enemy4 * Enemy4Points).ToString();
+			UIPlayer1.UIEnemy4Tanks.text = _player1.Enemy4.ToString();
+
+			UIPlayer2.UIEnemy1PTS.text = (_player2.Enemy1 * Enemy1Points).ToString();
+			UIPlayer2.UIEnemy1Tanks.text = _player2.Enemy1.ToString();
+			UIPlayer2.UIEnemy2PTS.text = (_player2.Enemy2 * Enemy2Points).ToString();
+			UIPlayer2.UIEnemy2Tanks.text = _player2.Enemy2.ToString();
+			UIPlayer2.UIEnemy3PTS.text = (_player2.Enemy3 * Enemy3Points).ToString();
+			UIPlayer2.UIEnemy3Tanks.text = _player2.Enemy3.ToString();
+			UIPlayer2.UIEnemy4PTS.text = (_player2.Enemy4 * Enemy4Points).ToString();
+			UIPlayer2.UIEnemy4Tanks.text = _player2.Enemy4.ToString();
+
+			var total1 = _player1.Enemy1 + _player1.Enemy2 + _player1.Enemy3 + _player1.Enemy4;
+			UIPlayer1.UITotalTanks.text = total1.ToString();
+
+			var total2 = _player2.Enemy1 + _player2.Enemy2 + _player2.Enemy3 + _player2.Enemy4;
+			UIPlayer2.UITotalTanks.text = total2.ToString();
+
+			if (!GameManager.SinglePlayer)
+			{
+				if (total1 > total2)
+					UIPlayer1.UIBonus.SetActive(true);
+				else
+					UIPlayer2.UIBonus.SetActive(true);
+			}
+
+			yield return new WaitForSeconds(2);
 
 			if (_finishEvent != null)
 				_finishEvent(this, EventArgs.Empty);
