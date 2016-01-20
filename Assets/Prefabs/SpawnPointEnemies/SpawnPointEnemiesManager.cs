@@ -104,7 +104,6 @@ namespace BattleCity
 
 				if (_enemiesCount == 0)
 					yield break;
-				yield return new WaitForSeconds(waitSeconds);
 
 				if (_enemiesOnField >= MaxCountEnemies)
 					continue;
@@ -115,6 +114,8 @@ namespace BattleCity
 				GetCurrentSpawnPoint().Spawn(IndexEnemy,
 					_orderEnemiesSpawn[IndexEnemy - 1],
 					new EventHandler(EnemyDestroy));
+
+				yield return new WaitForSeconds(waitSeconds);
 			}
 		}
 
