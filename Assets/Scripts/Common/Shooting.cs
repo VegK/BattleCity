@@ -32,12 +32,12 @@ namespace BattleCity
 			_timeLastShoot = -ShotDelay;
 		}
 
-		protected void RunBullet()
+		protected bool RunBullet()
 		{
 			if (_bulletCount >= MaxBullet)
-				return;
+				return false;
 			if (Time.time - _timeLastShoot < ShotDelay)
-				return;
+				return false;
 
 			var obj = Instantiate(PrefabBullet);
 			var pos = transform.position;
@@ -67,6 +67,7 @@ namespace BattleCity
 
 			_bulletCount++;
 			_timeLastShoot = Time.time;
+			return true;
 		}
 
 		private void DestroyBullet(object obj, EventArgs args)

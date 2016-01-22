@@ -5,12 +5,19 @@ namespace BattleCity
 {
 	public class Destruction : DestructionWall
 	{
-		public Sprite BrickTop;
-		public Sprite BrickRight;
-		public Sprite BrickBottom;
-		public Sprite BrickLeft;
-		public Sprite BrickOne1;
-		public Sprite BrickOne2;
+		[Space(5)]
+		[SerializeField]
+		private Sprite BrickTop;
+		[SerializeField]
+		private Sprite BrickRight;
+		[SerializeField]
+		private Sprite BrickBottom;
+		[SerializeField]
+		private Sprite BrickLeft;
+		[SerializeField]
+		private Sprite BrickOne1;
+		[SerializeField]
+		private Sprite BrickOne2;
 
 		private SpriteRenderer _spriteRenderer;
 		private BoxCollider2D _boxCollider2d;
@@ -35,6 +42,10 @@ namespace BattleCity
 					Destroy(gameObject);
 					return;
 				}
+
+				var layer = LayerMask.LayerToName(other.gameObject.layer);
+				if (layer == "BulletPlayer1" || layer == "BulletPlayer2")
+					AudioManager.PlaySecondarySound(AudioBullet);
 
 				var direction = bullet.DirectionFlight;
 				if (direction == Direction.Bottom)

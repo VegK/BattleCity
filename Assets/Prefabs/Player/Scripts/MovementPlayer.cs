@@ -8,6 +8,12 @@ namespace BattleCity.Player
 		[SerializeField]
 		private float SpeedSlipOnIce = 2f;
 
+		[Header("Sounds")]
+		[SerializeField]
+		private AudioClip AudioIdle;
+		[SerializeField]
+		private AudioClip AudioMove;
+
 		public bool LockMove { get; set; }
 
 		private PlayerController _playerController;
@@ -48,9 +54,14 @@ namespace BattleCity.Player
 			var horizontal = Input.GetAxis(_buttonNameHorizontal);
 			var vertical = Input.GetAxis(_buttonNameVertical);
 
+			var player = _playerController.TypeItem;
+			AudioManager.PlayerAudioType audioType;
 			Animator.enabled = (horizontal != 0 || vertical != 0);
 			if (!Animator.enabled)
 			{
+				audioType = AudioManager.PlayerAudioType.Idle;
+				AudioManager.PlaySoundPlayer(AudioIdle, true, player, audioType);
+
 				SlipIce();
 
 				_calcFirstAxis = null;
@@ -58,6 +69,9 @@ namespace BattleCity.Player
 				_holdVertical = false;
 				return;
 			}
+
+			audioType  = AudioManager.PlayerAudioType.Move;
+			AudioManager.PlaySoundPlayer(AudioMove, true, player, audioType);
 
 			if (!_calcFirstAxis.HasValue)
 			{

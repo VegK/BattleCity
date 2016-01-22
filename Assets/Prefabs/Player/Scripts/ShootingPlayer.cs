@@ -8,6 +8,10 @@ namespace BattleCity.Player
 		[SerializeField]
 		private Parameters[] ParamsUpgrade;
 
+		[Header("Sounds")]
+		[SerializeField]
+		private AudioClip AudioShot;
+
 		private PlayerController _playerController;
 		private string _buttonNameFire;
 
@@ -24,7 +28,10 @@ namespace BattleCity.Player
 			if (_playerController.EditorMode)
 				return;
 			if (Input.GetButton(_buttonNameFire))
-				RunBullet();
+			{
+				if (RunBullet())
+					AudioManager.PlaySecondarySound(AudioShot);
+			}
 		}
 
 		private void SetParameters(int index)

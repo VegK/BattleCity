@@ -5,11 +5,16 @@ namespace BattleCity
 {
 	public class BulletController : MonoBehaviour, IDestroy
 	{
-		public Sprite BulletTop;
-		public Sprite BulletRight;
-		public Sprite BulletBottom;
-		public Sprite BulletLeft;
-		public ExplosionController PrefabExplosion;
+		[SerializeField]
+		private Sprite BulletTop;
+		[SerializeField]
+		private Sprite BulletRight;
+		[SerializeField]
+		private Sprite BulletBottom;
+		[SerializeField]
+		private Sprite BulletLeft;
+		[SerializeField]
+		private ExplosionController PrefabExplosion;
 
 		public event EventHandler DestroyEvent;
 		public Direction DirectionFlight

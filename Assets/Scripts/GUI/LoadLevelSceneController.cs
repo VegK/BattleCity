@@ -65,7 +65,7 @@ namespace BattleCity.GUI.Main
 		{
 			_instance = this;
 			_timeDelta = Time.deltaTime;
-			if (_timeDelta == 0)
+			if (_timeDelta < 0.02f)
 				_timeDelta = 0.02f;
 			gameObject.SetActive(false);
 		}

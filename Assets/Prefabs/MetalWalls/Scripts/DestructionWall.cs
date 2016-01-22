@@ -5,6 +5,13 @@ namespace BattleCity
 {
 	public class DestructionWall : MonoBehaviour, IDestroy
 	{
+		[SerializeField]
+		private bool NotDestruction;
+
+		[Header("Sounds")]
+		[SerializeField]
+		protected AudioClip AudioBullet;
+
 		public event EventHandler DestroyEvent;
 
 		public void ClearEvent()
@@ -20,8 +27,12 @@ namespace BattleCity
 				if (bullet == null)
 					return;
 
-				if (bullet.ArmorPiercing)
+				if (bullet.ArmorPiercing && !NotDestruction)
 					Destroy(gameObject);
+
+				var layer = LayerMask.LayerToName(other.gameObject.layer);
+				if (layer == "BulletPlayer1" || layer == "BulletPlayer2")
+					AudioManager.PlaySecondarySound(AudioBullet);
 			}
 		}
 
