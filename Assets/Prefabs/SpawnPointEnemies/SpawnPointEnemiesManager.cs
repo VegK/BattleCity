@@ -106,7 +106,10 @@ namespace BattleCity
 					yield break;
 
 				if (_enemiesOnField >= MaxCountEnemies)
+				{
+					yield return null;
 					continue;
+				}
 
 				_enemiesCount--;
 				_enemiesOnField++;
