@@ -14,10 +14,6 @@ namespace BattleCity
 		[HideInInspector]
 		public List<string> Levels;
 
-		[Header("Sounds")]
-		[SerializeField]
-		private AudioClip AudioStartLevel;
-
 		public static string CurrentLevel
 		{
 			get
@@ -56,10 +52,7 @@ namespace BattleCity
 				var enemiesCount = SpawnPointEnemiesManager.GetEnemiesCount();
 				GameGUIController.Instance.EnemiesCount = enemiesCount;
 				if (Load(CurrentLevel))
-				{
-					AudioManager.PlayMainSound(_instance.AudioStartLevel);
 					break;
-				}
 			}
 		}
 

@@ -39,7 +39,7 @@ namespace BattleCity
 					_instance._player2 == PlayerAudioType.Move)
 					return;
 
-			if (audio.clip == clip)
+			if (audio.clip == clip && audio.isPlaying)
 				return;
 
 			audio.loop = loop;
@@ -57,12 +57,7 @@ namespace BattleCity
 
 			var audio = _instance.MainAudioSource;
 			audio.PlayOneShot(clip);
-			FinishPlayMainSoundEvent += (s, e) =>
-			{
-				_instance.SecondaryAudioSource.enabled = true;
-				_instance.PlayerAudioSource.enabled = true;
-				FinishPlayMainSoundEvent = null;
-			};
+			FinishPlayMainSoundEvent += AudioManager_FinishPlayMainSoundEvent;
 		}
 
 		public static void PlaySecondarySound(AudioClip clip)
@@ -94,6 +89,13 @@ namespace BattleCity
 				if (FinishPlaySecondarySoundEvent != null)
 					FinishPlaySecondarySoundEvent(this, EventArgs.Empty);
 			}
+		}
+
+		private static void AudioManager_FinishPlayMainSoundEvent(object sender, EventArgs e)
+		{
+			_instance.SecondaryAudioSource.enabled = true;
+			_instance.PlayerAudioSource.enabled = true;
+			FinishPlayMainSoundEvent -= AudioManager_FinishPlayMainSoundEvent;
 		}
 
 		public enum PlayerAudioType

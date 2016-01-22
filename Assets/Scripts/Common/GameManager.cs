@@ -14,6 +14,12 @@ namespace BattleCity
 		[SerializeField]
 		private int _startLifePlayer2 = 2;
 
+		[Header("Sounds")]
+		[SerializeField]
+		private AudioClip AudioStartLevel;
+		[SerializeField]
+		private AudioClip AudioPause;
+
 		public static bool Pause
 		{
 			get
@@ -26,6 +32,7 @@ namespace BattleCity
 					return;
 				if (value)
 				{
+					AudioManager.PlayMainSound(_instance.AudioPause);
 					Time.timeScale = 0;
 					GameGUIController.Instance.ShowPause();
 				}
@@ -169,6 +176,7 @@ namespace BattleCity
 			while (waitAnyKey)
 				yield return null;
 			LevelManager.NextLevel();
+			AudioManager.PlayMainSound(_instance.AudioStartLevel);
 			yield return new WaitForSecondsRealtime(1f);
 
 			loop = true;

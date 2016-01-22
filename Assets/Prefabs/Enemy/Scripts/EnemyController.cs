@@ -23,6 +23,10 @@ namespace BattleCity.Enemy
 		private BonusController PrefabBonus;
 		public Animator BonusAnimation;
 
+		[Header("Sounds")]
+		[SerializeField]
+		private AudioClip AudioDestroy;
+
 		public Direction DirectionMove
 		{
 			get
@@ -73,6 +77,8 @@ namespace BattleCity.Enemy
 				return;
 			if (!gameObject.activeSelf)
 				return;
+
+			AudioManager.PlaySecondarySound(AudioDestroy);
 
 			_visiblePoint = visiblePoint;
 			gameObject.SetActive(false);
