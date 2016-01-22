@@ -166,9 +166,10 @@ namespace BattleCity
 			if (overlapScreen != null)
 				overlapScreen(this, EventArgs.Empty);
 
-			LevelManager.NextLevel();
 			while (waitAnyKey)
 				yield return null;
+			LevelManager.NextLevel();
+			yield return new WaitForSecondsRealtime(1f);
 
 			loop = true;
 			LoadLevelSceneController.Hide((s, e) => { loop = false; });
