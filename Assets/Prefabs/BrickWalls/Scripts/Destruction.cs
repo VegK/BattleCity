@@ -41,15 +41,15 @@ namespace BattleCity
 				if (bullet == null)
 					return;
 
+				var layer = LayerMask.LayerToName(other.gameObject.layer);
+				if (layer == "BulletPlayer1" || layer == "BulletPlayer2")
+					AudioManager.PlaySecondarySound(AudioBullet);
+
 				if (bullet.ArmorPiercing)
 				{
 					Destroy(gameObject);
 					return;
 				}
-
-				var layer = LayerMask.LayerToName(other.gameObject.layer);
-				if (layer == "BulletPlayer1" || layer == "BulletPlayer2")
-					AudioManager.PlaySecondarySound(AudioBullet);
 
 				var direction = bullet.DirectionFlight;
 				if (direction == Direction.Bottom)

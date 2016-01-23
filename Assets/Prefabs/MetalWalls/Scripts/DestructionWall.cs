@@ -11,6 +11,8 @@ namespace BattleCity
 		[Header("Sounds")]
 		[SerializeField]
 		protected AudioClip AudioBullet;
+		[SerializeField]
+		protected AudioClip AudioArmorPiercingBullet;
 
 		public event EventHandler DestroyEvent;
 
@@ -27,12 +29,17 @@ namespace BattleCity
 				if (bullet == null)
 					return;
 
+				var audioClip = AudioBullet;
+
 				if (bullet.ArmorPiercing && !NotDestruction)
+				{
+					audioClip = AudioArmorPiercingBullet;
 					Destroy(gameObject);
+				}
 
 				var layer = LayerMask.LayerToName(other.gameObject.layer);
 				if (layer == "BulletPlayer1" || layer == "BulletPlayer2")
-					AudioManager.PlaySecondarySound(AudioBullet);
+					AudioManager.PlaySecondarySound(audioClip);
 			}
 		}
 
