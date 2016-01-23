@@ -18,6 +18,7 @@ namespace BattleCity
 
 		public const int MaxLevelUpgradePlayer = 3;
 		public const int TimeLockedMovementPlayer = 5;
+		public const int ScoreForLife = 20000;
 
 		static Consts()
 		{

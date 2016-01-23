@@ -19,6 +19,8 @@ namespace BattleCity
 		private AudioClip AudioStartLevel;
 		[SerializeField]
 		private AudioClip AudioPause;
+		[SerializeField]
+		private AudioClip AudioPlayerLife;
 
 		public static bool Pause
 		{
@@ -109,11 +111,13 @@ namespace BattleCity
 			SinglePlayer = singlePlayer;
 
 			Player1.Score = 0;
+			Player1.LifeScore = 0;
 			Player1.Upgrade = 0;
 			Player1.ResetEnemy();
 			Player1Life = _instance._startLifePlayer1;
 
 			Player2.Score = 0;
+			Player2.LifeScore = 0;
 			Player2.Upgrade = 0;
 			Player2.ResetEnemy();
 			Player2Life = _instance._startLifePlayer2;
@@ -247,6 +251,33 @@ namespace BattleCity
 			_instance = this;
 			_defaultTimeScale = Time.timeScale;
 			Black.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+
+			Player1.ChangeScoreEvent += Player1_ChangeScoreEvent;
+			Player2.ChangeScoreEvent += Player2_ChangeScoreEvent;
+		}
+
+		private void Player1_ChangeScoreEvent(int score)
+		{
+			if (score - Player1.LifeScore < Consts.ScoreForLife)
+				return;
+
+			var life = Mathf.FloorToInt((float)score / Consts.ScoreForLife);
+			Player1Life += life;
+			Player1.LifeScore = score;
+
+			AudioManager.PlayMainSound(AudioPlayerLife);
+		}
+
+		private void Player2_ChangeScoreEvent(int score)
+		{
+			if (score - Player2.LifeScore < Consts.ScoreForLife)
+				return;
+
+			var life = Mathf.FloorToInt((float)score / Consts.ScoreForLife);
+			Player2Life += life;
+			Player2.LifeScore = score;
+
+			AudioManager.PlayMainSound(AudioPlayerLife);
 		}
 	}
 }

@@ -2,12 +2,31 @@
 {
 	public struct PlayerData
 	{
-		public int Score;
+		public event ChangeScoreHandler ChangeScoreEvent;
+
+		public int Score
+		{
+			get
+			{
+				return _score;
+			}
+			set
+			{
+				if (value == _score)
+					return;
+				_score = value;
+				if (ChangeScoreEvent != null)
+					ChangeScoreEvent(value);
+			}
+		}
+		public int LifeScore;
 		public int Upgrade;
 		public int Enemy1;
 		public int Enemy2;
 		public int Enemy3;
 		public int Enemy4;
+
+		private int _score;
 
 		public void AddPoint(EnemyType enemy, int points)
 		{
@@ -36,5 +55,7 @@
 			Enemy3 = 0;
 			Enemy4 = 0;
 		}
+
+		public delegate void ChangeScoreHandler(int score);
 	}
 }
