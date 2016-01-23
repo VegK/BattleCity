@@ -320,9 +320,15 @@ namespace BattleCity.GUI.Main
 				return;
 
 			if (totalPlayer1 > totalPlayer2)
+			{
+				GameManager.Player1.Score += 1000;
 				UIPlayer1.UIBonus.SetActive(true);
+			}
 			else if (totalPlayer1 < totalPlayer2)
+			{
+				GameManager.Player2.Score += 1000;
 				UIPlayer2.UIBonus.SetActive(true);
+			}
 
 			AudioManager.PlaySecondarySound(AudioBonus);
 		}
