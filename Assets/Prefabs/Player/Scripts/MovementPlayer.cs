@@ -13,6 +13,8 @@ namespace BattleCity.Player
 		private AudioClip AudioIdle;
 		[SerializeField]
 		private AudioClip AudioMove;
+		[SerializeField]
+		private AudioClip AudioStopOnIce;
 
 		public bool LockMove { get; set; }
 
@@ -132,6 +134,8 @@ namespace BattleCity.Player
 
 			if (_holdHorizontal || _holdVertical)
 			{
+				AudioManager.PlaySecondarySound(AudioStopOnIce);
+
 				_timeSlipIce = Time.time;
 				_startSlipIce = transform.position;
 

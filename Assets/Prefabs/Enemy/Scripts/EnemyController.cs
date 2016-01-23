@@ -26,6 +26,8 @@ namespace BattleCity.Enemy
 		[Header("Sounds")]
 		[SerializeField]
 		private AudioClip AudioDestroy;
+		[SerializeField]
+		private AudioClip AudioBonus;
 
 		public Direction DirectionMove
 		{
@@ -154,7 +156,10 @@ namespace BattleCity.Enemy
 
 				if (IsBonus)
 				{
+					AudioManager.PlaySecondarySound(AudioBonus);
+
 					IsBonus = false;
+
 					var bns = Instantiate(PrefabBonus);
 					var pos = FieldController.Instance.GetBonusRandomPosition();
 					bns.transform.position = pos;
