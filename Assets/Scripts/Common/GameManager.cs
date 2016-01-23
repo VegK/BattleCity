@@ -103,6 +103,9 @@ namespace BattleCity
 
 		public static void StartGame(bool singlePlayer, EventHandler overlapScreen)
 		{
+			AudioManager.EnablePlayerSound = true;
+			AudioManager.EnableSecondarySound = true;
+
 			SinglePlayer = singlePlayer;
 
 			Player1.Score = 0;
@@ -152,6 +155,8 @@ namespace BattleCity
 			if (_instance._gameOver)
 				return;
 			_instance._gameOver = true;
+			AudioManager.EnablePlayerSound = false;
+			AudioManager.EnableSecondarySound = false;
 
 			_instance.StartCoroutine(_instance.ShowGameOver());
 		}
@@ -207,6 +212,7 @@ namespace BattleCity
 			Reset();
 
 			// Show calc score
+			AudioManager.EnableSecondarySound = true;
 			var loop = true;
 			ScoreGUIController.Show((s, e) => { loop = false; },
 				LevelManager.LevelNumber, Player1, Player2);

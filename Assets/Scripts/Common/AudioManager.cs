@@ -15,9 +15,39 @@ namespace BattleCity
 		public static event EventHandler FinishPlayMainSoundEvent;
 		public static event EventHandler FinishPlaySecondarySoundEvent;
 
+		public static bool EnablePlayerSound
+		{
+			get
+			{
+				return _instance.PlayerAudioSource.enabled;
+			}
+			set
+			{
+				_instance.PlayerAudioSource.enabled = value;
+			}
+		}
+
+		public static bool EnableSecondarySound
+		{
+			get
+			{
+				return _instance._enableSecondarySound;
+			}
+			set
+			{
+				_instance._enableSecondarySound = value;
+
+				if (value)
+					_instance.SecondaryAudioSource.enabled = true;
+				else
+					FinishPlaySecondarySoundEvent += _instance.OnDisableSecondaryAudio;
+			}
+		}
+
 		private static AudioManager _instance;
 		private PlayerAudioType _player1;
 		private PlayerAudioType _player2;
+		private bool _enableSecondarySound;
 
 		public static void PlaySoundPlayer(AudioClip clip, bool loop, Block player,
 			PlayerAudioType type)
@@ -52,17 +82,18 @@ namespace BattleCity
 			if (clip == null)
 				return;
 
-			_instance.SecondaryAudioSource.enabled = false;
 			_instance.PlayerAudioSource.enabled = false;
 
 			var audio = _instance.MainAudioSource;
 			audio.PlayOneShot(clip);
-			FinishPlayMainSoundEvent += AudioManager_FinishPlayMainSoundEvent;
+			FinishPlayMainSoundEvent += OnEnablePlayerAudio;
 		}
 
 		public static void PlaySecondarySound(AudioClip clip)
 		{
 			if (clip == null)
+				return;
+			if (!_instance._enableSecondarySound)
 				return;
 
 			var audio = _instance.SecondaryAudioSource;
@@ -91,11 +122,16 @@ namespace BattleCity
 			}
 		}
 
-		private static void AudioManager_FinishPlayMainSoundEvent(object sender, EventArgs e)
+		private static void OnEnablePlayerAudio(object sender, EventArgs e)
 		{
-			_instance.SecondaryAudioSource.enabled = true;
 			_instance.PlayerAudioSource.enabled = true;
-			FinishPlayMainSoundEvent -= AudioManager_FinishPlayMainSoundEvent;
+			FinishPlayMainSoundEvent -= OnEnablePlayerAudio;
+		}
+
+		private void OnDisableSecondaryAudio(object sender, EventArgs e)
+		{
+			SecondaryAudioSource.enabled = false;
+			FinishPlaySecondarySoundEvent -= OnDisableSecondaryAudio;
 		}
 
 		public enum PlayerAudioType

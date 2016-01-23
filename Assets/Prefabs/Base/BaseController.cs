@@ -4,8 +4,16 @@ namespace BattleCity
 {
 	public class BaseController : BlockController
 	{
-		public Sprite Destroyed;
-		public ExplosionController PrefabExplosion;
+		[SerializeField]
+		private Sprite Destroyed;
+		[SerializeField]
+		private ExplosionController PrefabExplosion;
+
+		[Header("Sounds")]
+		[SerializeField]
+		private AudioClip AudioDestroy1;
+		[SerializeField]
+		private AudioClip AudioDestroy2;
 
 		private SpriteRenderer _spriteRenderer;
 		private BoxCollider2D _boxCollider;
@@ -29,6 +37,8 @@ namespace BattleCity
 					bullet.FirstCollision = true;
 				}
 
+				AudioManager.PlaySecondarySound(AudioDestroy1);
+				AudioManager.PlaySecondarySound(AudioDestroy2);
 				_spriteRenderer.sprite = Destroyed;
 
 				_boxCollider.enabled = false;

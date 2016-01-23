@@ -24,6 +24,12 @@ namespace BattleCity.GUI.Main
 		[SerializeField]
 		private Score UIPlayer2;
 
+		[Header("Sounds")]
+		[SerializeField]
+		private AudioClip AudioCalculation;
+		[SerializeField]
+		private AudioClip AudioBonus;
+
 		private static ScoreGUIController _instance;
 		private EventHandler _finishEvent;
 		private PlayerData _player1;
@@ -104,12 +110,16 @@ namespace BattleCity.GUI.Main
 
 		private IEnumerator CalcScore()
 		{
-			var wait = 0.2f;
+			var wait = 0.14f;
 
 			// Enemy #1
+			yield return new WaitForSeconds(wait * 2);
 			int max = Mathf.Max(_player1.Enemy1, _player2.Enemy1);
 			for (int i = 0; i <= max; i++)
 			{
+				if (i > 0)
+					AudioManager.PlaySecondarySound(AudioCalculation);
+
 				if (Input.anyKeyDown)
 				{
 					UIPlayer1.UIEnemy1PTS.text = (_player1.Enemy1 * Enemy1Points).ToString();
@@ -118,9 +128,10 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy1PTS.text = (_player2.Enemy1 * Enemy1Points).ToString();
 					UIPlayer2.UIEnemy1Tanks.text = _player2.Enemy1.ToString();
 
-					yield return null;
+					yield return new WaitForSeconds(wait);
 					break;
 				}
+
 				if (i <= _player1.Enemy1)
 				{
 					UIPlayer1.UIEnemy1PTS.text = (i * Enemy1Points).ToString();
@@ -131,15 +142,20 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy1PTS.text = (i * Enemy1Points).ToString();
 					UIPlayer2.UIEnemy1Tanks.text = i.ToString();
 				}
+
 				yield return new WaitForSeconds(wait);
 				if (_skipCalc)
 					yield break;
 			}
 
 			// Enemy #2
+			yield return new WaitForSeconds(wait * 2);
 			max = Mathf.Max(_player1.Enemy2, _player2.Enemy2);
 			for (int i = 0; i <= max; i++)
 			{
+				if (i > 0)
+					AudioManager.PlaySecondarySound(AudioCalculation);
+
 				if (Input.anyKeyDown)
 				{
 					UIPlayer1.UIEnemy2PTS.text = (_player1.Enemy2 * Enemy2Points).ToString();
@@ -148,9 +164,10 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy2PTS.text = (_player2.Enemy2 * Enemy2Points).ToString();
 					UIPlayer2.UIEnemy2Tanks.text = _player2.Enemy2.ToString();
 
-					yield return null;
+					yield return new WaitForSeconds(wait);
 					break;
 				}
+
 				if (i <= _player1.Enemy2)
 				{
 					UIPlayer1.UIEnemy2PTS.text = (i * Enemy2Points).ToString();
@@ -161,15 +178,20 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy2PTS.text = (i * Enemy2Points).ToString();
 					UIPlayer2.UIEnemy2Tanks.text = i.ToString();
 				}
+
 				yield return new WaitForSeconds(wait);
 				if (_skipCalc)
 					yield break;
 			}
 
 			// Enemy #3
+			yield return new WaitForSeconds(wait * 2);
 			max = Mathf.Max(_player1.Enemy3, _player2.Enemy3);
 			for (int i = 0; i <= max; i++)
 			{
+				if (i > 0)
+					AudioManager.PlaySecondarySound(AudioCalculation);
+
 				if (Input.anyKeyDown)
 				{
 					UIPlayer1.UIEnemy3PTS.text = (_player1.Enemy3 * Enemy3Points).ToString();
@@ -178,9 +200,10 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy3PTS.text = (_player2.Enemy3 * Enemy3Points).ToString();
 					UIPlayer2.UIEnemy3Tanks.text = _player2.Enemy3.ToString();
 
-					yield return null;
+					yield return new WaitForSeconds(wait);
 					break;
 				}
+
 				if (i <= _player1.Enemy3)
 				{
 					UIPlayer1.UIEnemy3PTS.text = (i * Enemy3Points).ToString();
@@ -191,15 +214,20 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy3PTS.text = (i * Enemy3Points).ToString();
 					UIPlayer2.UIEnemy3Tanks.text = i.ToString();
 				}
+
 				yield return new WaitForSeconds(wait);
 				if (_skipCalc)
 					yield break;
 			}
 
 			// Enemy #4
+			yield return new WaitForSeconds(wait * 2);
 			max = Mathf.Max(_player1.Enemy4, _player2.Enemy4);
 			for (int i = 0; i <= max; i++)
 			{
+				if (i > 0)
+					AudioManager.PlaySecondarySound(AudioCalculation);
+
 				if (Input.anyKeyDown)
 				{
 					UIPlayer1.UIEnemy4PTS.text = (_player1.Enemy4 * Enemy4Points).ToString();
@@ -208,9 +236,10 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy4PTS.text = (_player2.Enemy4 * Enemy4Points).ToString();
 					UIPlayer2.UIEnemy4Tanks.text = _player2.Enemy4.ToString();
 
-					yield return null;
+					yield return new WaitForSeconds(wait);
 					break;
 				}
+
 				if (i <= _player1.Enemy4)
 				{
 					UIPlayer1.UIEnemy4PTS.text = (i * Enemy4Points).ToString();
@@ -221,6 +250,7 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy4PTS.text = (i * Enemy4Points).ToString();
 					UIPlayer2.UIEnemy4Tanks.text = i.ToString();
 				}
+
 				yield return new WaitForSeconds(wait);
 				if (_skipCalc)
 					yield break;
@@ -233,18 +263,11 @@ namespace BattleCity.GUI.Main
 			var total2 = _player2.Enemy1 + _player2.Enemy2 + _player2.Enemy3 + _player2.Enemy4;
 			UIPlayer2.UITotalTanks.text = total2.ToString();
 
-			yield return new WaitForSeconds(wait);
+			yield return new WaitForSeconds(1);
 			if (_skipCalc)
 				yield break;
 
-			// Bonus
-			if (!GameManager.SinglePlayer)
-			{
-				if (total1 > total2)
-					UIPlayer1.UIBonus.SetActive(true);
-				else if (total1 < total2)
-					UIPlayer2.UIBonus.SetActive(true);
-			}
+			Bonus(total1, total2);
 
 			yield return new WaitForSeconds(wait * 10);
 			if (_skipCalc)
@@ -280,18 +303,28 @@ namespace BattleCity.GUI.Main
 			var total2 = _player2.Enemy1 + _player2.Enemy2 + _player2.Enemy3 + _player2.Enemy4;
 			UIPlayer2.UITotalTanks.text = total2.ToString();
 
-			if (!GameManager.SinglePlayer)
-			{
-				if (total1 > total2)
-					UIPlayer1.UIBonus.SetActive(true);
-				else
-					UIPlayer2.UIBonus.SetActive(true);
-			}
+			yield return new WaitForSeconds(1);
+			Bonus(total1, total2);
 
 			yield return new WaitForSeconds(2);
 
 			if (_finishEvent != null)
 				_finishEvent(this, EventArgs.Empty);
+		}
+
+		private void Bonus(int totalPlayer1, int totalPlayer2)
+		{
+			if (GameManager.SinglePlayer)
+				return;
+			if (totalPlayer1 == totalPlayer2)
+				return;
+
+			if (totalPlayer1 > totalPlayer2)
+				UIPlayer1.UIBonus.SetActive(true);
+			else if (totalPlayer1 < totalPlayer2)
+				UIPlayer2.UIBonus.SetActive(true);
+
+			AudioManager.PlaySecondarySound(AudioBonus);
 		}
 
 		[Serializable]

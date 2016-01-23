@@ -13,6 +13,10 @@ namespace BattleCity.Player
 		[SerializeField]
 		private ExplosionController PrefabExplosion;
 
+		[Header("Sounds")]
+		[SerializeField]
+		private AudioClip AudioDestroy;
+
 		public event UpgradeHandler UpgradeEvent;
 		public Direction DirectionMove
 		{
@@ -134,6 +138,7 @@ namespace BattleCity.Player
 					return;
 				}
 
+				AudioManager.PlaySecondarySound(AudioDestroy);
 				gameObject.SetActive(false);
 
 				var obj = Instantiate(PrefabExplosion);
