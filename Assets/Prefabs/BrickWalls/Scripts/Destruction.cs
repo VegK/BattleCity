@@ -21,12 +21,16 @@ namespace BattleCity
 
 		private SpriteRenderer _spriteRenderer;
 		private BoxCollider2D _boxCollider2d;
+		private BoxCollider2D _outsideBoxCollider2d;
 		private TypeDestruction _typeDestruction = TypeDestruction.None;
 
 		private void Awake()
 		{
 			_spriteRenderer = GetComponent<SpriteRenderer>();
 			_boxCollider2d = GetComponent<BoxCollider2D>();
+
+			var child = transform.FindChild("Outside");
+			_outsideBoxCollider2d = child.GetComponent<BoxCollider2D>();
 		}
 
 		protected override void OnTriggerEnter2D(Collider2D other)
@@ -191,6 +195,11 @@ namespace BattleCity
 			vec.x -= 0.125f;
 			vec.y += 0.125f;
 			transform.position = vec;
+
+			vec = _outsideBoxCollider2d.offset;
+			vec.x = 0.125f;
+			vec.y = -0.125f;
+			_outsideBoxCollider2d.offset = vec;
 		}
 
 		private void SetBrickOneTopRight()
@@ -209,6 +218,11 @@ namespace BattleCity
 			vec.x += 0.125f;
 			vec.y += 0.125f;
 			transform.position = vec;
+
+			vec = _outsideBoxCollider2d.offset;
+			vec.x = -0.125f;
+			vec.y = -0.125f;
+			_outsideBoxCollider2d.offset = vec;
 		}
 
 		private void SetBrickOneBottomRight()
@@ -227,6 +241,11 @@ namespace BattleCity
 			vec.x += 0.125f;
 			vec.y -= 0.125f;
 			transform.position = vec;
+
+			vec = _outsideBoxCollider2d.offset;
+			vec.x = -0.125f;
+			vec.y = 0.125f;
+			_outsideBoxCollider2d.offset = vec;
 		}
 
 		private void SetBrickOneBottomLeft()
@@ -245,6 +264,11 @@ namespace BattleCity
 			vec.x -= 0.125f;
 			vec.y -= 0.125f;
 			transform.position = vec;
+
+			vec = _outsideBoxCollider2d.offset;
+			vec.x = 0.125f;
+			vec.y = 0.125f;
+			_outsideBoxCollider2d.offset = vec;
 		}
 
 		private void DestructionFull()
