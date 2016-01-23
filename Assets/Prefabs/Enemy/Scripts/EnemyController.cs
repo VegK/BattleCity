@@ -28,6 +28,8 @@ namespace BattleCity.Enemy
 		private AudioClip AudioDestroy;
 		[SerializeField]
 		private AudioClip AudioBonus;
+		[SerializeField]
+		private AudioClip AudioArmor;
 
 		public Direction DirectionMove
 		{
@@ -154,6 +156,10 @@ namespace BattleCity.Enemy
 					bullet.FirstCollision = true;
 				}
 
+				Armor--;
+				if (Armor > 0 && !IsBonus)
+					AudioManager.PlaySecondarySound(AudioArmor);
+
 				if (IsBonus)
 				{
 					AudioManager.PlaySecondarySound(AudioBonus);
@@ -166,7 +172,6 @@ namespace BattleCity.Enemy
 					FieldController.Instance.Bonus = bns;
 				}
 
-				Armor--;
 				if (Armor == 0)
 				{
 					Explosion(true);
@@ -179,7 +184,7 @@ namespace BattleCity.Enemy
 				}
 				else
 					if (ChangedArmorEvent != null)
-					ChangedArmorEvent(Armor - 1);
+						ChangedArmorEvent(Armor - 1);
 			}
 		}
 
