@@ -12,6 +12,8 @@ namespace BattleCity
 		public bool MouseLock { get; set; }
 		public EnemyType[] OrderSpawnEnemies { get; set; }
 
+		private readonly int[,] DEFAULT_FIELD =			{				{  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17 },				{  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{ 15,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{  3, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{ 14,  4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17 },				{  5, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{ 16,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0 },				{  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17 }			};
+
 		private GameObject _selectCell;
 		private Vector2 _fieldPosition;
 		private Vector2 _fieldSize;
@@ -46,6 +48,12 @@ namespace BattleCity
 			var pos = transform.position;
 			pos.z -= 1;
 			_selectCell.transform.position = pos;
+
+			var width = DEFAULT_FIELD.GetLength(0);
+			var height = DEFAULT_FIELD.GetLength(1);
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < height; y++)
+					FieldController.Instance.SetCell(x, y, (Block)DEFAULT_FIELD[x, y]);
 		}
 
 		private void Update()
