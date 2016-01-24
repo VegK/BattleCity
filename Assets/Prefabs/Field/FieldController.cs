@@ -145,13 +145,17 @@ namespace BattleCity
 				resY = Random.Range(0, Height - 1);
 
 				var next = false;
-				for (int x = resX; x <= resX + 1; x++)
+				for (int x = resX - 1; x <= resX + 2; x++)
 				{
+					if (x < 0)
+						continue;
 					if (x == Width - 2)
 						break;
 
-					for (int y = resY; y <= resY + 1; y++)
+					for (int y = resY - 1; y <= resY + 2; y++)
 					{
+						if (y < 0)
+							continue;
 						if (y == Height - 2)
 							break;
 
