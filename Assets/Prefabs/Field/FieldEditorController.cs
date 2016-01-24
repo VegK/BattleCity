@@ -23,6 +23,12 @@ namespace BattleCity
 			for (int x = 0; x < FieldController.Instance.Width; x++)
 				for (int y = 0; y < FieldController.Instance.Height; y++)
 					FieldController.Instance.SetCell(x, y, Block.Empty);
+
+			var width = DEFAULT_FIELD.GetLength(0);
+			var height = DEFAULT_FIELD.GetLength(1);
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < height; y++)
+					FieldController.Instance.SetCell(x, y, (Block)DEFAULT_FIELD[x, y]);
 		}
 
 		private void Awake()
