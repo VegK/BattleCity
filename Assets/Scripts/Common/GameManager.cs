@@ -101,7 +101,7 @@ namespace BattleCity
 		public void LoadApplication()
 		{
 			Black.gameObject.SetActive(false);
-			HiScore = PlayerPrefs.GetInt("HiScore", 20000);
+			HiScore = PlayerPrefs.GetInt("HiScore", Consts.DefaultHighScore);
 			MainMenuController.Show(0, 0);
 		}
 
