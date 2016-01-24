@@ -11,6 +11,9 @@ namespace BattleCity
 {
 	public class LevelManager : MonoBehaviour
 	{
+		[SerializeField]
+		private bool UseList = true;
+
 		[HideInInspector]
 		public List<string> Levels;
 
@@ -162,6 +165,8 @@ namespace BattleCity
 			var ext = "." + Consts.EXTENSION;
 			var dir = new DirectoryInfo(Consts.PATH);
 			var files = dir.GetFiles("*" + ext);
+			var customSort = new FileLevelComparer();
+			Array.Sort(files, customSort);
 			foreach (FileInfo file in files)
 			{
 				if (file.Extension == ext)
@@ -178,7 +183,7 @@ namespace BattleCity
 						if (data != null)
 						{
 							data.Name = Path.GetFileNameWithoutExtension(file.Name);
-							if (Levels.Contains(data.Name))
+							if (!UseList || Levels.Contains(data.Name))
 								_levels.Add(data);
 						}
 					}
