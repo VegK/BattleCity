@@ -49,14 +49,15 @@ namespace BattleCity.Enemy
 			// Continue rotate
 			if (_directionRotate.HasValue)
 			{
-				Rotate(_directionRotate);
+				if (Random.Range(0, 16) == 0)
+					Rotate(_directionRotate);
 				return;
 			}
 
-			if ((posX == 0 || posY == 0) && Random.Range(0, 8) == 0)
+			if ((posX == 0 || posY == 0) && Random.Range(0, 24) == 0)
 				Turning();
 			else
-				if (Random.Range(0, 2) == 0)
+				if (Random.Range(0, 16) == 0)
 					Rotate(null);
 		}
 
