@@ -41,6 +41,7 @@ namespace BattleCity.GUI.Main
 		public static void Show(EventHandler finishEvent, int levelNumber,
 			PlayerData player1, PlayerData player2)
 		{
+			_instance.UIPlayer2.UIParent.SetActive(!GameManager.SinglePlayer);
 			_instance._skipCalc = false;
 			_instance.gameObject.SetActive(true);
 			_instance._finishEvent = finishEvent;
@@ -371,6 +372,7 @@ namespace BattleCity.GUI.Main
 		[Serializable]
 		public class Score
 		{
+			public GameObject UIParent;
 			public Text UIScore;
 			public Text UIEnemy1PTS;
 			public Text UIEnemy1Tanks;
