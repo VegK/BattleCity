@@ -87,6 +87,7 @@ namespace BattleCity
 				return;
 
 			_enemiesCount = _orderEnemiesSpawn.Length;
+			GameGUIController.Instance.EnemiesCount = _enemiesCount;
 			_instance._stopAllCoroutine = false;
 			_instance.StopCoroutine(_instance.SpawnEnemies());
 			_instance.StartCoroutine(_instance.SpawnEnemies());
@@ -103,9 +104,6 @@ namespace BattleCity
 			var waitSeconds = TimeRespawn;
 			while (true)
 			{
-				if (GameGUIController.Instance != null)
-					GameGUIController.Instance.EnemiesCount = _enemiesCount;
-
 				if (_enemiesCount == 0)
 					yield break;
 
@@ -116,6 +114,7 @@ namespace BattleCity
 				}
 
 				_enemiesCount--;
+				GameGUIController.Instance.EnemiesCount = _enemiesCount;
 				_enemiesOnField++;
 				IndexEnemy++;
 				GetCurrentSpawnPoint().Spawn(IndexEnemy,
