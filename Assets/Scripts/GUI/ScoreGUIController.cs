@@ -8,6 +8,8 @@ namespace BattleCity.GUI.Main
 	public class ScoreGUIController : MonoBehaviour
 	{
 		[SerializeField]
+		private Text HiScoreText;
+		[SerializeField]
 		private string LevelName = "STAGE";
 		[SerializeField]
 		private int Enemy1Points = 100;
@@ -42,6 +44,7 @@ namespace BattleCity.GUI.Main
 			_instance._skipCalc = false;
 			_instance.gameObject.SetActive(true);
 			_instance._finishEvent = finishEvent;
+			_instance.HiScoreText.text = GameManager.HiScore.ToString();
 			_instance.FillParams(levelNumber, player1, player2);
 		}
 

@@ -113,12 +113,18 @@ namespace BattleCity
 			if (!MainAudioSource.isPlaying)
 			{
 				if (FinishPlayMainSoundEvent != null)
+				{
 					FinishPlayMainSoundEvent(this, EventArgs.Empty);
+					FinishPlayMainSoundEvent = null;
+				}
 			}
 			if (!SecondaryAudioSource.isPlaying)
 			{
 				if (FinishPlaySecondarySoundEvent != null)
+				{
 					FinishPlaySecondarySoundEvent(this, EventArgs.Empty);
+					FinishPlaySecondarySoundEvent = null;
+				}
 			}
 		}
 

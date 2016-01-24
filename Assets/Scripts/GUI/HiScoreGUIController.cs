@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BattleCity.GUI
+namespace BattleCity.GUI.Main
 {
-	public class HiScoreGUI : MonoBehaviour
+	public class HiScoreGUIController : MonoBehaviour
 	{
 		[SerializeField]
 		private Color StartColor;
@@ -44,15 +44,18 @@ namespace BattleCity.GUI
 		[SerializeField]
 		private AudioClip AudioHiScore;
 
-		private static HiScoreGUI _instance;
+		private static HiScoreGUIController _instance;
 		private HashSet<Image> _numbers;
 		private float _time;
 
-		public static void Show(int highScore)
+		public static void Show(int highScore, EventHandler FinishedSoundEvent)
 		{
+			PlayerPrefs.SetInt("HiScore", highScore);
 			_instance.VisibleHightScore(highScore);
 			_instance.gameObject.SetActive(true);
 			AudioManager.PlayMainSound(_instance.AudioHiScore);
+			AudioManager.FinishPlayMainSoundEvent += FinishedSoundEvent;
+			_instance._time = Time.time;
 		}
 
 		public static void Hide()
@@ -64,8 +67,7 @@ namespace BattleCity.GUI
 		{
 			_instance = this;
 			_numbers = new HashSet<Image>();
-
-			_time = Time.time;
+			Hide();
 		}
 
 		private void Update()
@@ -143,31 +145,6 @@ namespace BattleCity.GUI
 
 			_numbers.Add(image);
 			return obj;
-		}
-
-		private IEnumerator Flash()
-		{
-			var time = Time.time;
-			var startColor = new Color(255, 154, 154);
-			var finishColor = new Color(255, 75, 75);
-
-			while(true)
-			{
-				var color = Color.Lerp(startColor, finishColor, Time.time - time);
-
-				HiScoreText.color = color;
-				foreach (Image number in _numbers)
-					number.color = color;
-
-				if (color == finishColor)
-				{
-					time = Time.time;
-					var tmp = startColor;
-					startColor = finishColor;
-					finishColor = tmp;
-				}
-				yield return new WaitForSeconds(0.2f);
-			}
 		}
 	}
 }

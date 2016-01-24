@@ -89,6 +89,7 @@ namespace BattleCity
 			}
 		}
 		public static PlayerData Player2;
+		public static int HiScore { get; set; }
 
 		private static GameManager _instance;
 		private float _defaultTimeScale;
@@ -100,7 +101,8 @@ namespace BattleCity
 		public void LoadApplication()
 		{
 			Black.gameObject.SetActive(false);
-			MainMenuController.Show();
+			HiScore = PlayerPrefs.GetInt("HiScore", 20000);
+			MainMenuController.Show(0, 0);
 		}
 
 		public static void StartGame(bool singlePlayer, EventHandler overlapScreen)
@@ -171,19 +173,16 @@ namespace BattleCity
 			Time.timeScale = 0;
 
 			var loop = true;
-			var waitAnyKey = true;
 			var level = LevelManager.LevelNumber + 1;
 
-			LoadLevelSceneController.Show(level, (s, e) => { loop = false; },
-				(s, e) => { waitAnyKey = false; });
+			LoadLevelSceneController.Show(level, (s, e) => { loop = false; }, null);
 			while (loop)
 				yield return null;
 
 			if (overlapScreen != null)
 				overlapScreen(this, EventArgs.Empty);
 
-			while (waitAnyKey)
-				yield return null;
+			yield return new WaitForSecondsRealtime(1f);
 			LevelManager.NextLevel();
 			AudioManager.PlayMainSound(_instance.AudioStartLevel);
 			yield return new WaitForSecondsRealtime(1f);
@@ -226,13 +225,21 @@ namespace BattleCity
 
 			// Show final screen with GameOver
 			FinalScreenController.Show();
-			yield return new WaitForSeconds(5);
-			while (!Input.anyKeyDown)
-				yield return null;
+			yield return new WaitForSeconds(3);
 			FinalScreenController.Hide();
 
+			// Show high score
+			if (HiScore == Player1.Score || HiScore == Player2.Score)
+			{
+				loop = true;
+				HiScoreGUIController.Show(HiScore, (s, e) => { loop = false; });
+				while (loop)
+					yield return null;
+				HiScoreGUIController.Hide();
+			}
+
 			LevelManager.Reset();
-			MainMenuController.Show();
+			MainMenuController.Show(Player1.Score, Player2.Score);
 		}
 
 		private void Reset()
@@ -258,6 +265,9 @@ namespace BattleCity
 
 		private void Player1_ChangeScoreEvent(int score)
 		{
+			if (score > HiScore)
+				HiScore = score;
+
 			if (score - Player1.LifeScore < Consts.ScoreForLife)
 				return;
 
@@ -270,6 +280,9 @@ namespace BattleCity
 
 		private void Player2_ChangeScoreEvent(int score)
 		{
+			if (score > HiScore)
+				HiScore = score;
+
 			if (score - Player2.LifeScore < Consts.ScoreForLife)
 				return;
 

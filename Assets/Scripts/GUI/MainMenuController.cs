@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace BattleCity.GUI.Main
 {
 	public class MainMenuController : MonoBehaviour
 	{
+		[SerializeField]
+		private Text HiScore;
+		[SerializeField]
+		private Text ScorePlayer1;
+		[SerializeField]
+		private Text ScorePlayer2;
+
 		[SerializeField]
 		private GameObject Cursor;
 
@@ -13,8 +21,12 @@ namespace BattleCity.GUI.Main
 
 		private static MainMenuController _instance;
 
-		public static void Show()
+		public static void Show(int scorePlayer1, int scorePlayer2)
 		{
+			_instance.HiScore.text = GameManager.HiScore.ToString();
+			_instance.ScorePlayer1.text = scorePlayer1.ToString();
+			_instance.ScorePlayer2.text = scorePlayer2.ToString();
+
 			Lock = false;
 			EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
 			_instance.gameObject.SetActive(true);
