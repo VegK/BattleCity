@@ -10,7 +10,7 @@ namespace BattleCity
 	public class SpawnPointEnemiesManager : MonoBehaviour
 	{
 		public static int IndexEnemy { get; private set; }
-		public static int TimeRespawn
+		public static float TimeRespawn
 		{
 			get
 			{
@@ -23,7 +23,7 @@ namespace BattleCity
 					playerCount = GameGUIController.Instance.GetPlayerCount();
 				}
 
-				return (190 - level * 4 - (playerCount - 1) * 20) / 60;
+				return (190 - level * 4f - (playerCount - 1) * 20f) / 60f;
 			}
 		}
 		public static int MaxCountEnemies
@@ -43,6 +43,7 @@ namespace BattleCity
 		private static int _enemiesOnField = 0;
 		private static int _indexCurrentSpawnPoint = 0;
 		private static int _enemiesCount;
+		private bool _stopAllCoroutine;
 
 		static SpawnPointEnemiesManager()
 		{
@@ -54,6 +55,8 @@ namespace BattleCity
 			IndexEnemy = 0;
 			_spawnPoints.Clear();
 			_indexCurrentSpawnPoint = 0;
+			_enemiesOnField = 0;
+			_instance._stopAllCoroutine = true;
 			_instance.StopAllCoroutines();
 		}
 
@@ -84,6 +87,7 @@ namespace BattleCity
 				return;
 
 			_enemiesCount = _orderEnemiesSpawn.Length;
+			_instance._stopAllCoroutine = false;
 			_instance.StopCoroutine(_instance.SpawnEnemies());
 			_instance.StartCoroutine(_instance.SpawnEnemies());
 		}
@@ -144,6 +148,8 @@ namespace BattleCity
 		private IEnumerator CheckEnemiesAndLoadNextLevel()
 		{
 			yield return new WaitForSeconds(TimeRespawn);
+			if (_stopAllCoroutine)
+				yield break;
 			GameManager.NextLevel(null);
 		}
 	}
