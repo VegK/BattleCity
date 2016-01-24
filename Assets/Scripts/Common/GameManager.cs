@@ -228,8 +228,11 @@ namespace BattleCity
 			FinalScreenController.Hide();
 
 			// Show high score
-			if (HiScore == Player1.Score || HiScore == Player2.Score)
+			var playerScore = Mathf.Max(Player1.Score, Player2.Score);
+			if (playerScore > HiScore)
 			{
+				HiScore = playerScore;
+
 				loop = true;
 				HiScoreGUIController.Show(HiScore, (s, e) => { loop = false; });
 				while (loop)
@@ -264,9 +267,6 @@ namespace BattleCity
 
 		private void Player1_ChangeScoreEvent(int score)
 		{
-			if (score > HiScore)
-				HiScore = score;
-
 			if (score - Player1.LifeScore < Consts.ScoreForLife)
 				return;
 
@@ -279,9 +279,6 @@ namespace BattleCity
 
 		private void Player2_ChangeScoreEvent(int score)
 		{
-			if (score > HiScore)
-				HiScore = score;
-
 			if (score - Player2.LifeScore < Consts.ScoreForLife)
 				return;
 
