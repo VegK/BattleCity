@@ -131,6 +131,7 @@ namespace BattleCity
 
 		public static void NextLevel(EventHandler overlapScreen)
 		{
+			AudioManager.EnablePlayerSound = false;
 			_instance.StartCoroutine(_instance.NextLevel(overlapScreen, false));
 		}
 
