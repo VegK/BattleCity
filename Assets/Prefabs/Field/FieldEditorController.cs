@@ -38,7 +38,9 @@ namespace BattleCity
 
 			_selectCell = new GameObject("MouseCell");
 			_selectCell.SetActive(false);
-			_selectCell.AddComponent<SpriteRenderer>().sprite = Cell;
+			var renderer = _selectCell.AddComponent<SpriteRenderer>();
+			renderer.sprite = Cell;
+			renderer.sortingOrder = 100;
 			_selectCell.transform.SetParent(transform);
 
 			var pos = transform.position;
