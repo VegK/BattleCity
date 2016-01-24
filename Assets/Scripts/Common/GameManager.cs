@@ -143,12 +143,10 @@ namespace BattleCity
 				var loop = true;
 				ScoreGUIController.Show((s, e) => { loop = false; },
 					LevelManager.LevelNumber, Player1, Player2);
-				while (true)
-				{
-					if (Input.anyKey && !loop)
-						break;
+				while (loop)
 					yield return null;
-				}
+				yield return new WaitForSeconds(1.5f);
+
 				if (overlapScreen == null)
 					overlapScreen = (s, e) => { ScoreGUIController.Hide(); };
 				else
