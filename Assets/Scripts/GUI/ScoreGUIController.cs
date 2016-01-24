@@ -260,6 +260,8 @@ namespace BattleCity.GUI.Main
 			}
 
 			// Total
+			yield return new WaitForSeconds(wait * 2);
+
 			var total1 = _player1.Enemy1 + _player1.Enemy2 + _player1.Enemy3 + _player1.Enemy4;
 			UIPlayer1.UITotalTanks.text = total1.ToString();
 
