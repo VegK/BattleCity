@@ -19,8 +19,11 @@ namespace BattleCity
 			get
 			{
 				var i = _instance._index - 1;
+				if (i >= _instance._levels.Count)
+					i = i % _instance._levels.Count;
+
 				if (i >= _instance.Levels.Count)
-					i = i % _instance.Levels.Count;
+					return _instance.Levels.LastOrDefault();
 				return _instance.Levels[i];
 			}
 		}
@@ -68,8 +71,15 @@ namespace BattleCity
 			if (data == null)
 				return false;
 
+			var orderSpawnEnemies = data.OrderSpawnEnemies;
+			if (_instance._index - 1 >= _instance._levels.Count)
+			{
+				var lastLevel = _instance._levels.LastOrDefault();
+				if (lastLevel != null)
+					orderSpawnEnemies = lastLevel.OrderSpawnEnemies;
+			}
 			FieldController.Instance.Load(name, GameManager.SinglePlayer,
-				data.Width, data.Height, data.Blocks, data.OrderSpawnEnemies);
+				data.Width, data.Height, data.Blocks, orderSpawnEnemies);
 			return true;
 		}
 
@@ -168,7 +178,8 @@ namespace BattleCity
 						if (data != null)
 						{
 							data.Name = Path.GetFileNameWithoutExtension(file.Name);
-							_levels.Add(data);
+							if (Levels.Contains(data.Name))
+								_levels.Add(data);
 						}
 					}
 #if !UNITY_EDITOR
