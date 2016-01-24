@@ -115,9 +115,14 @@ namespace BattleCity.GUI.Main
 		{
 			var wait = 0.14f;
 
-			// Enemy #1
-			yield return new WaitForSeconds(wait * 2);
+			#region Enemy #1
 			int max = Mathf.Max(_player1.Enemy1, _player2.Enemy1);
+			if (max > 0)
+			{
+				yield return new WaitForSeconds(wait * 2);
+				if (_skipCalc)
+					yield break;
+			}
 			for (int i = 0; i <= max; i++)
 			{
 				if (i > 0)
@@ -132,6 +137,8 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy1Tanks.text = _player2.Enemy1.ToString();
 
 					yield return new WaitForSeconds(wait);
+					if (_skipCalc)
+						yield break;
 					break;
 				}
 
@@ -150,10 +157,15 @@ namespace BattleCity.GUI.Main
 				if (_skipCalc)
 					yield break;
 			}
-
-			// Enemy #2
-			yield return new WaitForSeconds(wait * 2);
+			#endregion
+			#region Enemy #2
 			max = Mathf.Max(_player1.Enemy2, _player2.Enemy2);
+			if (max > 0)
+			{
+				yield return new WaitForSeconds(wait * 2);
+				if (_skipCalc)
+					yield break;
+			}
 			for (int i = 0; i <= max; i++)
 			{
 				if (i > 0)
@@ -168,6 +180,8 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy2Tanks.text = _player2.Enemy2.ToString();
 
 					yield return new WaitForSeconds(wait);
+					if (_skipCalc)
+						yield break;
 					break;
 				}
 
@@ -186,10 +200,15 @@ namespace BattleCity.GUI.Main
 				if (_skipCalc)
 					yield break;
 			}
-
-			// Enemy #3
-			yield return new WaitForSeconds(wait * 2);
+			#endregion
+			#region Enemy #3
 			max = Mathf.Max(_player1.Enemy3, _player2.Enemy3);
+			if (max > 0)
+			{
+				yield return new WaitForSeconds(wait * 2);
+				if (_skipCalc)
+					yield break;
+			}
 			for (int i = 0; i <= max; i++)
 			{
 				if (i > 0)
@@ -204,6 +223,8 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy3Tanks.text = _player2.Enemy3.ToString();
 
 					yield return new WaitForSeconds(wait);
+					if (_skipCalc)
+						yield break;
 					break;
 				}
 
@@ -222,10 +243,15 @@ namespace BattleCity.GUI.Main
 				if (_skipCalc)
 					yield break;
 			}
-
-			// Enemy #4
-			yield return new WaitForSeconds(wait * 2);
+			#endregion
+			#region Enemy #4
 			max = Mathf.Max(_player1.Enemy4, _player2.Enemy4);
+			if (max > 0)
+			{
+				yield return new WaitForSeconds(wait * 2);
+				if (_skipCalc)
+					yield break;
+			}
 			for (int i = 0; i <= max; i++)
 			{
 				if (i > 0)
@@ -240,6 +266,8 @@ namespace BattleCity.GUI.Main
 					UIPlayer2.UIEnemy4Tanks.text = _player2.Enemy4.ToString();
 
 					yield return new WaitForSeconds(wait);
+					if (_skipCalc)
+						yield break;
 					break;
 				}
 
@@ -258,9 +286,11 @@ namespace BattleCity.GUI.Main
 				if (_skipCalc)
 					yield break;
 			}
-
-			// Total
+			#endregion
+			#region Total
 			yield return new WaitForSeconds(wait * 2);
+			if (_skipCalc)
+				yield break;
 
 			var total1 = _player1.Enemy1 + _player1.Enemy2 + _player1.Enemy3 + _player1.Enemy4;
 			UIPlayer1.UITotalTanks.text = total1.ToString();
@@ -271,9 +301,9 @@ namespace BattleCity.GUI.Main
 			yield return new WaitForSeconds(1);
 			if (_skipCalc)
 				yield break;
+			#endregion
 
 			Bonus(total1, total2);
-
 			yield return new WaitForSeconds(wait * 10);
 			if (_skipCalc)
 				yield break;
