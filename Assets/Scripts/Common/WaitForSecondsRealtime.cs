@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 
-public class WaitForSecondsRealtime : CustomYieldInstruction
+namespace BattleCity
 {
-	private float _waitTime;
-
-	public override bool keepWaiting
+	public class WaitForSecondsRealtime : CustomYieldInstruction
 	{
-		get
+		private float _waitTime;
+
+		public override bool keepWaiting
 		{
-			return (Time.realtimeSinceStartup < _waitTime);
+			get
+			{
+				return (Time.realtimeSinceStartup < _waitTime);
+			}
 		}
-	}
 
-	public WaitForSecondsRealtime(float time)
-	{
-		_waitTime = Time.realtimeSinceStartup + time;
+		public WaitForSecondsRealtime(float time)
+		{
+			_waitTime = Time.realtimeSinceStartup + time;
+		}
 	}
 }
