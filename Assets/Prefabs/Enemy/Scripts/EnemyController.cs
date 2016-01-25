@@ -135,7 +135,9 @@ namespace BattleCity.Enemy
 			{
 				var obj = new GameObject(SpritePoints.name);
 				obj.transform.position = transform.position;
-				obj.AddComponent<SpriteRenderer>().sprite = SpritePoints;
+				var renderer = obj.AddComponent<SpriteRenderer>();
+				renderer.sprite = SpritePoints;
+				renderer.sortingOrder = 1;
 				Destroy(obj, Consts.TimeDestroyObjectPoints);
 				FieldController.Instance.AddOtherObject(obj);
 			}

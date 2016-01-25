@@ -85,7 +85,9 @@ namespace BattleCity
 
 				var obj = new GameObject(Sprite500Points.name);
 				obj.transform.position = transform.position;
-				obj.AddComponent<SpriteRenderer>().sprite = Sprite500Points;
+				var renderer = obj.AddComponent<SpriteRenderer>();
+				renderer.sprite = Sprite500Points;
+				renderer.sortingOrder = 1;
 				Destroy(obj, Consts.TimeDestroyObjectPoints);
 				FieldController.Instance.AddOtherObject(obj);
 
