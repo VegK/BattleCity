@@ -170,9 +170,9 @@ namespace BattleCity.Player
 				if (bonus != null)
 				{
 					if (TypeItem == Block.Player1)
-						GameManager.Player1.Score += Consts.PointsBonusBomb;
+						GameManager.Player1.Score += Consts.PointsBonus;
 					else if (TypeItem == Block.Player2)
-						GameManager.Player2.Score += Consts.PointsBonusBomb;
+						GameManager.Player2.Score += Consts.PointsBonus;
 
 					switch (bonus.Type)
 					{

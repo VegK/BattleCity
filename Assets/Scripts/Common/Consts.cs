@@ -15,7 +15,7 @@ namespace BattleCity
 		public const int TimeShovel = 20;
 
 		public const float TimeDestroyObjectPoints = 0.5f;
-		public const int PointsBonusBomb = 500;
+		public const int PointsBonus = 500;
 
 		public const int MaxLevelUpgradePlayer = 3;
 		public const int TimeLockedMovementPlayer = 5;
