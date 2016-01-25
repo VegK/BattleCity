@@ -77,6 +77,16 @@ namespace BattleCity
 			audio.Play();
 		}
 
+		public static void StopSoundPlayer(Block player)
+		{
+			if (player == Block.Player1)
+				_instance._player1 = PlayerAudioType.Idle;
+			else if (player == Block.Player2)
+				_instance._player2 = PlayerAudioType.Idle;
+
+			_instance.PlayerAudioSource.Stop();
+		}
+
 		public static void PlayMainSound(AudioClip clip)
 		{
 			if (clip == null)

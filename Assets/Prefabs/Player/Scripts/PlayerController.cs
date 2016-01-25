@@ -138,6 +138,7 @@ namespace BattleCity.Player
 					return;
 				}
 
+				AudioManager.StopSoundPlayer(TypeItem);
 				AudioManager.PlaySecondarySound(AudioDestroy);
 				gameObject.SetActive(false);
 
