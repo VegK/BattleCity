@@ -8,6 +8,9 @@ namespace BattleCity.GUI.Main
 	public class MainMenuController : MonoBehaviour
 	{
 		[SerializeField]
+		private Emerge ControlEmerge;
+
+		[SerializeField]
 		private Text HiScore;
 		[SerializeField]
 		private Text ScorePlayer1;
@@ -20,6 +23,7 @@ namespace BattleCity.GUI.Main
 		public static bool Lock { get; set; }
 
 		private static MainMenuController _instance;
+		private static bool _emerge;
 
 		public static void Show(int scorePlayer1, int scorePlayer2)
 		{
@@ -27,9 +31,16 @@ namespace BattleCity.GUI.Main
 			_instance.ScorePlayer1.text = scorePlayer1.ToString();
 			_instance.ScorePlayer2.text = scorePlayer2.ToString();
 
-			Lock = false;
 			EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
 			_instance.gameObject.SetActive(true);
+
+			Lock = true;
+			_emerge = true;
+			_instance.ControlEmerge.Show((s, e) =>
+			{
+				Lock = false;
+				_emerge = false;
+			});
 		}
 
 		public static void Hide()
@@ -39,18 +50,24 @@ namespace BattleCity.GUI.Main
 
 		public void OnClickPlayer1()
 		{
+			if (_emerge)
+				return;
 			Lock = true;
 			GameManager.StartGame(true, (s, e) => { Hide(); });
 		}
 
 		public void OnClickPlayer2()
 		{
+			if (_emerge)
+				return;
 			Lock = true;
 			GameManager.StartGame(false, (s, e) => { Hide(); });
 		}
 
 		public void OnClickConstruction()
 		{
+			if (_emerge)
+				return;
 			Lock = true;
 			SceneManager.LoadScene("Editor");
 		}
@@ -93,6 +110,13 @@ namespace BattleCity.GUI.Main
 		private void OnEnable()
 		{
 			Lock = false;
+			_emerge = false;
+		}
+
+		private void Update()
+		{
+			if (_emerge && Input.anyKeyDown)
+				ControlEmerge.SetFinishPosition();
 		}
 	}
 }
