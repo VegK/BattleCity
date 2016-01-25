@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace BattleCity.GUI.Main
 {
@@ -13,7 +14,11 @@ namespace BattleCity.GUI.Main
 		[SerializeField]
 		private LevelNumber UILevelNumber;
 		[SerializeField]
-		private GameOver UIGameOver;
+		private Emerge UIGameOver;
+		[SerializeField]
+		private Emerge UIGameOverPlayer1;
+		[SerializeField]
+		private Emerge UIGameOverPlayer2;
 		[SerializeField]
 		private Pause UIPause;
 
@@ -82,12 +87,35 @@ namespace BattleCity.GUI.Main
 
 		public void ShowGameOver()
 		{
-			UIGameOver.Show();
+			UIGameOver.gameObject.SetActive(true);
+			UIGameOver.Show(null);
 		}
 
 		public void HideGameOver()
 		{
-			UIGameOver.Hide();
+			UIGameOver.gameObject.SetActive(false);
+		}
+
+		public void ShowGameOverPlayer1(EventHandler finishEmerge)
+		{
+			UIGameOverPlayer1.gameObject.SetActive(true);
+			UIGameOverPlayer1.Show(finishEmerge);
+		}
+
+		public void HideGameOverPlayer1()
+		{
+			UIGameOverPlayer1.gameObject.SetActive(false);
+		}
+
+		public void ShowGameOverPlayer2(EventHandler finishEmerge)
+		{
+			UIGameOverPlayer2.gameObject.SetActive(true);
+			UIGameOverPlayer2.Show(finishEmerge);
+		}
+
+		public void HideGameOverPlayer2()
+		{
+			UIGameOverPlayer2.gameObject.SetActive(false);
 		}
 
 		public void ShowPause()
@@ -106,8 +134,10 @@ namespace BattleCity.GUI.Main
 			UIPlayer1Life.gameObject.SetActive(false);
 			UIPlayer2Life.gameObject.SetActive(false);
 
-			UIGameOver.Hide();
-			UIPause.Hide();
+			HideGameOver();
+			HideGameOverPlayer1();
+			HideGameOverPlayer2();
+			HidePause();
 		}
 	}
 }

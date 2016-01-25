@@ -7,6 +7,8 @@ namespace BattleCity.GUI.Main
 	{
 		[SerializeField]
 		private float Speed = 1;
+		[SerializeField]
+		private DirectionEmerge Direction;
 
 		public event EventHandler FinishEmerge;
 
@@ -22,9 +24,29 @@ namespace BattleCity.GUI.Main
 			FinishEmerge = finish;
 
 			_startPosition = _rectBase.anchoredPosition;
-			if (_rectBase.sizeDelta.y == 0)
-				_startPosition.y -= Screen.height / 2;
-			_startPosition.y -= _rectBase.sizeDelta.y;
+			switch (Direction)
+			{
+				case DirectionEmerge.BottomTop:
+					if (_rectBase.sizeDelta.y == 0)
+						_startPosition.y -= Screen.height / 2;
+					_startPosition.y -= _rectBase.sizeDelta.y;
+					break;
+				case DirectionEmerge.LeftRight:
+					if (_rectBase.sizeDelta.x == 0)
+						_startPosition.x -= Screen.width / 2;
+					_startPosition.x -= _rectBase.sizeDelta.x;
+					break;
+				case DirectionEmerge.RightLeft:
+					if (_rectBase.sizeDelta.x == 0)
+						_startPosition.x += Screen.width / 2;
+					_startPosition.x += _rectBase.sizeDelta.x;
+					break;
+				case DirectionEmerge.TopBottom:
+					if (_rectBase.sizeDelta.y == 0)
+						_startPosition.y += Screen.height / 2;
+					_startPosition.y += _rectBase.sizeDelta.y;
+					break;
+			}
 
 			_rectBase.anchoredPosition = _startPosition;
 			_time = Time.realtimeSinceStartup;
@@ -66,6 +88,14 @@ namespace BattleCity.GUI.Main
 					FinishEmerge(this, EventArgs.Empty);
 				_update = false;
 			}
+		}
+
+		private enum DirectionEmerge
+		{
+			BottomTop,
+			LeftRight,
+			RightLeft,
+			TopBottom
 		}
 	}
 }

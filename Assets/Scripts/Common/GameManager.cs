@@ -62,6 +62,11 @@ namespace BattleCity
 				{
 					if (SinglePlayer || Player2Life < 0)
 						GameOver();
+					else
+						GameGUIController.Instance.ShowGameOverPlayer1((s, e) =>
+						{
+							_instance.StartCoroutine(_instance.HideGameOverPlayer(1));
+						});
 					return;
 				}
 				GameGUIController.Instance.Player1LifeCount = value;
@@ -83,6 +88,11 @@ namespace BattleCity
 				{
 					if (Player1Life < 0)
 						GameOver();
+					else
+						GameGUIController.Instance.ShowGameOverPlayer2((s, e) =>
+						{
+							_instance.StartCoroutine(_instance.HideGameOverPlayer(2));
+						});
 					return;
 				}
 				GameGUIController.Instance.Player2LifeCount = value;
@@ -252,6 +262,8 @@ namespace BattleCity
 			SpawnPointEnemiesManager.Reset();
 			GameGUIController.Instance.HidePause();
 			GameGUIController.Instance.HideGameOver();
+			GameGUIController.Instance.HideGameOverPlayer1();
+			GameGUIController.Instance.HideGameOverPlayer2();
 			FieldController.Instance.Clear();
 		}
 
@@ -287,6 +299,21 @@ namespace BattleCity
 			Player2.LifeScore = score;
 
 			AudioManager.PlayMainSound(AudioPlayerLife);
+		}
+
+		private IEnumerator HideGameOverPlayer(int playerNumber)
+		{
+			yield return new WaitForSeconds(5);
+
+			if (playerNumber == 1)
+				GameGUIController.Instance.HideGameOverPlayer1();
+			else if (playerNumber == 2)
+				GameGUIController.Instance.HideGameOverPlayer2();
+			else
+			{
+				GameGUIController.Instance.HideGameOverPlayer1();
+				GameGUIController.Instance.HideGameOverPlayer2();
+			}
 		}
 	}
 }
