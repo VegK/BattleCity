@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace BattleCity
 {
@@ -68,8 +69,8 @@ namespace BattleCity
 
 		private void OnEnable()
 		{
-			var rnd = Random.Range(0, 8);
-			if (!System.Enum.IsDefined(typeof(Bonus), rnd))
+			var rnd = new System.Random(DateTime.Now.Millisecond).Next(0, 8);
+			if (!Enum.IsDefined(typeof(Bonus), rnd))
 				rnd -= 6;
 			Type = (Bonus)rnd;
 		}

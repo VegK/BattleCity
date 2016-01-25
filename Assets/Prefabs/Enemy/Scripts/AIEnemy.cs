@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace BattleCity.Enemy
 {
@@ -8,11 +9,13 @@ namespace BattleCity.Enemy
 		private Collider2D _collider;
 		private float _timeBirth;
 		private DirectionRotate? _directionRotate;
+		private System.Random _random;
 
 		private void Awake()
 		{
 			_enemyController = GetComponent<EnemyController>();
 			_collider = GetComponent<Collider2D>();
+			_random = new System.Random(DateTime.Now.Millisecond);
 		}
 
 		private void Start()
@@ -34,7 +37,7 @@ namespace BattleCity.Enemy
 			var posX = roundedPos.x / 10 % Consts.SHARE;
 			var posY = roundedPos.y / 10 % Consts.SHARE;
 
-			if (posX == 0 && posY == 0 && Random.Range(0, 32) == 0)
+			if (posX == 0 && posY == 0 && _random.Next(0, 32) == 0)
 			{
 				if (BehaviourMove())
 					return;
@@ -49,15 +52,15 @@ namespace BattleCity.Enemy
 			// Continue rotate
 			if (_directionRotate.HasValue)
 			{
-				if (Random.Range(0, 16) == 0)
+				if (_random.Next(0, 16) == 0)
 					Rotate(_directionRotate);
 				return;
 			}
 
-			if ((posX == 0 || posY == 0) && Random.Range(0, 24) == 0)
+			if ((posX == 0 || posY == 0) && _random.Next(0, 24) == 0)
 				Turning();
 			else
-				if (Random.Range(0, 16) == 0)
+				if (_random.Next(0, 16) == 0)
 					Rotate(null);
 		}
 
@@ -150,7 +153,7 @@ namespace BattleCity.Enemy
 		{
 			var newDirection = _enemyController.DirectionMove;
 
-			_directionRotate = direction ?? (DirectionRotate)Random.Range(0, 2);
+			_directionRotate = direction ?? (DirectionRotate)_random.Next(0, 2);
 
 			// Clockwise
 			if (_directionRotate == DirectionRotate.Clockwise)

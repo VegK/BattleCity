@@ -1,6 +1,7 @@
 ﻿using BattleCity.Blocks;
 using BattleCity.Enemy;
 using BattleCity.Player;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,6 +80,7 @@ namespace BattleCity
 		private HashSet<GameObject> _otherObjects;
 		private HashSet<EnemyController> _enemiesObjects;
 		private bool _protectBase;
+		private System.Random _random;
 
 		public void AddOtherObject(GameObject obj)
 		{
@@ -141,8 +143,8 @@ namespace BattleCity
 
 			do
 			{
-				resX = Random.Range(0, Width - 1);
-				resY = Random.Range(0, Height - 1);
+				resX = _random.Next(0, Width - 1);
+				resY = _random.Next(0, Height - 1);
 
 				var next = false;
 				for (int x = resX - 1; x <= resX + 2; x++)
@@ -290,6 +292,7 @@ namespace BattleCity
 			Instance = this;
 			_otherObjects = new HashSet<GameObject>();
 			_enemiesObjects = new HashSet<EnemyController>();
+			_random = new System.Random(DateTime.Now.Millisecond);
 		}
 
 		private void Start()
