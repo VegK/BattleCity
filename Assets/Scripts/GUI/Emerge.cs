@@ -22,7 +22,8 @@ namespace BattleCity.GUI.Main
 			FinishEmerge = finish;
 
 			_startPosition = _rectBase.anchoredPosition;
-			_startPosition.y -= Screen.height / 2;
+			if (_rectBase.sizeDelta.y == 0)
+				_startPosition.y -= Screen.height / 2;
 			_startPosition.y -= _rectBase.sizeDelta.y;
 
 			_rectBase.anchoredPosition = _startPosition;
