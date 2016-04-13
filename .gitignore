@@ -49,6 +49,7 @@ Temporary Items
 /.vs
 *.csproj
 *.sln
+*.suo
 Thumbs.db.meta
 /Library
 /Temp
