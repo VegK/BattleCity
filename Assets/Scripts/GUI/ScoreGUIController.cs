@@ -358,11 +358,13 @@ namespace BattleCity.GUI.Main
 			if (totalPlayer1 > totalPlayer2)
 			{
 				GameManager.Player1.Score += 1000;
+				UIPlayer1.UIScore.text = GameManager.Player1.Score.ToString();
 				UIPlayer1.UIBonus.SetActive(true);
 			}
 			else if (totalPlayer1 < totalPlayer2)
 			{
 				GameManager.Player2.Score += 1000;
+				UIPlayer2.UIScore.text = GameManager.Player2.Score.ToString();
 				UIPlayer2.UIBonus.SetActive(true);
 			}
 
