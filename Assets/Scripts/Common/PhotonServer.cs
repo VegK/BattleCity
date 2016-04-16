@@ -1,23 +1,31 @@
-﻿using UnityEditor;
+﻿using System;
 using UnityEngine;
 
 namespace BattleCity.Net
 {
 	public class PhotonServer : Photon.MonoBehaviour
 	{
-		private static bool _connected;
-
+		public static event EventHandler ConnectedToMasterEvent;
+		public static event EventHandler JoinedLobbyEvent;
+		public static event EventHandler JoinedRoomEvent;
+		
 		public static bool Connect()
 		{
-			_connected = PhotonNetwork.ConnectUsingSettings(Consts.VERSION);
-			return _connected;
+			if (!PhotonNetwork.connected)
+				PhotonNetwork.ConnectUsingSettings(Consts.VERSION);
+			return PhotonNetwork.connected;
 		}
 
-		public static void CreateRoom(string roomName)
+		public static void Disconnect()
 		{
-			if (!_connected)
-				Connect();
+			PhotonNetwork.Disconnect();
+		}
 
+		public static bool CreateRoom(string roomName)
+		{
+			if (!PhotonNetwork.connected)
+				return false;
+			
 			var options = new RoomOptions
 			{
 				isOpen = true,
@@ -25,14 +33,40 @@ namespace BattleCity.Net
 				maxPlayers = 2
 			};
 			PhotonNetwork.CreateRoom(roomName, options, TypedLobby.Default);
+			return true;
 		}
 
-		public static void JoinRoom(string roomName)
+		public static bool JoinRoom(string roomName)
 		{
-			if (!_connected)
-				Connect();
+			if (!PhotonNetwork.connected)
+				return false;
 			
 			PhotonNetwork.JoinRoom(roomName);
+			return true;
+		}
+
+		private void Start()
+		{
+			PhotonNetwork.autoJoinLobby = false;
+		}
+
+		private void OnConnectedToMaster()
+		{
+			if (ConnectedToMasterEvent != null)
+				ConnectedToMasterEvent(this, EventArgs.Empty);
+			PhotonNetwork.JoinLobby();
+		}
+
+		private void OnJoinedLobby()
+		{
+			if (JoinedLobbyEvent != null)
+				JoinedLobbyEvent(this, EventArgs.Empty);
+		}
+
+		private void OnJoinedRoom()
+		{
+			if (JoinedRoomEvent != null)
+				JoinedRoomEvent(this, EventArgs.Empty);
 		}
 	}
 }

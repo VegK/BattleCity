@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Xml.Xsl;
+using BattleCity.Net;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -26,6 +29,10 @@ namespace BattleCity.GUI.Main
 		[SerializeField]
 		private GameObject NetworkMenu;
 
+		[Space(7)]
+		[SerializeField]
+		private GameObject WaitConnectedPanel;
+
 		[Header("Input Name Room")]
 		[SerializeField]
 		private GameObject PanelInputNameRoom;
@@ -39,6 +46,8 @@ namespace BattleCity.GUI.Main
 		private static MainMenuController _instance;
 		private static bool _emerge;
 		private InputNameRoomMode _modeInput;
+		private bool _cancelConnected;
+		private delegate void ResultConnect(bool result);
 
 		public static void Show(int scorePlayer1, int scorePlayer2)
 		{
@@ -85,12 +94,23 @@ namespace BattleCity.GUI.Main
 			if (_emerge)
 				return;
 
-			MainMenu.SetActive(false);
-			NetworkMenu.SetActive(true);
+			Lock = true;
+			WaitConnectedPanel.SetActive(true);
+			StartCoroutine(WaitConnected(result =>
+			{
+				WaitConnectedPanel.SetActive(false);
+				Lock = false;
 
-			var select = NetworkMenu.transform.GetChild(0);
-			if (select != null)
-				EventSystem.current.SetSelectedGameObject(select.gameObject);
+				if (!result)
+					return;
+
+				MainMenu.SetActive(false);
+				NetworkMenu.SetActive(true);
+
+				var select = NetworkMenu.transform.GetChild(0);
+				if (select != null)
+					EventSystem.current.SetSelectedGameObject(select.gameObject);
+			}));
 		}
 
 		public void OnClickConstruction()
@@ -137,10 +157,10 @@ namespace BattleCity.GUI.Main
 			switch (_modeInput)
 			{
 				case InputNameRoomMode.Create:
-					Debug.Log("create");
+					PhotonServer.CreateRoom(NameRoom.text);
 					break;
 				case InputNameRoomMode.Join:
-					Debug.Log("join");
+					PhotonServer.JoinRoom(NameRoom.text);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -160,6 +180,10 @@ namespace BattleCity.GUI.Main
 				EventSystem.current.SetSelectedGameObject(select.gameObject);
 		}
 
+		public void OnClickCancelConnect()
+		{
+			_cancelConnected = true;
+		}
 		#endregion
 
 		public void OnPointerEnter(BaseEventData eventData)
@@ -192,6 +216,37 @@ namespace BattleCity.GUI.Main
 			}
 		}
 
+		private IEnumerator WaitConnected(ResultConnect finishHandler)
+		{
+			var result = false;
+			var loop = true;
+			var joinedLobby = new EventHandler((s, a) =>
+			{
+				loop = false;
+				result = true;
+			});
+
+			_cancelConnected = false;
+			PhotonServer.JoinedLobbyEvent += joinedLobby;
+			if (PhotonServer.Connect())
+			{
+				loop = false;
+				result = true;
+			}
+			while (loop)
+			{
+				yield return null;
+				if (!_cancelConnected)
+					continue;
+				loop = false;
+				PhotonServer.Disconnect();
+			}
+			PhotonServer.JoinedLobbyEvent -= joinedLobby;
+
+			if (finishHandler != null)
+				finishHandler(result);
+		}
+
 		private void Awake()
 		{
 			_instance = this;
@@ -202,6 +257,7 @@ namespace BattleCity.GUI.Main
 			MainMenu.SetActive(true);
 			NetworkMenu.SetActive(false);
 			PanelInputNameRoom.SetActive(false);
+			WaitConnectedPanel.SetActive(false);
 		}
 
 		private void OnEnable()
